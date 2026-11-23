@@ -979,6 +979,22 @@ footer{border-top-color:rgba(138,109,27,.30)}
 /* ---------- Language toggle (in the always-visible asset bar) ---------- */
 .langBtn{margin-left:auto;appearance:none;border:1px solid rgba(246,226,122,.55);background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.04));color:#ffe9a8;font-weight:800;font-size:13px;border-radius:999px;padding:7px 14px;min-height:36px;cursor:pointer;box-shadow:0 1px 0 rgba(255,255,255,.2) inset,0 4px 10px rgba(0,0,0,.3);white-space:nowrap}
 .langBtn:active{transform:translateY(1px)}
+/* ---------- Firebase ranking ---------- */
+.fbRankHead,.fbRankRow{display:grid;grid-template-columns:44px 1fr auto;gap:6px 12px;align-items:center;padding:10px 4px;border-bottom:1px solid var(--line);font-size:14px}
+.fbRankHead{font-size:12px;color:var(--muted);font-weight:700;border-bottom:2px solid var(--line)}
+.fbRankRow .rk{font-weight:900;font-size:16px}
+.fbRankRow .tm{font-weight:800;word-break:break-word}
+.fbRankRow .pnl{font-weight:900;text-align:right;white-space:nowrap}
+.fbRankRow .sub{grid-column:2/4;color:var(--muted);font-size:13px;display:flex;gap:16px;flex-wrap:wrap}
+.fbHeadExtra{display:none}
+@media(min-width:700px){.fbHeadExtra{display:block}}
+.fbRankRow.top1{background:linear-gradient(180deg,rgba(255,243,196,.55),rgba(255,255,255,0));border-radius:8px}
+.fbStatus{font-size:14px;margin-top:10px;min-height:1.4em}
+.fbStatus.ok{color:var(--up);font-weight:800}
+.fbStatus.err{color:var(--down);font-weight:700}
+.fbErrBox{background:#fdf0ef;border:1px solid #f0c6c2;border-radius:10px;padding:12px 14px;font-size:14px;margin-top:12px}
+@media(prefers-color-scheme:dark){.fbErrBox{background:#2a1a19}}
+@media(min-width:700px){.fbRankHead,.fbRankRow{grid-template-columns:52px 1.4fr 1fr 1fr .8fr}.fbRankRow .sub{display:contents}.fbRankRow .sub span{text-align:right;white-space:nowrap}.fbRankRow .sub span:first-child{text-align:left}}
 </style>
 </head>
 <body>
@@ -1038,6 +1054,12 @@ footer{border-top-color:rgba(138,109,27,.30)}
   <div class="section card" id="overallBox" style="display:none">
     <h2 style="font-size:18px" data-ja="総合結果" data-en="Overall result">総合結果</h2>
     <div id="overallContent"></div>
+  </div>
+
+  <div class="section card" id="homeRankingBox">
+    <h2 style="font-size:18px;margin:0 0 6px" data-ja="🏆 ランキング" data-en="🏆 Ranking">🏆 ランキング</h2>
+    <p class="desc" style="color:var(--muted);margin:0 0 12px;font-size:14px" data-ja="全チームの通算損益ランキングをリアルタイムで表示します。" data-en="Live ranking of all teams by cumulative P&amp;L.">全チームの通算損益ランキングをリアルタイムで表示します。</p>
+    <button class="btn secondary" type="button" id="homeRankingBtn" data-ja="ランキングを見る" data-en="View ranking">ランキングを見る</button>
   </div>
 
   <div class="disclaimer" role="note" data-ja="学習用シミュレーション。投資推奨ではありません。" data-en="An educational simulation. Not investment advice.">学習用シミュレーション。投資推奨ではありません。</div>
@@ -1206,9 +1228,33 @@ footer{border-top-color:rgba(138,109,27,.30)}
       <button class="btn" id="nextScenarioBtn" type="button">次へ →</button>
       <button class="btn secondary" type="button" id="resultHomeBtn" onclick="goHome()" data-ja="ホーム" data-en="Home">ホーム</button>
     </div>
+    <div class="card" id="resultRankingBox" style="display:none;margin-top:14px">
+      <h3 style="margin:0 0 6px;font-size:16px" data-ja="🏆 ランキング登録" data-en="🏆 Ranking entry">🏆 ランキング登録</h3>
+      <p style="margin:0;font-size:14px;color:var(--muted)" data-ja="このプレイの最終総資産・通算損益・通算リターンをランキングに登録できます（1プレイにつき1回）。" data-en="Register this play's final assets, cumulative P&amp;L and return to the ranking (once per play).">このプレイの最終総資産・通算損益・通算リターンをランキングに登録できます（1プレイにつき1回）。</p>
+      <div class="btnrow">
+        <button class="btn" type="button" id="resultRegisterBtn" data-ja="ランキングに登録する" data-en="Register in ranking">ランキングに登録する</button>
+        <button class="btn secondary" type="button" id="resultRankingBtn" data-ja="ランキングを見る" data-en="View ranking">ランキングを見る</button>
+      </div>
+      <div class="fbStatus" id="resultRegisterStatus" role="status" aria-live="polite"></div>
+    </div>
     <div style="margin-top:10px">
       <button class="btn secondary" type="button" onclick="requestReset()" data-ja="最初から" data-en="Restart">最初から</button>
     </div>
+  </div>
+</section>
+
+<!-- RANKING (Firebase / Firestore "results") -->
+<section id="view-ranking" class="view">
+  <button class="btn secondary" style="width:auto;margin-top:14px" type="button" id="rankingBackBtn" data-ja="← ホームへ戻る" data-en="← Back to home">← ホームへ戻る</button>
+  <div class="section">
+    <p style="color:var(--accent);font-weight:800;font-size:13px;letter-spacing:.08em;margin:0">RANKING</p>
+    <h2 style="font-size:26px;margin:6px 0" data-ja="🏆 プレイヤーランキング" data-en="🏆 Player Ranking">🏆 プレイヤーランキング</h2>
+    <p class="desc" style="color:var(--muted);margin:0;font-size:14px" data-ja="通算損益の高い順に表示しています。新しい登録は自動で反映されます。" data-en="Sorted by cumulative P&amp;L, highest first. New entries appear automatically.">通算損益の高い順に表示しています。新しい登録は自動で反映されます。</p>
+    <div class="card" style="margin-top:14px">
+      <div id="rankingBody"><p class="note" style="margin:0" data-ja="読み込み中…" data-en="Loading…">読み込み中…</p></div>
+      <div id="rankingError"></div>
+    </div>
+    <p class="note" style="margin-top:10px" data-ja="※ ランキングはオンライン時のみ表示・登録できます。" data-en="* The ranking is available online only.">※ ランキングはオンライン時のみ表示・登録できます。</p>
   </div>
 </section>
 
@@ -1223,6 +1269,8 @@ footer{border-top-color:rgba(138,109,27,.30)}
     </div>
   </div>
 </div>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
 var SCENARIOS=[
  {id:"quake",icon:"🇯🇵",title:"東日本大地震",wiki:"https://ja.wikipedia.org/wiki/東日本大震災",date:"2011年3月 — 東日本大地震と市場の動揺",diff:"難易度：中",startLabel:"2011年3月11日 午前",startIndex:10434,indexName:"日経平均",
@@ -1868,8 +1916,12 @@ function renderScenarios(){
   if(ids.length===3){
     var tot=totalAssets(null);
     var csO=cumulativeStats();
-    document.getElementById("overallContent").innerHTML='<div class="kv"><span>'+T("最終総資産","Final total assets")+'</span><b style="font-size:22px">'+yen(tot)+'</b><span>'+T("通算損益（3シナリオ合計）","Cumulative P&L (all 3 scenarios)")+'</span><b>'+yenSigned(csO.pnl)+'</b><span>'+T("通算リターン（各シナリオ開始時比の累積）","Cumulative return (vs. each scenario start)")+'</span><b>'+pct(csO.ret)+'</b></div><p class="note" style="margin:8px 0 0">'+T("※ 各シナリオ開始時に現金と同額の株が付与されるため、成績は総資産ではなくシナリオごとの損益を通算して表示しています。","Note: each scenario starts with shares granted equal to your cash, so performance is shown as the sum of per-scenario P&L, not the raw total.")+'</p>';
+    document.getElementById("overallContent").innerHTML='<div class="kv"><span>'+T("最終総資産","Final total assets")+'</span><b style="font-size:22px">'+yen(tot)+'</b><span>'+T("通算損益（3シナリオ合計）","Cumulative P&L (all 3 scenarios)")+'</span><b>'+yenSigned(csO.pnl)+'</b><span>'+T("通算リターン（各シナリオ開始時比の累積）","Cumulative return (vs. each scenario start)")+'</span><b>'+pct(csO.ret)+'</b></div><p class="note" style="margin:8px 0 0">'+T("※ 各シナリオ開始時に現金と同額の株が付与されるため、成績は総資産ではなくシナリオごとの損益を通算して表示しています。","Note: each scenario starts with shares granted equal to your cash, so performance is shown as the sum of per-scenario P&L, not the raw total.")+'</p>'
+     +'<div class="btnrow"><button class="btn" type="button" id="overallRegisterBtn">'+T("ランキングに登録する","Register in ranking")+'</button><button class="btn secondary" type="button" id="overallRankingBtn">'+T("ランキングを見る","View ranking")+'</button></div><div class="fbStatus" id="overallRegisterStatus" role="status" aria-live="polite"></div>';
     box.style.display="block";
+    if(typeof syncRankingRegisterUI==="function") syncRankingRegisterUI();
+    var orb=document.getElementById("overallRegisterBtn"); if(orb) orb.onclick=function(){ registerRanking(); };
+    var ovb=document.getElementById("overallRankingBtn"); if(ovb) ovb.onclick=function(){ openRanking(); };
   } else if(ids.length>0){
     var csP=cumulativeStats();
     document.getElementById("overallContent").innerHTML='<p style="margin:0;font-size:14px">'+T("完了","Done")+' '+ids.length+' / 3 — '+T("通算損益","Cumulative P&L")+' <b>'+yenSigned(csP.pnl)+'</b> ／ '+T("引き継ぎ現金","Cash carried over")+' <b>'+yen(portfolio.cash)+'</b></p>';box.style.display="block";
@@ -2580,9 +2632,12 @@ function finishGame(){
      hide the duplicate plain Home button next to it. */
   var rhBtn=document.getElementById("resultHomeBtn");
   if(rhBtn){ var anyLeft=false; for(var ri=0;ri<SCENARIOS.length;ri++){ if(!state.results[SCENARIOS[ri].id]) anyLeft=true; } rhBtn.style.display=(state.isTutorial||!anyLeft)? "none":""; }
+  var rrb=document.getElementById("resultRankingBox");
+  if(rrb){ rrb.style.display=(!state.isTutorial&&Object.keys(state.results).length>=3)? "block":"none"; if(typeof syncRankingRegisterUI==="function") syncRankingRegisterUI(); }
   if(!state.isTutorial){ renderScenarios(); saveGame("result"); }
 }
 function resetAll(){
+  rankingRegistered=false; rankingRegistering=false;
   portfolio={cash:INITIAL, shares:0, lastPrice:null, avgCost:null};
   tutorialDone=false; try{ localStorage.removeItem(TUTORIAL_KEY); }catch(e){}
   state.results={}; state.allLog=[]; state.current=null; state.industryIdx=null; state.round=0; state.prices=[]; state.scenLog=[]; state.dir=null; state.reason=null; state.locked=false; state.confirming=false; state.pendingTrade=null; state.scenStartTotal=null; state.scenStartCash=null; state.scenStartShares=0; state.carryNote=""; state.carryYen=null; state.isTutorial=false; state.tutorialSnapshot=null; state.tutorialResult=null;
@@ -2614,6 +2669,108 @@ function goNextScenario(){
   var ob=document.getElementById("overallBox");
   if(ob&&ob.scrollIntoView){ setTimeout(function(){ try{ ob.scrollIntoView({behavior:"smooth",block:"start"}); }catch(e){} },350); }
 }
+/* ===== Firebase ranking (Firestore "results") =====
+   Optional layer only: any load/network failure is caught here and surfaced
+   in the ranking UI; the game itself never depends on Firebase. Uses the
+   compat (classic-script) SDK so no module scripts are needed. */
+var firebaseConfig={apiKey:"AIzaSyDWnT-D0qIUrSQawzDOUF_aB5HrkKB7WpE",authDomain:"rr-ranking-122.firebaseapp.com",projectId:"rr-ranking-122",storageBucket:"rr-ranking-122.firebasestorage.app",messagingSenderId:"49456124627",appId:"1:49456124627:web:fe97752c257455b5be7a26"};
+var fbDb=null, fbInitError=null, fbUnsubscribe=null, fbDocs=null, fbListening=false;
+var rankingRegistered=false, rankingRegistering=false;
+function fbEnsure(){
+  if(fbDb||fbInitError) return fbDb;
+  try{
+    if(typeof firebase==="undefined"||!firebase.initializeApp||!firebase.firestore) throw new Error("sdk-missing");
+    if(!firebase.apps||!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    fbDb=firebase.firestore();
+  }catch(e){ fbInitError=e; fbDb=null; }
+  return fbDb;
+}
+function fbErrorText(){
+  return T("ランキングに接続できませんでした。通信環境を確認して、もう一度お試しください。","Could not connect to the ranking. Check your connection and try again.");
+}
+function rankingValues(){
+  var cs=cumulativeStats(); if(!cs) return null;
+  var teamEl=document.getElementById("teamName");
+  var team=teamEl? teamEl.value.trim() : "";
+  if(!team) team=T("名無しチーム","Unnamed team");
+  return {teamName:team, finalAssets:totalAssets(null), totalPnl:cs.pnl, totalReturn:cs.ret};
+}
+function setRegisterStatus(msg,cls){
+  ["overallRegisterStatus","resultRegisterStatus"].forEach(function(id){
+    var el=document.getElementById(id); if(!el) return;
+    el.textContent=msg||""; el.className="fbStatus"+(cls?" "+cls:"");
+  });
+}
+function syncRankingRegisterUI(){
+  var done=rankingRegistered, busy=rankingRegistering;
+  ["overallRegisterBtn","resultRegisterBtn"].forEach(function(id){
+    var b=document.getElementById(id); if(!b) return;
+    b.disabled=done||busy;
+    b.textContent=done? T("✓ 登録しました","✓ Registered") : busy? T("登録中…","Registering…") : T("ランキングに登録する","Register in ranking");
+  });
+  if(done) setRegisterStatus(T("登録しました","Registered"),"ok");
+}
+function registerRanking(){
+  if(rankingRegistered||rankingRegistering) return;
+  var vals=rankingValues();
+  if(!vals){ setRegisterStatus(T("総合結果がまだありません。","No overall result yet."),"err"); return; }
+  var db=fbEnsure();
+  if(!db){ setRegisterStatus(fbErrorText(),"err"); return; }
+  rankingRegistering=true; syncRankingRegisterUI(); setRegisterStatus(T("登録中…","Registering…"),"");
+  var payload={teamName:vals.teamName, finalAssets:Math.round(vals.finalAssets), totalPnl:Math.round(vals.totalPnl), totalReturn:vals.totalReturn, createdAt:firebase.firestore.FieldValue.serverTimestamp()};
+  db.collection("results").add(payload).then(function(){
+    rankingRegistering=false; rankingRegistered=true;
+    syncRankingRegisterUI(); setRegisterStatus(T("登録しました","Registered"),"ok");
+  }).catch(function(){
+    rankingRegistering=false; syncRankingRegisterUI();
+    setRegisterStatus(fbErrorText(),"err");
+  });
+}
+function renderRanking(){
+  var body=document.getElementById("rankingBody"), errBox=document.getElementById("rankingError");
+  if(!body) return;
+  if(fbInitError){ body.innerHTML=""; if(errBox) errBox.innerHTML='<div class="fbErrBox">'+fbErrorText()+'</div>'; return; }
+  if(errBox) errBox.innerHTML="";
+  if(fbDocs==null){ body.innerHTML='<p class="note" style="margin:0">'+T("読み込み中…","Loading…")+'</p>'; return; }
+  if(!fbDocs.length){ body.innerHTML='<p class="note" style="margin:0">'+T("まだ登録がありません。最初の登録をお待ちしています。","No entries yet — be the first to register.")+'</p>'; return; }
+  var medal=["🥇","🥈","🥉"];
+  var html='<div class="fbRankHead"><span>'+T("順位","Rank")+'</span><span>'+T("チーム名","Team")+'</span><span style="text-align:right">'+T("通算損益","Cumulative P&L")+'</span><span class="fbHeadExtra" style="text-align:right">'+T("最終総資産","Final assets")+'</span><span class="fbHeadExtra" style="text-align:right">'+T("通算リターン","Return")+'</span></div>';
+  fbDocs.forEach(function(d,i){
+    var pnlCls=d.totalPnl>0?"pnl-up":d.totalPnl<0?"pnl-down":"";
+    html+='<div class="fbRankRow'+(i===0?" top1":"")+'"><span class="rk">'+(medal[i]||(i+1))+'</span><span class="tm">'+escapeHtml(d.teamName||"")+'</span><span class="pnl '+pnlCls+'">'+yenSigned(d.totalPnl||0)+'</span><span class="sub"><span>'+T("最終総資産","Final assets")+' '+yen(d.finalAssets||0)+'</span><span>'+T("通算リターン","Return")+' '+pct(d.totalReturn||0)+'</span></span></div>';
+  });
+  body.innerHTML=html;
+}
+function startRankingListener(){
+  if(fbListening) return;
+  var db=fbEnsure();
+  if(!db){ renderRanking(); return; }
+  fbListening=true;
+  try{
+    fbUnsubscribe=db.collection("results").orderBy("totalPnl","desc").onSnapshot(function(snap){
+      var arr=[]; snap.forEach(function(doc){ var v=doc.data()||{}; arr.push({teamName:v.teamName, finalAssets:v.finalAssets, totalPnl:v.totalPnl, totalReturn:v.totalReturn}); });
+      arr.sort(function(a,b){ return (b.totalPnl||0)-(a.totalPnl||0); });
+      fbDocs=arr; fbInitError=null; renderRanking();
+    }, function(){
+      var errBox=document.getElementById("rankingError");
+      if(errBox) errBox.innerHTML='<div class="fbErrBox">'+fbErrorText()+'</div>';
+    });
+  }catch(e){
+    fbInitError=e; renderRanking();
+  }
+}
+function openRanking(){
+  show("view-ranking");
+  renderRanking();
+  startRankingListener();
+}
+(function bindRankingButtons(){
+  var hb=document.getElementById("homeRankingBtn"); if(hb) hb.onclick=function(){ openRanking(); };
+  var rb=document.getElementById("resultRankingBtn"); if(rb) rb.onclick=function(){ openRanking(); };
+  var reg=document.getElementById("resultRegisterBtn"); if(reg) reg.onclick=function(){ registerRanking(); };
+  var back=document.getElementById("rankingBackBtn"); if(back) back.onclick=function(){ goHome(); };
+})();
+
 /* On load: if a saved game exists on this device/browser, restore it into memory and offer "続きから始める" on the home screen */
 (function initSaveRestore(){
   var stored=loadSaveData();
@@ -2660,6 +2817,8 @@ function applyLang(){
   if(active&&active.id==="view-industry"&&state.current){ renderIndustrySelect(); restoreIndustrySelection(); }
   else if(active&&active.id==="view-game"&&state.current){ refreshGameTexts(); }
   else if(active&&active.id==="view-result"&&state.current){ finishGame(); }
+  else if(active&&active.id==="view-ranking"){ renderRanking(); }
+  if(typeof syncRankingRegisterUI==="function") syncRankingRegisterUI();
   updateAssetBar();
 }
 var langBtn=document.getElementById("langBtn"); if(langBtn) langBtn.onclick=function(){ setLang(LANG==="en"? "ja":"en"); };
