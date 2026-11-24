@@ -1296,7 +1296,7 @@ footer{border-top-color:rgba(138,109,27,.30)}
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
 var SCENARIOS=[
- {id:"quake",icon:"🇯🇵",title:"東日本大地震",wiki:"https://ja.wikipedia.org/wiki/東日本大震災",date:"2011年3月 — 東日本大地震と市場の動揺",diff:"難易度：中",startLabel:"2011年3月11日 午前",startIndex:10434,indexName:"日経平均",
+ {id:"quake",icon:"🇯🇵",title:"東日本大地震",wikiJa:"https://ja.wikipedia.org/wiki/東日本大震災",wikiEn:"https://en.wikipedia.org/wiki/2011_Tōhoku_earthquake_and_tsunami",date:"2011年3月 — 東日本大地震と市場の動揺",diff:"難易度：中",startLabel:"2011年3月11日 午前",startIndex:10434,indexName:"日経平均",
   intro:"巨大地震の直後。",dateEn:"March 2011 — The Great East Japan Earthquake shakes markets",diffEn:"Difficulty: Medium",introEn:"Just after a massive earthquake.",
   detail:"巨大地震と原発事故で、供給網と電力が深刻な打撃を受けました。",
   impacts:[
@@ -1320,7 +1320,7 @@ var SCENARIOS=[
    {when:"2011年3月18日頃",head:"G7が円売り協調介入、日銀も大量の資金供給",body:"急激な円高に対し、G7が約10年ぶりの協調介入を実施。",whenEn:"Around Mar 18, 2011",headEn:"G7 launches coordinated yen-selling intervention; BOJ injects massive liquidity",bodyEn:"The G7 intervenes jointly for the first time in about a decade against the sharp yen surge.",move:0.09,nextIndex:9554,explain:"G7の協調介入や日銀の資金供給といった政策対応と、復興需要への期待から約9％反発しました。政策が市場の不安を和らげた局面です。",breakdown:"業種別ETFの実績（3/14→3/15）では、電力・ガスが-15.7％と一段と下落し、建設・資材も-9.7％と市場全体のパニック売りに巻き込まれました。輸送用機器も-8.2％、金融（除く銀行）も-5.7％と続落しています。その後、G7の協調介入や日銀の資金供給といった政策対応と復興期待から、市場は反発に転じていきます。"},
    {when:"2011年4月以降",head:"復興の進展と、サプライチェーンの回復",body:"部品供給網の復旧が進み、生産を再開する企業が増えている。",whenEn:"From April 2011",headEn:"Reconstruction progresses; supply chains recover",bodyEn:"Parts supply networks are being restored, and more companies are resuming production.",move:0.06,nextIndex:10127,explain:"部品供給網の復旧と生産再開が進み、緩やかな回復が続いて約6％上昇。東日本大地震直後の水準をほぼ取り戻す局面となりました。",breakdown:"業種別ETFの実績（3/15→3/25）では、建設・資材が+14.5％と大きく反発し、期間全体で+3.7％とプラスに転換しました。パニック時の下落のあとに復興需要が本格化した流れです。輸送用機器も+8.0％、金融（除く銀行）も+7.0％と反発し、電力・ガスも+5.2％と一部買い戻されましたが、期間全体では-20.7％と回復の遅さが残りました。"}
   ]},
- {id:"greece",icon:"🇬🇷",title:"ギリシャ債務危機・GREXITリスク",wiki:"https://en.wikipedia.org/wiki/Greek_government-debt_crisis",date:"2009〜2015年 — 欧州債務危機",diff:"難易度：中〜上",startLabel:"2010年4月22日",startIndex:2898,indexName:"ユーロ・ストックス50",
+ {id:"greece",icon:"🇬🇷",title:"ギリシャ債務危機・GREXITリスク",wikiJa:"https://ja.wikipedia.org/wiki/2010年欧州ソブリン危機",wikiEn:"https://en.wikipedia.org/wiki/Greek_government-debt_crisis",date:"2009〜2015年 — 欧州債務危機",diff:"難易度：中〜上",startLabel:"2010年4月22日",startIndex:2898,indexName:"ユーロ・ストックス50",
   intro:"財政粉飾が発覚。",dateEn:"2009–2015 — European debt crisis",diffEn:"Difficulty: Medium–Hard",introEn:"Cooked books come to light.",
   detail:"ギリシャの財政粉飾が発覚し、ユーロ圏全体へ信用不安が広がりました。",
   impacts:[
@@ -1344,7 +1344,7 @@ var SCENARIOS=[
    {when:"2010年5月中旬",head:"EU・IMFが1,100億ユーロの支援で合意",body:"EUとIMFが3年間で総額1,100億ユーロの融資枠で合意。",whenEn:"Mid-May 2010",headEn:"EU and IMF agree a €110bn bailout",bodyEn:"The EU and IMF agree a €110 billion loan facility over three years.",move:-0.19,nextIndex:2026,explain:"支援合意で一時反発したものの、緊縮への反発や債務再編観測、他国への波及懸念が再燃し、2011年9月23日には終値2,026まで約19.0％下落しました。",breakdown:"支援合意直後は欧州大手銀行を中心に買い戻しが入りましたが、長続きはしませんでした。その後、債務再編とイタリア・スペインなど他国への伝染への懸念が再燃し、欧州大手銀行、欧州の輸出・製造業、旅行・観光関連、ラグジュアリー・高級ブランド、米国・新興国の株式市場が下落し、ギリシャ国内企業・不動産も低迷が続きました。資金は再び安全資産へ逃避し、金とドイツ国債が買われ、日本円も円高方向に進みました（GREXIT＝ユーロ圏脱退リスクが意識された局面です）。"},
    {when:"2011年9月下旬",head:"危機はイタリア・スペインへ波及、債務交換交渉が大詰め",body:"ユーロ・ストックス50は2011年9月23日に終値2,026まで下落した。",whenEn:"Late September 2011",headEn:"Crisis spreads to Italy and Spain; debt-swap talks near conclusion",bodyEn:"The Euro Stoxx 50 fell to a close of 2,026 on Sep 23, 2011.",move:0.242,nextIndex:2516,explain:"ECBの長期資金供給（LTRO）とギリシャ債務交換の合意で不安が後退し、2012年3月9日には終値2,516まで約24.2％反発しました。",breakdown:"ECBの資金供給と債務交換の合意を受け、売られ過ぎていた欧州大手銀行を中心に幅広い業種で買い戻しが入りました。欧州の輸出・製造業や米国・新興国の株式市場も反発。一方、安全資産への逃避は一服し、金は実績で-0.1％とほぼ横ばい、ドイツ国債も利回りが1.83％で変わらず価格はほぼ横ばいでした。ギリシャ国内企業・不動産の戻りは、国内経済の低迷が続いたため限定的でした。"}
   ]},
- {id:"lehman",icon:"🏦",title:"リーマンショック",wiki:"https://ja.wikipedia.org/wiki/リーマン・ショック",date:"2008年9月 — 世界金融危機",diff:"難易度：上",startLabel:"2008年9月12日",startIndex:12214,indexName:"日経平均",
+ {id:"lehman",icon:"🏦",title:"リーマンショック",wikiJa:"https://ja.wikipedia.org/wiki/リーマン・ショック",wikiEn:"https://en.wikipedia.org/wiki/Bankruptcy_of_Lehman_Brothers",date:"2008年9月 — 世界金融危機",diff:"難易度：上",startLabel:"2008年9月12日",startIndex:12214,indexName:"日経平均",
   intro:"リーマンの経営不安が表面化。",dateEn:"September 2008 — Global financial crisis",diffEn:"Difficulty: Hard",introEn:"Lehman's troubles surface.",
   detail:"住宅ローン問題を抱えたリーマンが破綻し、金融危機が世界へ広がりました。",
   impacts:[
@@ -1436,6 +1436,7 @@ var LANG="ja";
 try{ var _savedLang=localStorage.getItem(LANG_KEY); if(_savedLang==="en"||_savedLang==="ja") LANG=_savedLang; }catch(e){}
 function T(ja,en){ return LANG==="en"? en : ja; }
 function setLang(l){ LANG=(l==="en")? "en":"ja"; try{ localStorage.setItem(LANG_KEY,LANG); }catch(e){} if(typeof applyLang==="function") applyLang(); }
+function wikiUrl(s){ return LANG==="en"? (s.wikiEn||s.wikiJa||"") : (s.wikiJa||s.wikiEn||""); }
 var REASON_LABELS={risk:["リスク回避を優先","Safety first"],rebound:["反発・回復に期待","Expecting a rebound"],watch:["情報不足なので様子見に近い判断","Not enough info — wait and see"],strong:["割安と見て強気","Looks undervalued — bullish"],balance:["バランス重視","Balanced"]};
 function reasonLabel(k){ var r=REASON_LABELS[k]; return r? r[LANG==="en"?1:0] : T("未選択","None"); }
 function industryName(idx){ var ja=SCENARIOS[0].impacts[idx].s; return LANG==="en"? (INDUSTRY_EN[idx]||ja) : ja; }
@@ -1919,14 +1920,11 @@ function renderScenarios(){
     else { b.onclick=function(){startGame(s.id)}; }
     var wrap=document.createElement("div");wrap.className="scenarioWrap";
     wrap.appendChild(b);
-    if(s.wiki){
-      var a=document.createElement("a");a.className="wikilink";a.href=s.wiki;a.target="_blank";a.rel="noopener noreferrer";
+    if(s.wikiJa||s.wikiEn){
+      var a=document.createElement("a");a.className="wikilink";a.href=wikiUrl(s);a.target="_blank";a.rel="noopener noreferrer";
       if(s.id==="greece"){
-        /* Japanese Wikipedia has no standalone article for this scenario, so the
-           Greece card links to the English Wikipedia article on the Greek
-           government-debt crisis instead. */
-        a.textContent=T("ギリシャ危機を学ぶ（Wikipedia・英語） ↗","Learn about the Greek crisis (Wikipedia, English) ↗");
-        a.setAttribute("aria-label",T("ギリシャ危機について学ぶ記事（英語版Wikipedia、新しいタブで開く）","Article about the Greek crisis (English Wikipedia, opens in a new tab)"));
+        a.textContent=T("ギリシャ危機を学ぶ（Wikipedia） ↗","Learn about the Greek crisis (Wikipedia) ↗");
+        a.setAttribute("aria-label",T("ギリシャ危機について学ぶ記事（Wikipedia、新しいタブで開く）","Article about the Greek crisis (Wikipedia, opens in a new tab)"));
       } else {
         a.textContent=T("Wikipediaで読む ↗","Read on Wikipedia ↗");
         a.setAttribute("aria-label",T(s.title+"をWikipediaで読む（新しいタブで開く）","Read about "+(SCENARIO_EN[s.id]||s.title)+" on Wikipedia (opens in a new tab)"));
