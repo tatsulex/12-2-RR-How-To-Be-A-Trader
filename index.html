@@ -995,6 +995,26 @@ footer{border-top-color:rgba(138,109,27,.30)}
 .fbErrBox{background:#fdf0ef;border:1px solid #f0c6c2;border-radius:10px;padding:12px 14px;font-size:14px;margin-top:12px}
 @media(prefers-color-scheme:dark){.fbErrBox{background:#2a1a19}}
 @media(min-width:700px){.fbRankHead,.fbRankRow{grid-template-columns:52px 1.4fr 1fr 1fr .8fr}.fbRankRow .sub{display:contents}.fbRankRow .sub span{text-align:right;white-space:nowrap}.fbRankRow .sub span:first-child{text-align:left}}
+/* ---------- Pass （見送る）: third direction, available in every round ---------- */
+.dirrow.segmented{grid-template-columns:1fr 1fr 1fr}
+.segmented .dirbtn.on-pass{
+  background:linear-gradient(180deg,var(--lux-gold-lt) 0%,var(--lux-gold-hi) 40%,var(--gold2) 68%,#c78f04 100%) !important;color:#2a1e00;
+  transform:translateY(2px);
+  box-shadow:0 1px 0 rgba(255,255,255,.55) inset,0 2px 8px rgba(120,84,0,.25) inset,0 1px 0 var(--goldedge),0 8px 18px rgba(138,109,27,.30) !important;
+}
+.segmented .dirbtn.on-pass b,.segmented .dirbtn.on-pass small{color:#2a1e00 !important}
+.btn.pass{
+  background:linear-gradient(180deg,var(--lux-gold-lt) 0%,var(--lux-gold-hi) 34%,var(--gold2) 68%,#c78f04 100%);
+  color:#2a1e00;text-shadow:0 1px 0 rgba(255,255,255,.55);border-color:rgba(90,64,0,.5);
+  box-shadow:0 1px 0 rgba(255,255,255,.8) inset,0 -2px 0 rgba(120,84,0,.25) inset,0 4px 0 var(--goldedge),0 14px 26px rgba(23,32,25,.16);
+}
+.btn.pass:active:not(:disabled){box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 2px 5px rgba(120,84,0,.25) inset,0 1px 0 var(--goldedge),0 6px 12px rgba(23,32,25,.14)}
+.btn.pass:disabled{background:linear-gradient(180deg,#d8dcd6,#a9afa9);color:#57605a;border-color:#969e97;text-shadow:none;box-shadow:0 1px 0 rgba(255,255,255,.55) inset,0 2px 0 #878f88,0 8px 16px rgba(20,26,20,.12)}
+@media (prefers-color-scheme: dark){.btn.pass:disabled{background:linear-gradient(180deg,#3a403a,#292e29);color:#8b948b}}
+#amountBlock{transition:opacity .15s ease}
+#amountBlock.is-pass{opacity:.45}
+@media(max-width:480px){.segmented .dirbtn{padding:8px 2px}.segmented .dirbtn b{font-size:17px}.segmented .dirbtn small{font-size:11px}}
+@media (prefers-reduced-motion: reduce){.segmented .dirbtn.on-pass{transform:none !important}#amountBlock{transition:none}}
 </style>
 </head>
 <body>
@@ -1144,17 +1164,20 @@ footer{border-top-color:rgba(138,109,27,.30)}
 
   <div class="card bottomSheet" id="decisionCard">
     <div class="sheetHandle" aria-hidden="true"></div>
-    <label data-ja="① 売買" data-en="① Direction">① 売買</label>
+    <label data-ja="① 売買・見送り" data-en="① Direction">① 売買・見送り</label>
     <div class="dirrow segmented" role="group" aria-label="売買方向">
       <button class="dirbtn" id="buyBtn"><b data-ja="買う" data-en="Buy">買う</b><small id="buyCapLabel"></small></button>
       <button class="dirbtn" id="sellBtn"><b data-ja="売る" data-en="Sell">売る</b><small id="sellCapLabel"></small></button>
+      <button class="dirbtn" id="passBtn"><b data-ja="見送る" data-en="Pass">見送る</b><small id="passCapLabel"></small></button>
     </div>
+    <div id="amountBlock">
     <div style="display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:10px;margin-top:18px">
       <div><label style="margin:0" data-ja="② 金額" data-en="② Amount">② 金額</label><div class="note" id="amtNote" data-ja="上限50万円" data-en="Max ¥500,000">上限50万円</div></div>
       <div class="allocbig"><span id="amtVal">30</span><small style="font-size:20px" data-ja="万円" data-en="× ¥10,000">万円</small></div>
     </div>
     <input type="range" id="amt" min="10" max="50" step="10" value="30" aria-label="売買金額（万円）">
     <div class="quick" id="quickBtns"></div>
+    </div>
     <div class="kv" style="margin-top:14px" id="tradePreview"></div>
     <details class="detailBox" id="detailSettings">
       <summary><span data-ja="③ 詳細" data-en="③ Details">③ 詳細</span><span id="detailSummary">根拠</span></summary>
@@ -1358,7 +1381,7 @@ var TUTORIAL_SCENARIO={id:"tutorial",icon:"🎓",title:"チュートリアル（
   {s:"自動車・製造業",d:"up",lvl:"大きく変動",n:"人気商品とコスト増のニュースに一番大きく反応しました。練習ではこの業種が一番分かりやすいです"},
   {s:"生活必需品",d:"up",lvl:"ほぼ横ばい〜小幅",n:"毎日の需要が安定しているため、値動きは最も小さかったです"}
  ],
- points:["本番と同じ操作（業界選択→ニュース→買う／売る→金額→根拠→注文確認→約定）を一通り体験する。","良いニュースでは買う、悪いニュースでは売って現金化する、という基本の感覚をつかむ。","結果は本番の資産・資金に影響しないので、失敗を気にせず試してよい。"],
+ points:["本番と同じ操作（業界選択→ニュース→買う／売る／見送る→金額→根拠→注文確認→約定）を一通り体験する。","良いニュースでは買う、悪いニュースでは売って現金化する、という基本の感覚をつかむ。","結果は本番の資産・資金に影響しないので、失敗を気にせず試してよい。"],
  discuss:[],explainer:"練習用の架空シナリオです。良いニュースで上がり、悪いニュースで下がり、回復のニュースで戻る、という基本パターンを体験しました。",
  rounds:[
   {when:"練習 Day 1",head:"人気商品が話題に、注文が増えていると報道",body:"架空のメーカーの新商品がSNSで話題になり、注文が増えているそうです。",whenEn:"Practice Day 1",headEn:"Hit product goes viral; orders rising, reports say",bodyEn:"A fictional maker's new product is trending on social media, and orders are climbing.",move:0.08,nextIndex:10800,explain:"良いニュースを受けて、市場全体は約8％上がりました。",breakdown:"練習用：良いニュースでは株価が上がりやすい、という基本パターンです。"},
@@ -1575,7 +1598,7 @@ function renderResumePanel(){
   if(d.allLog&&d.allLog.length){
     var tail=d.allLog.slice(-3);
     logEl.innerHTML="<b style='color:var(--ink)'>"+T("直近の売買","Recent trades")+"</b>"+tail.map(function(l){
-      return "<div>"+logScenarioName(l)+" R"+l.round+"："+(l.dir==="buy"?T("買う","Buy"):T("売る","Sell"))+" "+yen(l.amount)+" ／ "+T("根拠","Reason")+"："+reasonLabel(l.reason)+" ／ "+T("総資産","Total")+" "+yen(l.after)+"</div>";
+      return "<div>"+logScenarioName(l)+" R"+l.round+"："+(l.dir==="buy"?T("買う","Buy"):l.dir==="pass"?T("見送る","Pass"):T("売る","Sell"))+(l.dir==="pass"?"":" "+yen(l.amount))+" ／ "+T("根拠","Reason")+"："+reasonLabel(l.reason)+" ／ "+T("総資産","Total")+" "+yen(l.after)+"</div>";
     }).join("");
     logEl.style.display="block";
   } else {
@@ -1597,7 +1620,7 @@ function restoreIndustrySelection(){
 function restoreLockedReveal(){
   var entry=state.scenLog[state.scenLog.length-1]; if(!entry) return;
   var s=state.current, r=s.rounds[entry.round-1];
-  state.locked=true; state.dir=entry.dir; state.amtMan=entry.amount/10000; state.reason=entry.reason;
+  state.locked=true; state.dir=entry.dir; state.amtMan=entry.dir==="pass"? 30 : entry.amount/10000; state.reason=entry.reason;
   document.getElementById("amt").disabled=true;
   document.querySelectorAll("#reasons button").forEach(function(b){ b.disabled=true; b.classList.toggle("on",b.dataset.r===entry.reason); });
   updateGameUI();
@@ -1611,7 +1634,7 @@ function restoreLockedReveal(){
   var totalBefore=totalBeforeR, totalAfter=totalAfterR, gain=totalAfterR-totalBeforeR, startR=Math.round(state.scenStartTotal), imv=entry.move;
   var rev=document.getElementById("reveal");
   rev.className="reveal show "+(imv<0?"bad":"good");
-  rev.innerHTML='<div style="font-size:12px;font-weight:800;letter-spacing:.06em">'+T("約定明細（復元）","Trade details (restored)")+'</div><b style="font-size:17px">'+(entry.dir==="buy"?T("🟩 買付","🟩 Bought"):T("🟥 売却","🟥 Sold"))+' '+yen(entry.amount)+' → 『'+curIndustryName()+'』 '+moveLabel(imv)+'</b><p style="margin:6px 0"><b>'+T("理由","Reason")+'：</b>'+(LANG==="en"? shortReasonEN(entry.round-1):shortReason(entry.round-1))+'</p><p style="margin:0">'+T("総資産","Total")+'：'+yen(totalBefore)+' → <b>'+yen(totalAfter)+'</b>（'+yenSigned(gain)+'）</p>';
+  rev.innerHTML='<div style="font-size:12px;font-weight:800;letter-spacing:.06em">'+T("約定明細（復元）","Trade details (restored)")+'</div><b style="font-size:17px">'+(entry.dir==="buy"?T("🟩 買付","🟩 Bought"):entry.dir==="pass"?T("⏸ 見送り","⏸ Passed"):T("🟥 売却","🟥 Sold"))+(entry.dir==="pass"?"":' '+yen(entry.amount))+' → 『'+curIndustryName()+'』 '+moveLabel(imv)+'</b><p style="margin:6px 0"><b>'+T("理由","Reason")+'：</b>'+(LANG==="en"? shortReasonEN(entry.round-1):shortReason(entry.round-1))+'</p><p style="margin:0">'+T("総資産","Total")+'：'+yen(totalBefore)+' → <b>'+yen(totalAfter)+'</b>（'+yenSigned(gain)+'）</p>';
   document.getElementById("decideBtn").style.display="none";
   var nb=document.getElementById("nextBtn"); nb.style.display="block"; nb.textContent=state.round===2?T("結果を見る →","See results →"):T("次のラウンドへ →","Next round →");
   scrollToNextBtn();
@@ -1760,10 +1783,11 @@ function moveWord(n){if(Math.abs(n)<0.00005)return T("横ばい","Flat");return 
    so the cash shown before the trade is exactly the cash credited/debited at execution.
    Cash does not change when the price moves afterwards — only the stock value does. */
 function computeTrade(dir,amtYen,P){
-  var sharesDelta=amtYen/P;
+  /* "pass" （見送る）: no cash or shares move — only the price moves on to the next round. */
+  var sharesDelta= dir==="pass"? 0 : amtYen/P;
   var cashBefore=portfolio.cash, sharesBefore=portfolio.shares;
-  var cashAfter= dir==="buy"? cashBefore-amtYen : cashBefore+amtYen;
-  var sharesAfter= dir==="buy"? sharesBefore+sharesDelta : Math.max(0,sharesBefore-sharesDelta);
+  var cashAfter= dir==="buy"? cashBefore-amtYen : dir==="sell"? cashBefore+amtYen : cashBefore;
+  var sharesAfter= dir==="buy"? sharesBefore+sharesDelta : dir==="sell"? Math.max(0,sharesBefore-sharesDelta) : sharesBefore;
   var stockBefore=sharesBefore*P, stockAfter=sharesAfter*P;
   return {dir:dir,amount:amtYen,price:P,sharesDelta:sharesDelta,cashBefore:cashBefore,cashAfter:cashAfter,sharesBefore:sharesBefore,sharesAfter:sharesAfter,stockBefore:stockBefore,stockAfter:stockAfter,totalBefore:cashBefore+stockBefore};
 }
@@ -2095,22 +2119,25 @@ function updateGameUI(){
   document.getElementById("gIndexNow").textContent=currentPrice().toLocaleString("ja-JP");
   document.getElementById("gIndexLabel").textContent=curIndustry().s+" の株価（実績ベース）";
   var c=caps();
-  var buyBtn=document.getElementById("buyBtn"), sellBtn=document.getElementById("sellBtn");
+  var buyBtn=document.getElementById("buyBtn"), sellBtn=document.getElementById("sellBtn"), passBtn=document.getElementById("passBtn");
   document.getElementById("buyCapLabel").textContent=c.buy>=MINTRADE?(T("最大 ","Max ")+yen(c.buy)):T("買えません","Can't buy");
   document.getElementById("sellCapLabel").textContent=c.sell>=MINTRADE?(T("最大 ","Max ")+yen(c.sell)):T("売れません","Can't sell");
-  buyBtn.disabled=state.locked||state.confirming||c.buy<MINTRADE; sellBtn.disabled=state.locked||state.confirming||c.sell<MINTRADE;
-  buyBtn.className="dirbtn"+(state.dir==="buy"?" on-buy":""); sellBtn.className="dirbtn"+(state.dir==="sell"?" on-sell":"");
+  document.getElementById("passCapLabel").textContent=T("売買しない","No trade");
+  /* Pass is always available — even with no cash and no shares, a round can always be passed. */
+  buyBtn.disabled=state.locked||state.confirming||c.buy<MINTRADE; sellBtn.disabled=state.locked||state.confirming||c.sell<MINTRADE; passBtn.disabled=state.locked||state.confirming;
+  buyBtn.className="dirbtn"+(state.dir==="buy"?" on-buy":""); sellBtn.className="dirbtn"+(state.dir==="sell"?" on-sell":""); passBtn.className="dirbtn"+(state.dir==="pass"?" on-pass":"");
   /* auto-pick the only available direction */
-  if(!state.dir){ if(c.buy>=MINTRADE && c.sell<MINTRADE) state.dir="buy"; else if(c.sell>=MINTRADE && c.buy<MINTRADE) state.dir="sell"; if(state.dir){buyBtn.className="dirbtn"+(state.dir==="buy"?" on-buy":""); sellBtn.className="dirbtn"+(state.dir==="sell"?" on-sell":"");} }
-  /* clamp amount to cap of chosen direction */
-  var capMan=state.dir? (state.dir==="buy"?c.buy:c.sell)/10000 : 50;
+  if(!state.dir){ if(c.buy>=MINTRADE && c.sell<MINTRADE) state.dir="buy"; else if(c.sell>=MINTRADE && c.buy<MINTRADE) state.dir="sell"; else if(c.buy<MINTRADE && c.sell<MINTRADE) state.dir="pass"; if(state.dir){buyBtn.className="dirbtn"+(state.dir==="buy"?" on-buy":""); sellBtn.className="dirbtn"+(state.dir==="sell"?" on-sell":""); passBtn.className="dirbtn"+(state.dir==="pass"?" on-pass":"");} }
+  /* clamp amount to cap of chosen direction (a pass has no amount, so nothing to clamp) */
+  var capMan=(state.dir==="buy"||state.dir==="sell")? (state.dir==="buy"?c.buy:c.sell)/10000 : 50;
   if(state.amtMan>capMan) state.amtMan=capMan>=10?capMan:10;
   document.getElementById("amt").value=state.amtMan;
   document.getElementById("amt").style.setProperty("--p",((state.amtMan-10)/40*100)+"%");
   document.getElementById("amtVal").textContent=state.amtMan;
-  document.querySelectorAll("#quickBtns button").forEach(function(b){var v=+b.dataset.v;b.classList.toggle("on",v===state.amtMan); b.disabled= state.locked || state.confirming || (state.dir? v>capMan : false);});
-  var amtEl=document.getElementById("amt"); if(amtEl) amtEl.disabled=state.locked||state.confirming;
-  var amtYen=state.amtMan*10000, P=currentPrice();
+  document.querySelectorAll("#quickBtns button").forEach(function(b){var v=+b.dataset.v;b.classList.toggle("on",v===state.amtMan); b.disabled= state.locked || state.confirming || state.dir==="pass" || (state.dir? v>capMan : false);});
+  var amtEl=document.getElementById("amt"); if(amtEl) amtEl.disabled=state.locked||state.confirming||state.dir==="pass";
+  var amtBlock=document.getElementById("amountBlock"); if(amtBlock) amtBlock.classList.toggle("is-pass",state.dir==="pass");
+  var amtYen=state.dir==="pass"? 0 : state.amtMan*10000, P=currentPrice();
   var prev=document.getElementById("tradePreview");
   if(state.locked){
     prev.innerHTML='<span>'+T("状態","Status")+'</span><b class="num">'+T("約定済み","Executed")+'</b>';
@@ -2121,23 +2148,25 @@ function updateGameUI(){
     } else {
       prev.innerHTML='<span>'+T("約定株価で売る株数","Shares you will sell")+'</span><b class="num">'+T("約 ","About ")+fmtShares(tr.sharesDelta)+T(" 株"," shares")+'</b><span>'+T("売却後の現金（確定見込み）","Cash after sell (final)")+'</span><b class="num">'+yen(tr.cashAfter)+'</b><span>'+T("売却後の保有株評価額（値動き前）","Stock value after sell (pre-move)")+'</span><b class="num">'+yen(tr.stockAfter)+'</b>';
     }
+  } else if(state.dir==="pass"){
+    prev.innerHTML='<span>'+T("方向","Direction")+'</span><b class="num">'+T("見送る（売買しません）","Pass (no trade)")+'</b><span>'+T("現金","Cash")+'</span><b class="num">'+yen(portfolio.cash)+T("（変わりません）"," (unchanged)")+'</b><span>'+T("保有株","Shares held")+'</span><b class="num">'+fmtShares(portfolio.shares)+T("株（変わりません）"," shares (unchanged)")+'</b>';
   } else {
-    prev.innerHTML='<span>'+T("売買金額","Amount")+'</span><b class="num">'+yen(amtYen)+'</b><span>'+T("方向","Direction")+'</span><b class="num">'+T("未選択（買う／売るを選んでください）","Not selected (choose Buy or Sell)")+'</b>';
+    prev.innerHTML='<span>'+T("売買金額","Amount")+'</span><b class="num">'+yen(amtYen)+'</b><span>'+T("方向","Direction")+'</span><b class="num">'+T("未選択（買う／売る／見送るを選んでください）","Not selected (choose Buy, Sell or Pass)")+'</b>';
   }
   var warn=document.getElementById("decideWarn"); var msgs=[];
   /* Once a trade is locked in (or while the confirmation panel is open) the editing
      warnings no longer apply. Without this guard, updateGameUI() re-ran after execution
      and resurrected「金額が上限を超えています」because post-trade balances shrink the cap. */
   if(!state.locked&&!state.confirming){
-    if(!state.dir) msgs.push(T("買う／売るを選んでください。","Choose Buy or Sell."));
-    if(state.dir && amtYen>capMan*10000) msgs.push(T("金額が上限を超えています。","Amount exceeds the limit."));
+    if(!state.dir) msgs.push(T("買う／売る／見送るを選んでください。","Choose Buy, Sell or Pass."));
+    if((state.dir==="buy"||state.dir==="sell") && amtYen>capMan*10000) msgs.push(T("金額が上限を超えています。","Amount exceeds the limit."));
     if(!state.reason) msgs.push(T("③で根拠を選んでください。","Pick a reason in ③."));
   }
   warn.style.display=msgs.length?"block":"none"; warn.textContent=msgs.join(" ");
   var db=document.getElementById("decideBtn");
   db.disabled=msgs.length>0||state.confirming||state.locked;
-  db.className="btn "+(state.dir==="buy"?"buy":state.dir==="sell"?"sell":"");
-  db.textContent=state.dir? (LANG==="en"? ((state.dir==="buy"?"Buy":"Sell")+" — review "+yen(amtYen)+" →") : ((state.dir==="buy"?"買う":"売る")+" — "+yen(amtYen)+" を確認 →")) : T("注文を確認 →","Review order →");
+  db.className="btn "+(state.dir==="buy"?"buy":state.dir==="sell"?"sell":state.dir==="pass"?"pass":"");
+  db.textContent=state.dir? (state.dir==="pass"? T("見送る — 確認 →","Pass — review →") : (LANG==="en"? ((state.dir==="buy"?"Buy":"Sell")+" — review "+yen(amtYen)+" →") : ((state.dir==="buy"?"買う":"売る")+" — "+yen(amtYen)+" を確認 →"))) : T("注文を確認 →","Review order →");
 }
 function seededRand(seed){var a=seed>>>0;return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 function hashStr(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
@@ -2350,7 +2379,7 @@ function compositionPoints(){
   var revealed=Math.min(state.prices.length-1, state.scenLog.length);
   for(var i=0;i<revealed;i++){
     var l=state.scenLog[i], P=state.prices[i];
-    if(l.dir==="buy"){ cash-=l.amount; shares+=l.amount/P; } else { cash+=l.amount; shares=Math.max(0,shares-l.amount/P); }
+    if(l.dir==="buy"){ cash-=l.amount; shares+=l.amount/P; } else if(l.dir==="sell"){ cash+=l.amount; shares=Math.max(0,shares-l.amount/P); } /* pass: cash and shares unchanged */
     var np=state.prices[i+1];
     pts.push({label:(LANG==="en"? "After R"+(i+1) : "R"+(i+1)+"後"),date:priceDate(state.current.id,i+1),cash:cash,stock:shares*np,price:np});
   }
@@ -2461,7 +2490,7 @@ function showFanCross(idx){
 function renderLog(){
   var box=document.getElementById("logBox");
   if(!state.allLog.length){box.innerHTML='<p class="note" style="margin:0">'+T("なし","None")+'</p>';return}
-  box.innerHTML=state.allLog.map(function(l,i){var ind=logIndustryName(l)||(state.current&&l.scenario===state.current.title?curIndustryName():null);return '<div style="padding:8px 0;border-bottom:1px solid var(--line)"><b>'+logScenarioName(l)+(ind?'（'+ind+'）':'')+' R'+l.round+'</b> '+(l.dir==="buy"?T("🟩 買い","🟩 Buy"):T("🟥 売り","🟥 Sell"))+' '+yen(l.amount)+'（'+T("株価 ","Price ")+Math.round(l.price).toLocaleString()+'）→ '+T("選択した業界","Industry")+(ind?'『'+ind+'』':'')+' '+pct(l.move)+' ／ '+T("総資産","Total")+' <b class="num">'+yen(l.after)+'</b></div>'}).join("");
+  box.innerHTML=state.allLog.map(function(l,i){var ind=logIndustryName(l)||(state.current&&l.scenario===state.current.title?curIndustryName():null);return '<div style="padding:8px 0;border-bottom:1px solid var(--line)"><b>'+logScenarioName(l)+(ind?'（'+ind+'）':'')+' R'+l.round+'</b> '+(l.dir==="buy"?T("🟩 買い","🟩 Buy"):l.dir==="pass"?T("⏸ 見送り","⏸ Pass"):T("🟥 売り","🟥 Sell"))+(l.dir==="pass"?"":' '+yen(l.amount))+'（'+T("株価 ","Price ")+Math.round(l.price).toLocaleString()+'）→ '+T("選択した業界","Industry")+(ind?'『'+ind+'』':'')+' '+pct(l.move)+' ／ '+T("総資産","Total")+' <b class="num">'+yen(l.after)+'</b></div>'}).join("");
 }
 function updateDetailSummary(){
   var el=document.getElementById("detailSummary"); if(!el) return;
@@ -2471,6 +2500,7 @@ function updateDetailSummary(){
 }
 document.getElementById("buyBtn").onclick=function(){state.dir="buy";updateGameUI();saveGame("game")};
 document.getElementById("sellBtn").onclick=function(){state.dir="sell";updateGameUI();saveGame("game")};
+document.getElementById("passBtn").onclick=function(){state.dir="pass";updateGameUI();saveGame("game")};
 document.getElementById("maxDrawdown").addEventListener("change",function(e){state.maxDrawdown=e.target.value; updateDetailSummary(); saveGame("game");});
 document.getElementById("chartStartBtn").onclick=function(){ if(chartGeom&&chartGeom.candles.length) showCrosshair(80); };
 document.getElementById("chartLatestBtn").onclick=function(){ if(chartGeom&&chartGeom.candles.length) showCrosshair(chartGeom.candles.length-1); };
@@ -2481,19 +2511,31 @@ document.getElementById("teamName").addEventListener("input",function(){saveGame
 /* Step 1: show confirmation with a frozen snapshot. Nothing is executed yet, and the trade can be cancelled. */
 document.getElementById("decideBtn").onclick=function(){
   if(state.locked||state.confirming||!state.dir||!state.reason) return;
-  var P=currentPrice(), amtYen=state.amtMan*10000;
+  var P=currentPrice(), amtYen=state.dir==="pass"? 0 : state.amtMan*10000;
   var tr=computeTrade(state.dir,amtYen,P);
-  /* Re-validate against caps at confirmation time */
-  var c=caps(); var cap=state.dir==="buy"?c.buy:c.sell;
-  if(amtYen< MINTRADE||amtYen>cap){ document.getElementById("decideWarn").style.display="block"; document.getElementById("decideWarn").textContent=T("金額が範囲を超えています。","Amount is out of range."); return; }
+  /* Re-validate against caps at confirmation time (a pass trades nothing, so no cap applies) */
+  var c=caps(); var cap=state.dir==="buy"?c.buy:state.dir==="sell"?c.sell:0;
+  if(state.dir!=="pass"&&(amtYen< MINTRADE||amtYen>cap)){ document.getElementById("decideWarn").style.display="block"; document.getElementById("decideWarn").textContent=T("金額が範囲を超えています。","Amount is out of range."); return; }
   tr.reason=state.reason; tr.round=state.round;
   state.pendingTrade=tr; state.confirming=true;
   document.querySelectorAll("#reasons button").forEach(function(b){b.disabled=true});
   var avgAfter= tr.sharesAfter>0? ( (state.dir==="buy"? costBasis()+amtYen : costBasis()*(tr.sharesAfter/tr.sharesBefore||0)) / tr.sharesAfter) : null;
   /* For a sell, cost basis shrinks proportionally, so the average cost per share is unchanged */
   if(state.dir==="sell") avgAfter=portfolio.avgCost;
+  if(state.dir==="pass") avgAfter=portfolio.avgCost;
   if(state.dir==="buy") avgAfter=(costBasis()+amtYen)/tr.sharesAfter;
   tr.avgAfter=avgAfter;
+  if(tr.dir==="pass"){
+    document.getElementById("confirmBody").innerHTML='<div class="kv">'
+     +'<span>'+T("売買","Trade")+'</span><b>'+T("⏸ 見送る","⏸ Pass")+' — '+escapeHtml(curIndustryName())+'</b>'
+     +'<span>'+T("注文金額","Order amount")+'</span><b class="num">'+yen(0)+T("（売買しません）"," (no trade)")+'</b>'
+     +'<span>'+T("株価","Price")+'</span><b class="num">'+Math.round(tr.price).toLocaleString("ja-JP")+T("円","")+'</b>'
+     +'<span>'+T("現金","Cash")+'</span><b class="num">'+yen(tr.cashBefore)+' → '+yen(tr.cashAfter)+'</b>'
+     +'<span>'+T("保有株","Shares held")+'</span><b class="num">'+fmtShares(tr.sharesBefore)+T("株"," shares")+' → '+fmtShares(tr.sharesAfter)+T("株"," shares")+'</b>'
+     +'<span>'+T("評価額","Value")+'</span><b class="num">'+yen(tr.stockBefore)+' → '+yen(tr.stockAfter)+'</b>'
+     +'<span>'+T("根拠","Reason")+'</span><b>'+reasonLabel(tr.reason)+'</b>'
+     +'<span>'+T("最大許容下落率","Max tolerable drop")+'</span><b>'+(state.maxDrawdown? state.maxDrawdown+"%":T("指定なし","No limit"))+'</b></div>';
+  } else {
   document.getElementById("confirmBody").innerHTML='<div class="kv">'
    +'<span>'+T("売買","Trade")+'</span><b>'+(tr.dir==="buy"?T("🟩 買う","🟩 Buy"):T("🟥 売る","🟥 Sell"))+' — '+escapeHtml(curIndustryName())+'</b>'
    +'<span>'+T("注文金額","Order amount")+'</span><b class="num">'+yen(tr.amount)+'</b>'
@@ -2505,6 +2547,7 @@ document.getElementById("decideBtn").onclick=function(){
    +'<span>'+T("平均取得単価","Avg. cost")+'</span><b class="num">'+(avgAfter!=null? yen(avgAfter):"—")+'</b>'
    +'<span>'+T("根拠","Reason")+'</span><b>'+reasonLabel(tr.reason)+'</b>'
    +'<span>'+T("最大許容下落率","Max tolerable drop")+'</span><b>'+(state.maxDrawdown? state.maxDrawdown+"%":T("指定なし","No limit"))+'</b></div>';
+  }
   document.getElementById("confirmPanel").style.display="block";
   document.getElementById("decideBtn").style.display="none";
   document.getElementById("decideWarn").style.display="none";
@@ -2535,11 +2578,12 @@ document.getElementById("confirmOrderBtn").onclick=function(){
     var oldBasis=costBasis();
     portfolio.cash=tr.cashAfter; portfolio.shares=tr.sharesAfter;
     portfolio.avgCost=tr.sharesAfter>0? (oldBasis+amtYen)/tr.sharesAfter : null;
-  } else {
+  } else if(tr.dir==="sell"){
     portfolio.cash=tr.cashAfter; portfolio.shares=tr.sharesAfter;
     if(portfolio.shares<0.000001){ portfolio.shares=0; portfolio.avgCost=null; }
     /* Selling does not change the average cost of the remaining shares */
   }
+  /* Pass: cash, shares and average cost all stay exactly as they were */
   var executedCash=portfolio.cash, executedShares=portfolio.shares, executedAvg=portfolio.avgCost;
   var imv=indMove(state.round), indNext=Math.round(P*(1+imv));
   state.prices.push(indNext); portfolio.lastPrice=indNext;
@@ -2562,7 +2606,7 @@ document.getElementById("confirmOrderBtn").onclick=function(){
   var rev=document.getElementById("reveal"); var gain=totalAfterR-totalBeforeR; var startR=Math.round(state.scenStartTotal);
   rev.className="reveal show "+(imv>0?"good":imv<0?"bad":"good");
   rev.innerHTML='<div style="font-size:12px;font-weight:800;letter-spacing:.06em">'+T("約定明細","Trade details")+'</div>'
-   +'<div class="kv" style="margin:8px 0"><span>'+T("売買","Trade")+'</span><b>'+(tr.dir==="buy"?T("🟩 買付","🟩 Bought"):T("🟥 売却","🟥 Sold"))+' '+yen(amtYen)+'</b><span>'+T("株価","Price")+'</span><b class="num">'+Math.round(P).toLocaleString("ja-JP")+T("円","")+'</b><span>'+T("株数","Shares")+'</span><b class="num">'+T("約 ","About ")+fmtShares(tr.sharesDelta)+T(" 株"," shares")+'</b><span>'+T("現金","Cash")+'</span><b class="num">'+yen(tr.cashBefore)+' → '+yen(executedCash)+'</b><span>'+T("保有株","Shares held")+'</span><b class="num">'+fmtShares(tr.sharesBefore)+T("株"," shares")+' → '+fmtShares(executedShares)+T("株"," shares")+'</b></div>'
+   +'<div class="kv" style="margin:8px 0"><span>'+T("売買","Trade")+'</span><b>'+(tr.dir==="buy"?T("🟩 買付","🟩 Bought"):tr.dir==="pass"?T("⏸ 見送り","⏸ Passed"):T("🟥 売却","🟥 Sold"))+(tr.dir==="pass"?"":' '+yen(amtYen))+'</b><span>'+T("株価","Price")+'</span><b class="num">'+Math.round(P).toLocaleString("ja-JP")+T("円","")+'</b><span>'+T("株数","Shares")+'</span><b class="num">'+(tr.dir==="pass"? T("—（売買なし）","— (no trade)") : T("約 ","About ")+fmtShares(tr.sharesDelta)+T(" 株"," shares"))+'</b><span>'+T("現金","Cash")+'</span><b class="num">'+yen(tr.cashBefore)+' → '+yen(executedCash)+'</b><span>'+T("保有株","Shares held")+'</span><b class="num">'+fmtShares(tr.sharesBefore)+T("株"," shares")+' → '+fmtShares(executedShares)+T("株"," shares")+'</b></div>'
    +'<b style="font-size:17px">『'+curIndustryName()+'』 '+moveLabel(imv)+'（'+Math.round(P).toLocaleString()+' → '+Math.round(indNext).toLocaleString()+'）</b><p style="margin:6px 0"><b>'+T("理由","Reason")+'：</b>'+(LANG==="en"? shortReasonEN(state.round):shortReason(state.round))+'</p><p style="margin:0">'+T("総資産","Total")+'：'+yen(totalBeforeR)+' → <b>'+yen(totalAfterR)+'</b>（'+yenSigned(gain)+'）</p>';
   document.getElementById("decideBtn").style.display="none";
   var nb=document.getElementById("nextBtn");nb.style.display="block";nb.textContent=state.round===2?T("結果を見る →","See results →"):T("次のラウンドへ →","Next round →");
@@ -2615,7 +2659,7 @@ function finishGame(){
   document.getElementById("rIndustry").innerHTML='<div class="card" style="margin:0"><div style="font-size:19px;font-weight:800">★ '+curIndustryName()+'</div><div class="kv" style="margin-top:8px"><span>'+T("株価","Price")+'：'+T("開始","Start")+' → '+T("終了","End")+'</span><b class="num">'+Math.round(indStart).toLocaleString("ja-JP")+' → '+Math.round(indEnd).toLocaleString("ja-JP")+'</b><span>'+T("累計変動","Total change")+'</span><b class="num">'+pct(indCum)+'</b></div></div>';
   document.getElementById("rAnalysis").innerHTML='<div class="card" style="margin:0"><h3 style="margin:0 0 6px;font-size:16px">'+T("分析","Analysis")+'</h3><p style="margin:0;font-size:14px">'+(LANG==="en"? (EXPLAINER_EN[s.id]||s.explainer) : s.explainer)+'</p></div>';
   var hR=T("ラウンド","Round"), hI=T("選択した業界","Industry"), hT=T("売買","Trade"), hA=T("金額","Amount"), hRe=T("根拠","Reason"), hM=T("選択した業界の動き","Industry move"), hTo=T("総資産","Total");
-  document.getElementById("rLog").innerHTML='<table><tr><th>'+hR+'</th><th>'+hI+'</th><th>'+hT+'</th><th>'+hA+'</th><th>'+hRe+'</th><th>'+hM+'</th><th class="num">'+hTo+'</th></tr>'+state.scenLog.map(function(l){return '<tr><td data-label="'+hR+'">R'+l.round+'</td><td data-label="'+hI+'">'+escapeHtml(logIndustryName(l)||curIndustryName())+'</td><td data-label="'+hT+'">'+(l.dir==="buy"?T("買う","Buy"):T("売る","Sell"))+'</td><td data-label="'+hA+'">'+yen(l.amount)+'</td><td data-label="'+hRe+'">'+reasonLabel(l.reason)+'</td><td data-label="'+hM+'">'+pct(l.move)+'</td><td class="num" data-label="'+hTo+'">'+yen(l.after)+'</td></tr>'}).join("")+'</table>';
+  document.getElementById("rLog").innerHTML='<table><tr><th>'+hR+'</th><th>'+hI+'</th><th>'+hT+'</th><th>'+hA+'</th><th>'+hRe+'</th><th>'+hM+'</th><th class="num">'+hTo+'</th></tr>'+state.scenLog.map(function(l){return '<tr><td data-label="'+hR+'">R'+l.round+'</td><td data-label="'+hI+'">'+escapeHtml(logIndustryName(l)||curIndustryName())+'</td><td data-label="'+hT+'">'+(l.dir==="buy"?T("買う","Buy"):l.dir==="pass"?T("見送る","Pass"):T("売る","Sell"))+'</td><td data-label="'+hA+'">'+yen(l.amount)+'</td><td data-label="'+hRe+'">'+reasonLabel(l.reason)+'</td><td data-label="'+hM+'">'+pct(l.move)+'</td><td class="num" data-label="'+hTo+'">'+yen(l.after)+'</td></tr>'}).join("")+'</table>';
   var nsBtn=document.getElementById("nextScenarioBtn");
   if(nsBtn){
     if(state.isTutorial){
