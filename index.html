@@ -1015,6 +1015,22 @@ footer{border-top-color:rgba(138,109,27,.30)}
 #amountBlock.is-pass{opacity:.45}
 @media(max-width:480px){.segmented .dirbtn{padding:8px 2px}.segmented .dirbtn b{font-size:17px}.segmented .dirbtn small{font-size:11px}}
 @media (prefers-reduced-motion: reduce){.segmented .dirbtn.on-pass{transform:none !important}#amountBlock{transition:none}}
+/* ---------- Contrast fix (2026-11-25): luxury layer gave .warn / .tutorialTipBox / .reveal
+   light ivory backgrounds with no dark-mode variant, so in dark mode the inherited
+   near-white text (--ink #edf0eb) sat on a near-white background and was unreadable.
+   Give those panels dark backgrounds in dark mode instead. ---------- */
+@media (prefers-color-scheme: dark){
+  .warn{background:linear-gradient(180deg,#3b3418,#2a2410);border-color:#7a6a2e;color:#f5edd2}
+  .warn b{color:#ffe9a8}
+  .tutorialTipBox{background:linear-gradient(180deg,#3b3418,#2a2410);border-color:var(--lux-gold);color:#f5edd2}
+  .tutorialTipBox b{color:var(--lux-gold-hi)}
+  .reveal{color:var(--ink)}
+  .reveal.good{background:linear-gradient(180deg,#21402e,#16241a);border-color:#2f6b45}
+  .reveal.bad{background:linear-gradient(180deg,#402622,#2a1a19);border-color:#7a423c}
+  .confirmPanel{background:linear-gradient(180deg,rgba(255,243,196,.14),rgba(255,255,255,0) 40%),linear-gradient(165deg,var(--card2),var(--card) 120%)}
+  .rankcard.r1{background:linear-gradient(180deg,rgba(255,243,196,.16),rgba(255,255,255,0) 46%),linear-gradient(165deg,var(--card),#232a22 130%)}
+  .badge.done{background:linear-gradient(180deg,#2c4a36,#1e3325);color:#7ee2a0}
+}
 </style>
 </head>
 <body>
