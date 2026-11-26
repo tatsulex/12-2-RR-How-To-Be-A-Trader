@@ -1514,22 +1514,34 @@ function bestWorstFor(s,idx,startCash,startShares){
   })(0,startCash,sh0);
   return {best:best,worst:worst};
 }
-/* Chained overall benchmarks from the initial ¥1,000,000: each scenario uses the
-   industry the player actually picked for it (from the trade log), its result —
-   hold value, best or worst — becomes the next scenario's starting cash. */
+/* Chained overall benchmarks from the initial ¥1,000,000, each scenario's end
+   total becoming the next scenario's starting cash.
+   Best / worst are INDEPENDENT of the player's picks: for every scenario, all
+   3 industries × every legal line of play are searched (bestWorstFor), and the
+   chain keeps the highest (best) / lowest (worst) end total found. Because a
+   scenario's best and worst end totals never decrease when its starting cash
+   grows, chaining the per-scenario extremes gives the true chain extremes.
+   Hold alone still follows the industry the player actually picked for each
+   scenario (from the trade log); it is null when that pick is unknown. */
 function overallBenchmarks(){
   var idxBySid={};
   (state.allLog||[]).forEach(function(l){ if(l.sid&&idxBySid[l.sid]==null&&l.iidx!=null) idxBySid[l.sid]=l.iidx; });
-  var hold=INITIAL, best=INITIAL, worst=INITIAL, ok=true;
+  var hold=INITIAL, best=INITIAL, worst=INITIAL, holdOk=true;
   SCENARIOS.forEach(function(s){
     var idx=idxBySid[s.id];
-    if(idx==null){ ok=false; return; }
-    var prices=pricePathFor(s,idx);
-    hold=Math.round(hold)+Math.round(startSharesFor(hold,prices[0])*prices[3]);
-    var bwB=bestWorstFor(s,idx,best); best=bwB.best;
-    var bwW=bestWorstFor(s,idx,worst); worst=bwW.worst;
+    if(idx==null){ holdOk=false; }
+    else {
+      var prices=pricePathFor(s,idx);
+      hold=Math.round(hold)+Math.round(startSharesFor(hold,prices[0])*prices[3]);
+    }
+    var bAll=-Infinity, wAll=Infinity;
+    for(var i=0;i<INDUSTRY_MOVES[s.id].length;i++){
+      var bwB=bestWorstFor(s,i,best); if(bwB.best>bAll) bAll=bwB.best;
+      var bwW=bestWorstFor(s,i,worst); if(bwW.worst<wAll) wAll=bwW.worst;
+    }
+    best=bAll; worst=wAll;
   });
-  return ok? {hold:hold,best:best,worst:worst} : null;
+  return {hold:holdOk? hold : null, best:best, worst:worst};
 }
 function compareBarHTML(label,val,maxV,cls){
   return '<div class="bar-row"><span>'+label+'</span><div class="bar '+(cls||"")+'"><i style="width:'+Math.max(4,val/maxV*100)+'%"></i></div><b class="num">'+yen(val)+'</b></div>';
@@ -2036,9 +2048,9 @@ function renderScenarios(){
     var obm=overallBenchmarks();
     var ocmp="";
     if(obm){
-      var omax=Math.max(tot,obm.hold,obm.best,obm.worst);
+      var omax=Math.max(tot,obm.best,obm.worst,obm.hold||0);
       ocmp='<div style="margin-top:16px"><h3 style="margin:0 0 6px;font-size:16px">'+T("比較","Comparison")+'</h3>'
-       +compareBarHTML(T("あなた","You"),tot,omax,"")+compareBarHTML(T("持ち続けた場合","Buy & hold"),obm.hold,omax,"cash")+compareBarHTML(T("ベストな売買をした場合","Best possible trades"),obm.best,omax,"best")+compareBarHTML(T("ワーストな売買をした場合","Worst possible trades"),obm.worst,omax,"worst")+'</div>';
+       +compareBarHTML(T("あなた","You"),tot,omax,"")+(obm.hold!=null? compareBarHTML(T("持ち続けた場合","Buy & hold"),obm.hold,omax,"cash") : "")+compareBarHTML(T("ベストな売買をした場合","Best possible trades"),obm.best,omax,"best")+compareBarHTML(T("ワーストな売買をした場合","Worst possible trades"),obm.worst,omax,"worst")+'</div>';
     }
     document.getElementById("overallContent").innerHTML='<div class="kv"><span>'+T("最終総資産","Final total assets")+'</span><b style="font-size:22px">'+yen(tot)+'</b><span>'+T("通算損益（3シナリオ合計）","Cumulative P&L (all 3 scenarios)")+'</span><b>'+yenSigned(csO.pnl)+'</b><span>'+T("通算リターン（各シナリオ開始時比の累積）","Cumulative return (vs. each scenario start)")+'</span><b>'+pct(csO.ret)+'</b></div><p class="note" style="margin:8px 0 0">'+T("※ 各シナリオ開始時に現金と同額の株が付与されるため、成績は総資産ではなくシナリオごとの損益を通算して表示しています。","Note: each scenario starts with shares granted equal to your cash, so performance is shown as the sum of per-scenario P&L, not the raw total.")+'</p>'
      +ocmp
