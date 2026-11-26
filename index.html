@@ -990,21 +990,20 @@ footer{border-top-color:rgba(138,109,27,.30)}
 .langBtn{margin-left:auto;appearance:none;border:1px solid rgba(246,226,122,.55);background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.04));color:#ffe9a8;font-weight:800;font-size:13px;border-radius:999px;padding:7px 14px;min-height:36px;cursor:pointer;box-shadow:0 1px 0 rgba(255,255,255,.2) inset,0 4px 10px rgba(0,0,0,.3);white-space:nowrap}
 .langBtn:active{transform:translateY(1px)}
 /* ---------- Firebase ranking ---------- */
-.fbRankHead,.fbRankRow{display:grid;grid-template-columns:44px 1fr auto;gap:6px 12px;align-items:center;padding:10px 4px;border-bottom:1px solid var(--line);font-size:14px}
-.fbRankHead{font-size:12px;color:var(--muted);font-weight:700;border-bottom:2px solid var(--line)}
-.fbRankRow .rk{font-weight:900;font-size:16px}
+.fbRankHead,.fbRankRow{display:grid;grid-template-columns:34px minmax(0,1fr) auto auto auto;gap:6px 8px;align-items:center;padding:10px 4px;border-bottom:1px solid var(--line);font-size:13px}
+.fbRankHead{font-size:11px;color:var(--muted);font-weight:700;border-bottom:2px solid var(--line)}
+.fbRankRow .rk{font-weight:900;font-size:15px}
 .fbRankRow .tm{font-weight:800;word-break:break-word}
-.fbRankRow .pnl{font-weight:900;text-align:right;white-space:nowrap}
-.fbRankRow .sub{grid-column:2/4;color:var(--muted);font-size:13px;display:flex;gap:16px;flex-wrap:wrap}
-.fbHeadExtra{display:none}
-@media(min-width:700px){.fbHeadExtra{display:block}}
+.fbRankRow .pnl{font-weight:900;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.fbRankRow .fa{font-weight:800;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.fbRankRow .rt{font-weight:700;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 .fbRankRow.top1{background:linear-gradient(180deg,rgba(255,243,196,.55),rgba(255,255,255,0));border-radius:8px}
 .fbStatus{font-size:14px;margin-top:10px;min-height:1.4em}
 .fbStatus.ok{color:var(--up);font-weight:800}
 .fbStatus.err{color:var(--down);font-weight:700}
 .fbErrBox{background:#fdf0ef;border:1px solid #f0c6c2;border-radius:10px;padding:12px 14px;font-size:14px;margin-top:12px}
 @media(prefers-color-scheme:dark){.fbErrBox{background:#2a1a19}}
-@media(min-width:700px){.fbRankHead,.fbRankRow{grid-template-columns:52px 1.4fr 1fr 1fr .8fr}.fbRankRow .sub{display:contents}.fbRankRow .sub span{text-align:right;white-space:nowrap}.fbRankRow .sub span:first-child{text-align:left}}
+@media(min-width:700px){.fbRankHead,.fbRankRow{grid-template-columns:52px minmax(0,1.4fr) 1fr 1fr .8fr;gap:6px 12px;font-size:15px}.fbRankHead{font-size:12px}.fbRankRow .rk{font-size:16px}.fbRankRow .pnl,.fbRankRow .fa,.fbRankRow .rt{justify-self:end}}
 /* ---------- Pass （見送る）: third direction, available in every round ---------- */
 .dirrow.segmented{grid-template-columns:1fr 1fr 1fr}
 .segmented .dirbtn.on-pass{
@@ -2883,10 +2882,10 @@ function renderRanking(){
   if(fbDocs==null){ body.innerHTML='<p class="note" style="margin:0">'+T("読み込み中…","Loading…")+'</p>'; return; }
   if(!fbDocs.length){ body.innerHTML='<p class="note" style="margin:0">'+T("まだ登録がありません。最初の登録をお待ちしています。","No entries yet — be the first to register.")+'</p>'; return; }
   var medal=["🥇","🥈","🥉"];
-  var html='<div class="fbRankHead"><span>'+T("順位","Rank")+'</span><span>'+T("チーム名","Team")+'</span><span style="text-align:right">'+T("通算損益","Cumulative P&L")+'</span><span class="fbHeadExtra" style="text-align:right">'+T("最終総資産","Final assets")+'</span><span class="fbHeadExtra" style="text-align:right">'+T("通算リターン","Return")+'</span></div>';
+  var html='<div class="fbRankHead"><span>'+T("順位","Rank")+'</span><span>'+T("チーム名","Team")+'</span><span style="text-align:right">'+T("通算損益","Cumulative P&L")+'</span><span style="text-align:right">'+T("最終総資産","Final assets")+'</span><span style="text-align:right">'+T("通算リターン","Return")+'</span></div>';
   fbDocs.forEach(function(d,i){
     var pnlCls=d.totalPnl>0?"pnl-up":d.totalPnl<0?"pnl-down":"";
-    html+='<div class="fbRankRow'+(i===0?" top1":"")+'"><span class="rk">'+(medal[i]||(i+1))+'</span><span class="tm">'+escapeHtml(d.teamName||"")+'</span><span class="pnl '+pnlCls+'">'+yenSigned(d.totalPnl||0)+'</span><span class="sub"><span>'+T("最終総資産","Final assets")+' '+yen(d.finalAssets||0)+'</span><span>'+T("通算リターン","Return")+' '+pct(d.totalReturn||0)+'</span></span></div>';
+    html+='<div class="fbRankRow'+(i===0?" top1":"")+'"><span class="rk">'+(medal[i]||(i+1))+'</span><span class="tm">'+escapeHtml(d.teamName||"")+'</span><span class="pnl '+pnlCls+'">'+yenSigned(d.totalPnl||0)+'</span><span class="fa">'+yen(d.finalAssets||0)+'</span><span class="rt">'+pct(d.totalReturn||0)+'</span></div>';
   });
   body.innerHTML=html;
 }
