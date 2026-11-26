@@ -157,10 +157,18 @@ table{width:100%;border-collapse:collapse;font-size:14px}
 th,td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
 th{font-size:12px;color:var(--muted)}
 .num{text-align:right;font-variant-numeric:tabular-nums}
-.bar-row{display:grid;grid-template-columns:130px 1fr 92px;gap:10px;align-items:center;margin:10px 0;font-size:14px}
+.bar-row{display:grid;grid-template-columns:150px 1fr 100px;gap:10px;align-items:center;margin:10px 0;font-size:14px}
+@media(max-width:560px){.bar-row{grid-template-columns:104px 1fr 88px;font-size:13px}}
 .bar{height:14px;background:var(--card2);border-radius:999px;overflow:hidden}
 .bar i{display:block;height:100%;background:var(--accent)}
 .bar.cash i{background:var(--accent2)}
+.bar.best i{background:#2f7fc4}
+.bar.worst i{background:#c62828}
+.decisionLog{font-size:14px}
+.decisionLog .dl-row{padding:8px 0;border-bottom:1px solid var(--line)}
+.decisionLog .dl-row:last-child{border-bottom:0}
+.decisionLog .dl-head{font-weight:800;margin:12px 0 2px}
+.decisionLog .dl-head:first-child{margin-top:2px}
 .pnlbig{font-size:44px;font-weight:900;line-height:1.1;word-break:break-all}
 .kv{display:grid;grid-template-columns:1fr auto;gap:6px 12px;font-size:15px}
 .timeline{list-style:none;padding:0;margin:0}
@@ -949,6 +957,8 @@ input[type=text],input[type=number],select{
 .bar{background:linear-gradient(180deg,#dfe3da,#eef0e9);box-shadow:inset 0 2px 5px rgba(20,26,20,.18)}
 .bar i{background:linear-gradient(180deg,#3ecf8e,var(--accent));box-shadow:inset 0 1px 0 rgba(255,255,255,.55)}
 .bar.cash i{background:linear-gradient(180deg,var(--lux-gold-hi),var(--lux-gold));box-shadow:inset 0 1px 0 rgba(255,255,255,.65)}
+.bar.best i{background:linear-gradient(180deg,#6db3ec,#1256a3);box-shadow:inset 0 1px 0 rgba(255,255,255,.55)}
+.bar.worst i{background:linear-gradient(180deg,#f0837f,#b71c1c);box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
 input[type=range]::-webkit-slider-runnable-track{
   border-color:rgba(90,64,0,.30);
   background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(255,255,255,0) 55%),linear-gradient(90deg,var(--lux-gold) 0%,#0f6b4a var(--p),#dde1d8 var(--p),#eef0e9 100%);
@@ -1015,22 +1025,6 @@ footer{border-top-color:rgba(138,109,27,.30)}
 #amountBlock.is-pass{opacity:.45}
 @media(max-width:480px){.segmented .dirbtn{padding:8px 2px}.segmented .dirbtn b{font-size:17px}.segmented .dirbtn small{font-size:11px}}
 @media (prefers-reduced-motion: reduce){.segmented .dirbtn.on-pass{transform:none !important}#amountBlock{transition:none}}
-/* ---------- Contrast fix (2026-11-25): luxury layer gave .warn / .tutorialTipBox / .reveal
-   light ivory backgrounds with no dark-mode variant, so in dark mode the inherited
-   near-white text (--ink #edf0eb) sat on a near-white background and was unreadable.
-   Give those panels dark backgrounds in dark mode instead. ---------- */
-@media (prefers-color-scheme: dark){
-  .warn{background:linear-gradient(180deg,#3b3418,#2a2410);border-color:#7a6a2e;color:#f5edd2}
-  .warn b{color:#ffe9a8}
-  .tutorialTipBox{background:linear-gradient(180deg,#3b3418,#2a2410);border-color:var(--lux-gold);color:#f5edd2}
-  .tutorialTipBox b{color:var(--lux-gold-hi)}
-  .reveal{color:var(--ink)}
-  .reveal.good{background:linear-gradient(180deg,#21402e,#16241a);border-color:#2f6b45}
-  .reveal.bad{background:linear-gradient(180deg,#402622,#2a1a19);border-color:#7a423c}
-  .confirmPanel{background:linear-gradient(180deg,rgba(255,243,196,.14),rgba(255,255,255,0) 40%),linear-gradient(165deg,var(--card2),var(--card) 120%)}
-  .rankcard.r1{background:linear-gradient(180deg,rgba(255,243,196,.16),rgba(255,255,255,0) 46%),linear-gradient(165deg,var(--card),#232a22 130%)}
-  .badge.done{background:linear-gradient(180deg,#2c4a36,#1e3325);color:#7ee2a0}
-}
 </style>
 </head>
 <body>
@@ -1263,6 +1257,10 @@ footer{border-top-color:rgba(138,109,27,.30)}
       <h3 style="margin:0 0 6px;font-size:16px" data-ja="売買記録" data-en="Trades">売買記録</h3>
       <div id="rLog" style="margin-top:12px;overflow-x:auto"></div>
     </div>
+    <div class="card" style="margin-top:14px">
+      <h3 style="margin:0 0 6px;font-size:16px" data-ja="意思決定ログ" data-en="Decision log">意思決定ログ</h3>
+      <div id="rDecisionLog" class="decisionLog"></div>
+    </div>
     <div class="btnrow">
       <button class="btn" id="nextScenarioBtn" type="button">次へ →</button>
       <button class="btn secondary" type="button" id="resultHomeBtn" onclick="goHome()" data-ja="ホーム" data-en="Home">ホーム</button>
@@ -1455,6 +1453,88 @@ function setLang(l){ LANG=(l==="en")? "en":"ja"; try{ localStorage.setItem(LANG_
 function wikiUrl(s){ return LANG==="en"? (s.wikiEn||s.wikiJa||"") : (s.wikiJa||s.wikiEn||""); }
 var REASON_LABELS={risk:["リスク回避を優先","Safety first"],rebound:["反発・回復に期待","Expecting a rebound"],watch:["情報不足なので様子見に近い判断","Not enough info — wait and see"],strong:["割安と見て強気","Looks undervalued — bullish"],balance:["バランス重視","Balanced"]};
 function reasonLabel(k){ var r=REASON_LABELS[k]; return r? r[LANG==="en"?1:0] : T("未選択","None"); }
+/* Short reason labels, exactly as shown on the order form's reason buttons (③ 詳細).
+   Used by the decision log so a choice reads back the way it was picked. */
+var REASON_SHORT={risk:["リスク回避","Safety first"],rebound:["反発に期待","Expecting a rebound"],watch:["様子見","Wait and see"],strong:["強気","Bullish"],balance:["バランス","Balanced"]};
+function reasonShortLabel(k){ var r=k? REASON_SHORT[k] : null; return r? r[LANG==="en"?1:0] : "—"; }
+/* Max tolerable drop as stored on a trade entry: "-30" etc. Old saves may have no
+   value at all (undefined) — show "—" then; an explicit "" means 指定なし / No limit. */
+function drawdownText(l){ if(!l||l.maxDrawdown==null) return "—"; if(l.maxDrawdown==="") return T("指定なし","No limit"); return l.maxDrawdown+"%"; }
+function decisionLine(l){
+  var dirTxt=l.dir==="buy"? T("買う","Buy") : l.dir==="pass"? T("見送る","Pass") : T("売る","Sell");
+  var amtTxt=l.dir==="pass"? "" : " "+yen(l.amount);
+  return "R"+l.round+" "+dirTxt+amtTxt+"｜"+T("根拠","Reason")+"："+reasonShortLabel(l.reason)+"｜"+T("最大許容下落率","Max tolerable drop")+"："+drawdownText(l);
+}
+function decisionLogHTML(entries){
+  if(!entries||!entries.length) return '<p class="note" style="margin:0">'+T("記録なし","No records")+'</p>';
+  return entries.map(function(l){ return '<div class="dl-row">'+decisionLine(l)+'</div>'; }).join("");
+}
+/* Full decision log across all scenarios (home / overall), grouped by STEP. */
+function overallDecisionLogHTML(){
+  if(!state.allLog||!state.allLog.length) return "";
+  var html='<div style="margin-top:16px"><h3 style="margin:0 0 6px;font-size:16px">'+T("意思決定ログ","Decision log")+'</h3><div class="decisionLog">';
+  SCENARIOS.forEach(function(s,si){
+    var es=state.allLog.filter(function(l){ return l.sid===s.id; });
+    if(!es.length) return;
+    es=es.slice().sort(function(a,b){ return a.round-b.round; });
+    html+='<div class="dl-head">STEP '+(si+1)+" — "+escapeHtml(T(s.title, SCENARIO_EN[s.id]||s.title))+'</div>';
+    html+=es.map(function(l){ return '<div class="dl-row">'+decisionLine(l)+'</div>'; }).join("");
+  });
+  return html+'</div></div>';
+}
+/* ===== Best / worst possible outcomes (exhaustive search, same rules as the game) =====
+   Price path of one industry in one scenario, rebuilt exactly the way play builds it:
+   start price from indStartPrice, each next price = round(prev * (1 + industry move)). */
+function pricePathFor(s,idx){
+  var moves=INDUSTRY_MOVES[s.id][idx].moves;
+  var prices=[indStartPrice(s,idx)];
+  for(var r=0;r<3;r++) prices.push(Math.round(prices[r]*(1+moves[r])));
+  return prices;
+}
+/* Every legal line of play over the 3 rounds — buy ¥100k–¥500k in ¥100k steps within
+   cash, sell in ¥100k steps within the floored stock value (same caps as caps()),
+   or pass — scored with the game's own settlement: end total = round(cash) +
+   round(shares × final price). At most 11^3 lines, so this runs instantly. */
+function bestWorstFor(s,idx,startCash,startShares){
+  var prices=pricePathFor(s,idx);
+  var sh0=(startShares!=null? startShares : startSharesFor(startCash,prices[0]));
+  var best=-Infinity, worst=Infinity;
+  (function rec(round,cash,shares){
+    if(round===3){
+      var tot=Math.round(cash)+Math.round(shares*prices[3]);
+      if(tot>best) best=tot;
+      if(tot<worst) worst=tot;
+      return;
+    }
+    var P=prices[round];
+    var buyCap=Math.floor(Math.min(MAXTRADE,cash)/MINTRADE)*MINTRADE;
+    var sellCap=Math.floor(Math.min(MAXTRADE,shares*P)/MINTRADE)*MINTRADE;
+    rec(round+1,cash,shares);
+    for(var a=MINTRADE;a<=buyCap;a+=MINTRADE) rec(round+1,cash-a,shares+a/P);
+    for(var b=MINTRADE;b<=sellCap;b+=MINTRADE) rec(round+1,cash+b,Math.max(0,shares-b/P));
+  })(0,startCash,sh0);
+  return {best:best,worst:worst};
+}
+/* Chained overall benchmarks from the initial ¥1,000,000: each scenario uses the
+   industry the player actually picked for it (from the trade log), its result —
+   hold value, best or worst — becomes the next scenario's starting cash. */
+function overallBenchmarks(){
+  var idxBySid={};
+  (state.allLog||[]).forEach(function(l){ if(l.sid&&idxBySid[l.sid]==null&&l.iidx!=null) idxBySid[l.sid]=l.iidx; });
+  var hold=INITIAL, best=INITIAL, worst=INITIAL, ok=true;
+  SCENARIOS.forEach(function(s){
+    var idx=idxBySid[s.id];
+    if(idx==null){ ok=false; return; }
+    var prices=pricePathFor(s,idx);
+    hold=Math.round(hold)+Math.round(startSharesFor(hold,prices[0])*prices[3]);
+    var bwB=bestWorstFor(s,idx,best); best=bwB.best;
+    var bwW=bestWorstFor(s,idx,worst); worst=bwW.worst;
+  });
+  return ok? {hold:hold,best:best,worst:worst} : null;
+}
+function compareBarHTML(label,val,maxV,cls){
+  return '<div class="bar-row"><span>'+label+'</span><div class="bar '+(cls||"")+'"><i style="width:'+Math.max(4,val/maxV*100)+'%"></i></div><b class="num">'+yen(val)+'</b></div>';
+}
 function industryName(idx){ var ja=SCENARIOS[0].impacts[idx].s; return LANG==="en"? (INDUSTRY_EN[idx]||ja) : ja; }
 function curIndustryName(){ return state.industryIdx!=null? industryName(state.industryIdx) : ""; }
 function logScenarioName(l){ var s=null; for(var i=0;i<SCENARIOS.length;i++){ if((l.sid&&l.sid===SCENARIOS[i].id)||l.scenario===SCENARIOS[i].title) s=SCENARIOS[i]; } if(s) return T(s.title, SCENARIO_EN[s.id]||s.title); if(l.sid==="tutorial") return T(TUTORIAL_SCENARIO.title, SCENARIO_EN.tutorial||TUTORIAL_SCENARIO.title); return l.scenario||""; }
@@ -1615,7 +1695,7 @@ function renderResumePanel(){
   if(d.allLog&&d.allLog.length){
     var tail=d.allLog.slice(-3);
     logEl.innerHTML="<b style='color:var(--ink)'>"+T("直近の売買","Recent trades")+"</b>"+tail.map(function(l){
-      return "<div>"+logScenarioName(l)+" R"+l.round+"："+(l.dir==="buy"?T("買う","Buy"):l.dir==="pass"?T("見送る","Pass"):T("売る","Sell"))+(l.dir==="pass"?"":" "+yen(l.amount))+" ／ "+T("根拠","Reason")+"："+reasonLabel(l.reason)+" ／ "+T("総資産","Total")+" "+yen(l.after)+"</div>";
+      return "<div>"+logScenarioName(l)+" R"+l.round+"："+(l.dir==="buy"?T("買う","Buy"):l.dir==="pass"?T("見送る","Pass"):T("売る","Sell"))+(l.dir==="pass"?"":" "+yen(l.amount))+" ／ "+T("根拠","Reason")+"："+reasonShortLabel(l.reason)+" ／ "+T("最大許容下落率","Max tolerable drop")+"："+drawdownText(l)+" ／ "+T("総資産","Total")+" "+yen(l.after)+"</div>";
     }).join("");
     logEl.style.display="block";
   } else {
@@ -1954,15 +2034,24 @@ function renderScenarios(){
   if(ids.length===3){
     var tot=totalAssets(null);
     var csO=cumulativeStats();
+    var obm=overallBenchmarks();
+    var ocmp="";
+    if(obm){
+      var omax=Math.max(tot,obm.hold,obm.best,obm.worst);
+      ocmp='<div style="margin-top:16px"><h3 style="margin:0 0 6px;font-size:16px">'+T("比較","Comparison")+'</h3>'
+       +compareBarHTML(T("あなた","You"),tot,omax,"")+compareBarHTML(T("持ち続けた場合","Buy & hold"),obm.hold,omax,"cash")+compareBarHTML(T("ベストな売買をした場合","Best possible trades"),obm.best,omax,"best")+compareBarHTML(T("ワーストな売買をした場合","Worst possible trades"),obm.worst,omax,"worst")+'</div>';
+    }
     document.getElementById("overallContent").innerHTML='<div class="kv"><span>'+T("最終総資産","Final total assets")+'</span><b style="font-size:22px">'+yen(tot)+'</b><span>'+T("通算損益（3シナリオ合計）","Cumulative P&L (all 3 scenarios)")+'</span><b>'+yenSigned(csO.pnl)+'</b><span>'+T("通算リターン（各シナリオ開始時比の累積）","Cumulative return (vs. each scenario start)")+'</span><b>'+pct(csO.ret)+'</b></div><p class="note" style="margin:8px 0 0">'+T("※ 各シナリオ開始時に現金と同額の株が付与されるため、成績は総資産ではなくシナリオごとの損益を通算して表示しています。","Note: each scenario starts with shares granted equal to your cash, so performance is shown as the sum of per-scenario P&L, not the raw total.")+'</p>'
-     +'<div class="btnrow"><button class="btn" type="button" id="overallRegisterBtn">'+T("ランキングに登録する","Register in ranking")+'</button><button class="btn secondary" type="button" id="overallRankingBtn">'+T("ランキングを見る","View ranking")+'</button></div><div class="fbStatus" id="overallRegisterStatus" role="status" aria-live="polite"></div>';
+     +ocmp
+     +'<div class="btnrow"><button class="btn" type="button" id="overallRegisterBtn">'+T("ランキングに登録する","Register in ranking")+'</button><button class="btn secondary" type="button" id="overallRankingBtn">'+T("ランキングを見る","View ranking")+'</button></div><div class="fbStatus" id="overallRegisterStatus" role="status" aria-live="polite"></div>'
+     +overallDecisionLogHTML();
     box.style.display="block";
     if(typeof syncRankingRegisterUI==="function") syncRankingRegisterUI();
     var orb=document.getElementById("overallRegisterBtn"); if(orb) orb.onclick=function(){ registerRanking(); };
     var ovb=document.getElementById("overallRankingBtn"); if(ovb) ovb.onclick=function(){ openRanking(); };
   } else if(ids.length>0){
     var csP=cumulativeStats();
-    document.getElementById("overallContent").innerHTML='<p style="margin:0;font-size:14px">'+T("完了","Done")+' '+ids.length+' / 3 — '+T("通算損益","Cumulative P&L")+' <b>'+yenSigned(csP.pnl)+'</b> ／ '+T("引き継ぎ現金","Cash carried over")+' <b>'+yen(portfolio.cash)+'</b></p>';box.style.display="block";
+    document.getElementById("overallContent").innerHTML='<p style="margin:0;font-size:14px">'+T("完了","Done")+' '+ids.length+' / 3 — '+T("通算損益","Cumulative P&L")+' <b>'+yenSigned(csP.pnl)+'</b> ／ '+T("引き継ぎ現金","Cash carried over")+' <b>'+yen(portfolio.cash)+'</b></p>'+overallDecisionLogHTML();box.style.display="block";
   } else { box.style.display="none"; }
 }
 function snapshotMainGame(){
@@ -2504,7 +2593,7 @@ function showFanCross(idx){
 function renderLog(){
   var box=document.getElementById("logBox");
   if(!state.allLog.length){box.innerHTML='<p class="note" style="margin:0">'+T("なし","None")+'</p>';return}
-  box.innerHTML=state.allLog.map(function(l,i){var ind=logIndustryName(l)||(state.current&&l.scenario===state.current.title?curIndustryName():null);return '<div style="padding:8px 0;border-bottom:1px solid var(--line)"><b>'+logScenarioName(l)+(ind?'（'+ind+'）':'')+' R'+l.round+'</b> '+(l.dir==="buy"?T("🟩 買い","🟩 Buy"):l.dir==="pass"?T("⏸ 見送り","⏸ Pass"):T("🟥 売り","🟥 Sell"))+(l.dir==="pass"?"":' '+yen(l.amount))+'（'+T("株価 ","Price ")+Math.round(l.price).toLocaleString()+'）→ '+T("選択した業界","Industry")+(ind?'『'+ind+'』':'')+' '+pct(l.move)+' ／ '+T("総資産","Total")+' <b class="num">'+yen(l.after)+'</b></div>'}).join("");
+  box.innerHTML=state.allLog.map(function(l,i){var ind=logIndustryName(l)||(state.current&&l.scenario===state.current.title?curIndustryName():null);return '<div style="padding:8px 0;border-bottom:1px solid var(--line)"><b>'+logScenarioName(l)+(ind?'（'+ind+'）':'')+' R'+l.round+'</b> '+(l.dir==="buy"?T("🟩 買い","🟩 Buy"):l.dir==="pass"?T("⏸ 見送り","⏸ Pass"):T("🟥 売り","🟥 Sell"))+(l.dir==="pass"?"":' '+yen(l.amount))+'（'+T("株価 ","Price ")+Math.round(l.price).toLocaleString()+'）→ '+T("選択した業界","Industry")+(ind?'『'+ind+'』':'')+' '+pct(l.move)+' ／ '+T("総資産","Total")+' <b class="num">'+yen(l.after)+'</b><br><span style="color:var(--muted);font-size:12px">'+T("根拠","Reason")+'：'+reasonShortLabel(l.reason)+'｜'+T("最大許容下落率","Max tolerable drop")+'：'+drawdownText(l)+'</span></div>'}).join("");
 }
 function updateDetailSummary(){
   var el=document.getElementById("detailSummary"); if(!el) return;
@@ -2665,10 +2754,12 @@ function finishGame(){
   var sp=document.getElementById("rScenarioPnl"); sp.textContent=yenSigned(endTotal-Math.round(state.scenStartTotal)); sp.style.color=scenPnl>=0?"var(--up)":"var(--down)";
   document.getElementById("rScenarioNote").textContent=T("開始 ","Start ")+yen(state.scenStartTotal)+" → "+T("終了 ","End ")+yen(endTotal)+" ／ "+pct(scenRet);
   var tutNote=document.getElementById("rTutorialNote"); if(tutNote) tutNote.style.display=state.isTutorial? "block":"none";
-  var totNow=endTotal; var bench=(state.isTutorial&&state.tutorialResult)? state.tutorialResult.benchHold : state.results[s.id].benchHold; var maxV=Math.max(totNow,bench);
-  function bar(label,val,cls){return '<div class="bar-row"><span>'+label+'</span><div class="bar '+(cls||"")+'"><i style="width:'+Math.max(4,val/maxV*100)+'%"></i></div><b class="num">'+yen(val)+'</b></div>'}
-  document.getElementById("bars").innerHTML=bar(T("あなた","You"),totNow,"")+bar(T("持ち続けた場合","Buy & hold"),bench,"cash");
+  var totNow=endTotal; var bench=(state.isTutorial&&state.tutorialResult)? state.tutorialResult.benchHold : state.results[s.id].benchHold;
+  var bw=(state.industryIdx!=null&&state.scenStartCash!=null)? bestWorstFor(s,state.industryIdx,state.scenStartCash,state.scenStartShares) : {best:totNow,worst:totNow};
+  var maxV=Math.max(totNow,bench,bw.best,bw.worst);
+  document.getElementById("bars").innerHTML=compareBarHTML(T("あなた","You"),totNow,maxV,"")+compareBarHTML(T("持ち続けた場合","Buy & hold"),bench,maxV,"cash")+compareBarHTML(T("ベストな売買をした場合","Best possible trades"),bw.best,maxV,"best")+compareBarHTML(T("ワーストな売買をした場合","Worst possible trades"),bw.worst,maxV,"worst");
   document.getElementById("rComment").innerHTML=totNow>=bench? T("持ち続けた場合を上回りました。","You beat simply holding.") : T("持ち続けた場合を下回りました。","You trailed simply holding.");
+  document.getElementById("rDecisionLog").innerHTML=decisionLogHTML(state.scenLog);
   var indStart=state.prices[0], indEnd=endPrice, indCum=indStart? indEnd/indStart-1:0, mktCumAll=s.rounds.reduce(function(a,r){return a*(1+r.move)},1)-1;
   document.getElementById("rIndustry").innerHTML='<div class="card" style="margin:0"><div style="font-size:19px;font-weight:800">★ '+curIndustryName()+'</div><div class="kv" style="margin-top:8px"><span>'+T("株価","Price")+'：'+T("開始","Start")+' → '+T("終了","End")+'</span><b class="num">'+Math.round(indStart).toLocaleString("ja-JP")+' → '+Math.round(indEnd).toLocaleString("ja-JP")+'</b><span>'+T("累計変動","Total change")+'</span><b class="num">'+pct(indCum)+'</b></div></div>';
   document.getElementById("rAnalysis").innerHTML='<div class="card" style="margin:0"><h3 style="margin:0 0 6px;font-size:16px">'+T("分析","Analysis")+'</h3><p style="margin:0;font-size:14px">'+(LANG==="en"? (EXPLAINER_EN[s.id]||s.explainer) : s.explainer)+'</p></div>';
