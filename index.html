@@ -1603,7 +1603,7 @@ var TUTORIAL_KEY="timeslip-invest-tutorial-v1";
 var tutorialDone=false;
 try{ tutorialDone=localStorage.getItem(TUTORIAL_KEY)==="done"; }catch(e){}
 function markTutorialDone(){ tutorialDone=true; try{ localStorage.setItem(TUTORIAL_KEY,"done"); }catch(e){} renderTutorialStatus(); if(typeof renderScenarios==="function") renderScenarios(); }
-function renderTutorialStatus(){ var el=document.getElementById("tutorialStatus"); if(!el) return; el.innerHTML=tutorialDone? T("✅ 完了済み","✅ Completed") : "<b>"+T("未完了 — 終わるまで本番は選べません。","Not completed — the real scenarios stay locked until you finish.")+"</b>"; var b=document.getElementById("tutorialStartBtn"); if(b) b.textContent=tutorialDone? T("🎓 もう一度練習","🎓 Practice again") : T("🎓 始める","🎓 Start tutorial"); }
+function renderTutorialStatus(){ var el=document.getElementById("tutorialStatus"); if(!el) return; el.innerHTML=tutorialDone? T("✅ 完了済み","✅ Completed") : T("未完了 — 練習用です。本番シナリオはいつでも始められます。","Not completed — optional practice. You can start the real scenarios anytime."); var b=document.getElementById("tutorialStartBtn"); if(b) b.textContent=tutorialDone? T("🎓 もう一度練習","🎓 Practice again") : T("🎓 始める","🎓 Start tutorial"); }
 /* ===== Mid-game save / resume (this device & browser only, via localStorage) =====
    Saved: team name, chosen scenario & industry, current round, cash, shares & total assets,
    and the full trade history including the reason chosen for each trade. */
@@ -1749,11 +1749,6 @@ function restoreLockedReveal(){
 }
 function resumeFromSave(){
   var d=lastSaveData; if(!d) return;
-  if(!tutorialDone&&(d.phase==="game"||d.phase==="industry"||d.phase==="result")){
-    alertInPage(T("STEP 0を終えるまで選べません。","Locked until you finish STEP 0."));
-    var ts=document.getElementById("tutorialSection"); if(ts&&ts.scrollIntoView){ setTimeout(function(){ try{ ts.scrollIntoView({behavior:"smooth",block:"start"}); }catch(e){} },60); }
-    return;
-  }
   if(d.phase==="game"&&state.current&&state.scenStartTotal!=null){
     var wasLocked=state.locked, savedDir=state.dir, savedAmt=state.amtMan, savedReason=state.reason;
     show("view-game"); renderRound();
@@ -1997,33 +1992,31 @@ function pointsHTML(s){
   return '<ul class="pts">'+s.points.map(function(p){return '<li>'+p+'</li>'}).join("")+'</ul>';
 }
 function firstUnfinishedIdx(){ for(var i=0;i<SCENARIOS.length;i++){ if(!state.results[SCENARIOS[i].id]) return i; } return -1; }
-function isScenarioUnlocked(idx){ return idx===firstUnfinishedIdx(); }
+function isScenarioUnlocked(idx){ var s=SCENARIOS[idx]; return !!s&&!state.results[s.id]; }
 function renderScenarios(){
   renderHoldings();
   var g=document.getElementById("scenarioGrid");g.innerHTML="";
   var curIdx=firstUnfinishedIdx();
-  /* Tutorial gate: until the STEP 0 tutorial is finished, no real scenario can be selected */
-  var tutBlocked=!tutorialDone;
+  /* All locks removed (temporary, for verification play): STEP 0 tutorial completion
+     is no longer required, and STEP 1/2/3 are all selectable from the start regardless
+     of completion order. Only finished scenarios stay unselectable (see below). */
   var gateNote=document.getElementById("tutorialGateNote");
-  if(gateNote){ gateNote.innerHTML=tutBlocked? '<div class="warn" style="margin:0 0 14px"><b>'+T("🔒 ロック中。","🔒 Locked. ")+'</b>'+T("STEP 0を終えると選べます。","Finish STEP 0 to unlock.")+'</div>' : ""; }
+  if(gateNote){ gateNote.innerHTML=""; }
   var topCta=document.querySelector(".topcta");
   if(topCta){
-    if(tutBlocked){ topCta.setAttribute("href","#tutorialSection"); topCta.textContent=T("▼ STEP 0から始める","▼ Start with STEP 0"); }
-    else { topCta.setAttribute("href","#scenarioSection"); topCta.textContent=T("▼ 始める","▼ Start"); }
+    topCta.setAttribute("href","#scenarioSection"); topCta.textContent=T("▼ 始める","▼ Start");
   }
   SCENARIOS.forEach(function(s,idx){
     var done=state.results[s.id];
-    var unlocked=!tutBlocked&&(idx===curIdx);
-    var inProgress=(state.current&&state.current.id===s.id&&!done);
-    var b=document.createElement("button");b.className="card scenario"+(done?" doneState":(!unlocked?" locked":""));
+    var unlocked=!done;
+    var b=document.createElement("button");b.className="card scenario"+(done?" doneState":"");
     var foot, cta;
     if(done){ foot='<span class="badge done">✓ '+T("完了","Done")+' ／ '+yenSigned(done.scenPnl)+'</span>'; cta=T("✓ 終了","✓ Done"); }
-    else if(tutBlocked){ foot='<span class="badge locked">🔒</span>'; cta=T("🔒 STEP 0未完了","🔒 STEP 0 not done"); }
-    else if(unlocked){ foot='<span class="badge current">'+T("▶ 次はこれ","▶ Up next")+'</span>'; cta=T("▶ 始める","▶ Start"); }
-    else { foot='<span class="badge locked">🔒</span>'; cta=T("🔒 ロック中","🔒 Locked"); }
+    else if(idx===curIdx){ foot='<span class="badge current">'+T("▶ 次はこれ","▶ Up next")+'</span>'; cta=T("▶ 始める","▶ Start"); }
+    else { foot='<span class="badge">'+T("選択可能","Available")+'</span>'; cta=T("▶ 始める","▶ Start"); }
     var cardTitle=(LANG==="en")? (SCENARIO_EN[s.id]||s.title) : s.title.replace("GREXITリスク","<span style=\"white-space:nowrap\">GREXITリスク</span>");
     b.innerHTML='<div class="date">STEP '+(idx+1)+' — '+T(s.date, s.dateEn||s.date)+'</div><h3>'+s.icon+" "+cardTitle+'</h3><span class="diff">'+T(s.diff, s.diffEn||s.diff)+'</span><div style="font-size:13px;font-weight:700;margin-top:10px;color:var(--accent)">'+cta+'</div><div class="cardfoot">'+foot+'</div>';
-    if(done||tutBlocked||(!unlocked&&!inProgress)){ b.disabled=true; b.setAttribute("aria-disabled","true"); }
+    if(done){ b.disabled=true; b.setAttribute("aria-disabled","true"); }
     else { b.onclick=function(){startGame(s.id)}; }
     var wrap=document.createElement("div");wrap.className="scenarioWrap";
     wrap.appendChild(b);
@@ -2097,11 +2090,7 @@ function exitTutorialToHome(){
   var ts=document.getElementById("tutorialSection"); if(ts&&ts.scrollIntoView){ setTimeout(function(){ try{ ts.scrollIntoView({behavior:"smooth",block:"start"}); }catch(e){} },60); }
 }
 function startGame(id){
-  if(!tutorialDone){ alertInPage(T("STEP 0を終えるまで選べません。","Locked until you finish STEP 0.")); return; }
   if(state.results[id]){ if(!confirmReplay(id)) return; }
-  var sIdx=SCENARIOS.findIndex(function(x){return x.id===id});
-  var inProg=(state.current&&state.current.id===id);
-  if(sIdx>=0&&!isScenarioUnlocked(sIdx)&&!inProg){ alertInPage(T("順番にしか選べません。","Scenarios unlock in order — play them left to right.")); return; }
   var s=SCENARIOS.find(function(x){return x.id===id});
   state.carryNote=""; state.carryYen=null;
   /* Settle any remaining holdings into cash at market value: usable money for this scenario = remaining cash + current stock value (e.g. 100 - 50 + 30 = 80) */
