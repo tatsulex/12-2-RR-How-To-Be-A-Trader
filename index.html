@@ -1963,11 +1963,11 @@ function holdingsHTML(price){
   var sub='';
   var ap=activeScenPnl(tot);
   if(ap){
-    sub='<div style="font-size:13px" class="'+(ap.diff>0?"pnl up":ap.diff<0?"pnl down":"")+'">'+T("損益","P&L")+T("：",": ")+'<span style="white-space:nowrap">'+yenSigned(ap.diff)+'（'+usdSigned(ap.diff)+'）</span>／ '+pct(ap.rate)+'</div>';
+    sub='<div style="font-size:13px" class="'+(ap.diff>0?"pnl up":ap.diff<0?"pnl down":"")+'">'+T("損益","P&L")+T("：",": ")+'<span style="white-space:nowrap">'+yenSigned(ap.diff)+'（'+usdSigned(ap.diff)+'）</span> ／ '+pct(ap.rate)+'</div>';
   } else if(!state.isTutorial){
     var cs=cumulativeStats();
     if(cs){
-      sub='<div style="font-size:13px" class="'+(cs.pnl>0?"pnl up":cs.pnl<0?"pnl down":"")+'">'+T("通算損益（完了分合計）","Cumulative P&L (completed scenarios)")+T("：",": ")+'<span style="white-space:nowrap">'+yenSigned(cs.pnl)+'（'+usdSigned(cs.pnl)+'）</span>／ '+pct(cs.ret)+'</div>';
+      sub='<div style="font-size:13px" class="'+(cs.pnl>0?"pnl up":cs.pnl<0?"pnl down":"")+'">'+T("通算損益（完了分合計）","Cumulative P&L (completed scenarios)")+T("：",": ")+'<span style="white-space:nowrap">'+yenSigned(cs.pnl)+'（'+usdSigned(cs.pnl)+'）</span> ／ '+pct(cs.ret)+'</div>';
     }
   }
   return '<div style="font-size:12px;color:#aeb8ae;font-weight:700;letter-spacing:.06em">'+T("保有状況","Portfolio")+'</div><div class="grid3h" style="margin-top:8px">'
