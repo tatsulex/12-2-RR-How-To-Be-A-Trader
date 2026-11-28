@@ -1042,9 +1042,9 @@ footer{border-top-color:rgba(138,109,27,.30)}
 <!-- HOME -->
 <section id="view-home" class="view active">
   <div class="topbar">
-    <div class="ticker"><span><span data-ja="総資産" data-en="Total assets">総資産</span> <b>¥1,000,000</b> <span data-ja="（スタート時は全額現金）" data-en="(all in cash at the start)">（スタート時は全額現金）</span></span><span><b data-ja="160円＝1ドル" data-en="¥160 = $1">160円＝1ドル</b></span><span><span data-ja="上限" data-en="Max per trade">上限</span> <b>¥500,000</b></span></div>
+    <div class="ticker"><span><span data-ja="総資産" data-en="Total assets">総資産</span> <b>¥1,000,000</b> <span data-ja="（ゲーム開始時は全額現金／シナリオ開始時に半分で株を保有）" data-en="(All cash at game start; half is held as stock at each scenario start)">（ゲーム開始時は全額現金／シナリオ開始時に半分で株を保有）</span></span><span><b data-ja="160円＝1ドル" data-en="¥160 = $1">160円＝1ドル</b></span><span><span data-ja="1回の売買上限" data-en="Max per trade">1回の売買上限</span> <b>¥500,000</b></span></div>
     <h1>投資1年目の教科書<br>〜 how to become a trader 〜</h1>
-    <p class="lead" id="flowLine">①東日本大地震 → ②ギリシャ危機 → ③リーマンショック</p>
+    <p class="lead" id="flowLine">①東日本大震災 → ②ギリシャ危機 → ③リーマンショック</p>
     <a class="topcta" href="#scenarioSection">▼ 始める / Start</a>
   </div>
 
@@ -1181,7 +1181,7 @@ footer{border-top-color:rgba(138,109,27,.30)}
     </div>
     <div id="amountBlock">
     <div style="display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:10px;margin-top:18px">
-      <div><label style="margin:0" data-ja="② 金額" data-en="② Amount">② 金額</label><div class="note" id="amtNote" data-ja="上限50万円" data-en="Max ¥500,000">上限50万円</div></div>
+      <div><label style="margin:0" data-ja="② 金額" data-en="② Amount">② 金額</label><div class="note" id="amtNote" data-ja="上限50万円（最大額は10万円単位で切り捨てた取引可能額です）" data-en="Max ¥500,000 (the maximum is the tradable amount rounded down to ¥100,000 units)">上限50万円（最大額は10万円単位で切り捨てた取引可能額です）</div></div>
       <div class="allocbig"><span id="amtVal">30</span><small style="font-size:20px" data-ja="万円" data-en="× ¥10,000">万円</small></div>
     </div>
     <input type="range" id="amt" min="10" max="50" step="10" value="30" aria-label="売買金額（万円）">
@@ -1309,7 +1309,7 @@ footer{border-top-color:rgba(138,109,27,.30)}
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
 var SCENARIOS=[
- {id:"quake",icon:"🇯🇵",title:"東日本大地震",wikiJa:"https://ja.wikipedia.org/wiki/東日本大震災",wikiEn:"https://en.wikipedia.org/wiki/2011_Tōhoku_earthquake_and_tsunami",date:"2011年3月 — 東日本大地震と市場の動揺",diff:"難易度：中",startLabel:"2011年3月11日 午前",startIndex:10434,indexName:"日経平均",
+ {id:"quake",icon:"🇯🇵",title:"東日本大震災",wikiJa:"https://ja.wikipedia.org/wiki/東日本大震災",wikiEn:"https://en.wikipedia.org/wiki/2011_Tōhoku_earthquake_and_tsunami",date:"2011年3月 — 東日本大震災と市場の動揺",diff:"難易度：中",startLabel:"2011年3月11日 午前",startIndex:10434,indexName:"日経平均",
   intro:"巨大地震の直後。",dateEn:"March 2011 — The Great East Japan Earthquake shakes markets",diffEn:"Difficulty: Medium",introEn:"Just after a massive earthquake.",
   detail:"巨大地震と原発事故で、供給網と電力が深刻な打撃を受けました。",
   impacts:[
@@ -1329,11 +1329,11 @@ var SCENARIOS=[
    "市場全体が下落する中でも、生活必需品のように下げが小さい業種がありました。その視点は、売買を判断するときに持てていましたか？",
    "情報がほとんどない災害直後のラウンドで、何を根拠に判断しましたか？不確実性が大きい局面での判断を、いま振り返るとどうすべきだったと思いますか？"
   ],
-  explainer:"東日本大地震の後は日経平均が急落し、その後、政策対応と復興期待で反発しました。銀行・金融と自動車・製造業は下げが大きく、生活必需品は下げが小さめでした。建設・インフラは初動こそほぼ横ばいでしたが、復興需要で終盤に大きく反発しました。",
+  explainer:"東日本大震災の後は日経平均が急落し、その後、政策対応と復興期待で反発しました。銀行・金融と自動車・製造業は下げが大きく、生活必需品は下げが小さめでした。建設・インフラは初動こそほぼ横ばいでしたが、復興需要で終盤に大きく反発しました。",
   rounds:[
    {when:"2011年3月11日（金）大引け直後",head:"M9.0の巨大地震が発生、津波被害も",body:"東北地方を中心に甚大な被害。",whenEn:"Fri, Mar 11, 2011 — just after the close",headEn:"Magnitude 9.0 megaquake hits; tsunami damage reported",bodyEn:"Severe damage across the Tohoku region.",move:-0.16,nextIndex:8765,explain:"週明け以降、原発事故の深刻化と、被害の全容が見えない不確実性も重なり、日経平均は約16％下落しました。売りが殺到し、パニックに近い展開となりました。",breakdown:"業種別ETFの実績（判断日3/10→3/14）では、保険を含む金融（除く銀行）が-13.1％、電力・ガスが-10.6％、輸送用機器が-10.3％と下落し、指数を押し下げました。建設・資材は+0.3％とほぼ横ばいで、復興需要への期待が下支えしましたが、全体の下落を止めるには至りませんでした。"},
    {when:"2011年3月18日頃",head:"G7が円売り協調介入、日銀も大量の資金供給",body:"急激な円高に対し、G7が約10年ぶりの協調介入を実施。",whenEn:"Around Mar 18, 2011",headEn:"G7 launches coordinated yen-selling intervention; BOJ injects massive liquidity",bodyEn:"The G7 intervenes jointly for the first time in about a decade against the sharp yen surge.",move:0.09,nextIndex:9554,explain:"G7の協調介入や日銀の資金供給といった政策対応と、復興需要への期待から約9％反発しました。政策が市場の不安を和らげた局面です。",breakdown:"業種別ETFの実績（3/14→3/15）では、電力・ガスが-15.7％と一段と下落し、建設・資材も-9.7％と市場全体のパニック売りに巻き込まれました。輸送用機器も-8.2％、金融（除く銀行）も-5.7％と続落しています。その後、G7の協調介入や日銀の資金供給といった政策対応と復興期待から、市場は反発に転じていきます。"},
-   {when:"2011年4月以降",head:"復興の進展と、サプライチェーンの回復",body:"部品供給網の復旧が進み、生産を再開する企業が増えている。",whenEn:"From April 2011",headEn:"Reconstruction progresses; supply chains recover",bodyEn:"Parts supply networks are being restored, and more companies are resuming production.",move:0.06,nextIndex:10127,explain:"部品供給網の復旧と生産再開が進み、緩やかな回復が続いて約6％上昇。東日本大地震直後の水準をほぼ取り戻す局面となりました。",breakdown:"業種別ETFの実績（3/15→3/25）では、建設・資材が+14.5％と大きく反発し、期間全体で+3.7％とプラスに転換しました。パニック時の下落のあとに復興需要が本格化した流れです。輸送用機器も+8.0％、金融（除く銀行）も+7.0％と反発し、電力・ガスも+5.2％と一部買い戻されましたが、期間全体では-20.7％と回復の遅さが残りました。"}
+   {when:"2011年4月以降",head:"復興の進展と、サプライチェーンの回復",body:"部品供給網の復旧が進み、生産を再開する企業が増えている。",whenEn:"From April 2011",headEn:"Reconstruction progresses; supply chains recover",bodyEn:"Parts supply networks are being restored, and more companies are resuming production.",move:0.06,nextIndex:10127,explain:"部品供給網の復旧と生産再開が進み、緩やかな回復が続いて約6％上昇。東日本大震災直後の水準をほぼ取り戻す局面となりました。",breakdown:"業種別ETFの実績（3/15→3/25）では、建設・資材が+14.5％と大きく反発し、期間全体で+3.7％とプラスに転換しました。パニック時の下落のあとに復興需要が本格化した流れです。輸送用機器も+8.0％、金融（除く銀行）も+7.0％と反発し、電力・ガスも+5.2％と一部買い戻されましたが、期間全体では-20.7％と回復の遅さが残りました。"}
   ]},
  {id:"greece",icon:"🇬🇷",title:"ギリシャ債務危機・GREXITリスク",wikiJa:"https://ja.wikipedia.org/wiki/2010年欧州ソブリン危機",wikiEn:"https://en.wikipedia.org/wiki/Greek_government-debt_crisis",date:"2009〜2015年 — 欧州債務危機",diff:"難易度：中〜上",startLabel:"2010年4月22日",startIndex:2898,indexName:"ユーロ・ストックス50",
   intro:"財政粉飾が発覚。",dateEn:"2009–2015 — European debt crisis",diffEn:"Difficulty: Medium–Hard",introEn:"Cooked books come to light.",
@@ -1353,7 +1353,7 @@ var SCENARIOS=[
   discuss:[
    "一国の財政問題が、なぜ他国の銀行や株式市場にまで波及したのでしょうか？「次に破綻するのはどの国か」という市場の心理は、価格にどう影響したと思いますか？",
    "政治イベントの前に、ポジションを縮小してリスクを減らすべきでしたか、それとも賭けに出るべきでしたか？チームの判断を振り返ってください。",
-   "パニック時にも、生活必需品のように需要が安定して下げが小さい業種がありました。東日本大地震やリーマンのときと比べて、守りの効き方はどう違いましたか？"
+   "パニック時にも、生活必需品のように需要が安定して下げが小さい業種がありました。東日本大震災やリーマンのときと比べて、守りの効き方はどう違いましたか？"
   ],
   explainer:"支援合意でも不安は再燃し、銀行・金融は大幅安、自動車・製造業も下落しました。生活必需品は下げが比較的小さめでした。建設・インフラは緊縮による公共投資の削減で大きく下げ、小売・流通も消費の冷え込みで下落しました。",
   rounds:[
@@ -1442,7 +1442,7 @@ var INDUSTRY_MOVES={
  quake:[
   {moves:[-0.13,-0.06,0.07],notes:["TOPIX-17『金融（除く銀行）』の実績は判断日3/10→3/14で-13.1％でした。市場全体の不安で保険を含む金融株が売られ、指数を押し下げました（ゲーム用に-13％へ丸め）。","3/14→3/15の実績は-5.7％と続落しました。原発事故の深刻化で市場全体のパニックが続いた区間です（-6％へ丸め）。","3/15→3/25の実績は+7.0％と反発しました。G7の協調介入や日銀の資金供給で不安が和らぎ、買い戻しが入りました（+7％へ丸め）。"]},
   {moves:[-0.10,-0.08,0.08],notes:["TOPIX-17『輸送用機器』の実績は判断日3/10→3/14で-10.3％でした。部品工場の被災とサプライチェーン寸断への懸念が重しになりました（ゲーム用に-10％へ丸め）。","3/14→3/15の実績も-8.2％と続落しました。原発事故の深刻化と計画停電で、生産停止が長引くとの見方が強まりました。","3/15→3/25の実績は+8.0％と反発しました。G7の協調介入や供給網復旧の進展で買い戻しが入りましたが、期間全体では-11.0％とマイナス圏にとどまりました。"]},
-  {moves:[-0.05,-0.04,0.03],notes:["食品や日用品は東日本大地震の後も毎日の需要が続くため、市場全体より下げは小さかったという方向性の学習用の概数です（対応する検証済み業種別指数がないため概数）。買いだめや物流の混乱はあったものの、需要そのものは安定していました。","物流の混乱が続く中でも需要の安定さが意識され、下げは小幅にとどまったという学習用の概数です。","供給網の復旧とともに緩やかに買い戻されたという学習用の概数です。期間を通して、他の2業種より値動きが小さかった点が生活必需品の特徴です。"]},
+  {moves:[-0.05,-0.04,0.03],notes:["食品や日用品は東日本大震災の後も毎日の需要が続くため、市場全体より下げは小さかったという方向性の学習用の概数です（対応する検証済み業種別指数がないため概数）。買いだめや物流の混乱はあったものの、需要そのものは安定していました。","物流の混乱が続く中でも需要の安定さが意識され、下げは小幅にとどまったという学習用の概数です。","供給網の復旧とともに緩やかに買い戻されたという学習用の概数です。期間を通して、他の2業種より値動きが小さかった点が生活必需品の特徴です。"]},
   {moves:[0,-0.10,0.15],notes:["TOPIX-17『建設・資材』の実績は判断日3/10→3/14で+0.3％とほぼ横ばいでした。復興需要への期待が下支えしました（ゲーム用に±0％へ丸め）。","3/14→3/15の実績は-9.7％と、市場全体のパニック売りに巻き込まれて下落しました（-10％へ丸め）。","3/15→3/25の実績は+14.5％と大きく反発し、期間全体では+3.7％とプラスに転換しました。復興需要が本格化した流れです（+15％へ丸め）。"]},
   {moves:[-0.08,-0.05,0.05],notes:["店舗の被災や物流の寸断、買い控えへの懸念で売られたという方向性の学習用の概数です（対応する検証済み業種別指数がないため概数）。食品スーパーなど生活に近い小売は底堅い一方、被災地の店舗や百貨店が重しになりました。","計画停電や物流の混乱が続く中でも下げは続きましたが、生活に近い小売の需要の底堅さも意識され、下げは中くらいにとどまったという学習用の概数です。","物流と供給網の復旧とともに買い戻されたという学習用の概数です。期間を通して、生活必需品よりは大きく下げた点が小売・流通の特徴です。"]}
  ],
@@ -1469,7 +1469,7 @@ try{ var _savedLang=localStorage.getItem(LANG_KEY); if(_savedLang==="en"||_saved
 function T(ja,en){ return LANG==="en"? en : ja; }
 function setLang(l){ LANG=(l==="en")? "en":"ja"; try{ localStorage.setItem(LANG_KEY,LANG); }catch(e){} if(typeof applyLang==="function") applyLang(); }
 function wikiUrl(s){ return LANG==="en"? (s.wikiEn||s.wikiJa||"") : (s.wikiJa||s.wikiEn||""); }
-var REASON_LABELS={risk:["リスク回避を優先","Safety first"],rebound:["反発・回復に期待","Expecting a rebound"],watch:["情報不足なので様子見に近い判断","Not enough info — wait and see"],strong:["割安と見て強気","Looks undervalued — bullish"],balance:["バランス重視","Balanced"]};
+var REASON_LABELS={risk:["リスク回避","Safety first"],rebound:["反発に期待","Expecting a rebound"],watch:["様子見","Wait and see"],strong:["強気","Bullish"],balance:["バランス","Balanced"]};
 function reasonLabel(k){ var r=REASON_LABELS[k]; return r? r[LANG==="en"?1:0] : T("未選択","None"); }
 /* Short reason labels, exactly as shown on the order form's reason buttons (③ 詳細).
    Used by the decision log so a choice reads back the way it was picked. */
@@ -1481,7 +1481,7 @@ function drawdownText(l){ if(!l||l.maxDrawdown==null) return "—"; if(l.maxDraw
 function decisionLine(l){
   var dirTxt=l.dir==="buy"? T("買う","Buy") : l.dir==="pass"? T("見送る","Pass") : T("売る","Sell");
   var amtTxt=l.dir==="pass"? "" : " "+yen(l.amount);
-  return "R"+l.round+" "+dirTxt+amtTxt+"｜"+T("根拠","Reason")+"："+reasonShortLabel(l.reason)+"｜"+T("最大許容下落率","Max tolerable drop")+"："+drawdownText(l);
+  return "R"+l.round+" "+dirTxt+amtTxt+T("｜"," | ")+T("根拠","Reason")+T("：",": ")+reasonShortLabel(l.reason)+T("｜"," | ")+T("最大許容下落率","Max tolerable drop")+T("：",": ")+drawdownText(l);
 }
 function decisionLogHTML(entries){
   if(!entries||!entries.length) return '<p class="note" style="margin:0">'+T("記録なし","No records")+'</p>';
@@ -1604,7 +1604,7 @@ function splitStart(total,price){
   var stockYen=Math.floor(total/2);
   return {cash:total-stockYen, stockYen:stockYen, shares:startSharesFor(stockYen,price)};
 }
-function fmtShares(n){ if(!n) return "0"; return n.toLocaleString("ja-JP",{minimumFractionDigits:0,maximumFractionDigits:4}); }
+function fmtShares(n){ if(!n) return "0"; var r=Math.round(n*10000)/10000; return r.toLocaleString("ja-JP",{minimumFractionDigits:4,maximumFractionDigits:4}); }
 /* Hint-only material for the industry-select screen: business / exposure / what to watch. No direction, arrows or rates. */
 var INDUSTRY_HINTS={
  tutorial:[
@@ -1740,14 +1740,14 @@ function renderResumePanel(){
   else if(d.phase==="result"&&s) phaseTxt="『"+sTitle+"』"+T("結果","Result");
   else phaseTxt=T("ホーム（完了 ","Home (done ")+doneCount+" / 3"+T("）",")");
   var html=""
-   +"<div>"+T("チーム","Team")+"：<b>"+(d.teamName? escapeHtml(d.teamName):T("未入力","No name"))+"</b> ／ <b>"+phaseTxt+"</b>"+(indName?" ／ <b>"+indName+"</b>":"")+"</div>"
+   +"<div>"+T("チーム","Team")+T("：",": ")+"<b>"+(d.teamName? escapeHtml(d.teamName):T("未入力","No name"))+"</b> ／ <b>"+phaseTxt+"</b>"+(indName?" ／ <b>"+indName+"</b>":"")+"</div>"
    +"<div>"+T("現金","Cash")+" <b>"+yen(d.portfolio.cash)+"</b> ／ "+T("総資産","Total")+" <b>"+yen(tot)+"</b> ／ "+T("完了","Done")+" <b>"+doneCount+" / 3</b> ／ "+T("保存","Saved")+" <b>"+fmtSavedAt(d.savedAt)+"</b></div>";
   document.getElementById("resumeSummary").innerHTML=html;
   var logEl=document.getElementById("resumeLog");
   if(d.allLog&&d.allLog.length){
     var tail=d.allLog.slice(-3);
     logEl.innerHTML="<b style='color:var(--ink)'>"+T("直近の売買","Recent trades")+"</b>"+tail.map(function(l){
-      return "<div>"+logScenarioName(l)+" R"+l.round+"："+(l.dir==="buy"?T("買う","Buy"):l.dir==="pass"?T("見送る","Pass"):T("売る","Sell"))+(l.dir==="pass"?"":" "+yen(l.amount))+" ／ "+T("根拠","Reason")+"："+reasonShortLabel(l.reason)+" ／ "+T("最大許容下落率","Max tolerable drop")+"："+drawdownText(l)+" ／ "+T("総資産","Total")+" "+yen(l.after)+"</div>";
+      return "<div>"+logScenarioName(l)+" R"+l.round+T("：",": ")+(l.dir==="buy"?T("買う","Buy"):l.dir==="pass"?T("見送る","Pass"):T("売る","Sell"))+(l.dir==="pass"?"":" "+yen(l.amount))+" ／ "+T("根拠","Reason")+T("：",": ")+reasonShortLabel(l.reason)+" ／ "+T("最大許容下落率","Max tolerable drop")+T("：",": ")+drawdownText(l)+" ／ "+T("総資産","Total")+" "+yen(l.after)+"</div>";
     }).join("");
     logEl.style.display="block";
   } else {
@@ -1783,7 +1783,7 @@ function restoreLockedReveal(){
   var totalBefore=totalBeforeR, totalAfter=totalAfterR, gain=totalAfterR-totalBeforeR, startR=Math.round(state.scenStartTotal), imv=entry.move;
   var rev=document.getElementById("reveal");
   rev.className="reveal show "+(imv<0?"bad":"good");
-  rev.innerHTML='<div style="font-size:12px;font-weight:800;letter-spacing:.06em">'+T("約定明細（復元）","Trade details (restored)")+'</div><b style="font-size:17px">'+(entry.dir==="buy"?T("🟩 買付","🟩 Bought"):entry.dir==="pass"?T("⏸ 見送り","⏸ Passed"):T("🟥 売却","🟥 Sold"))+(entry.dir==="pass"?"":' '+yen(entry.amount))+' → 『'+curIndustryName()+'』 '+moveLabel(imv)+'</b><p style="margin:6px 0"><b>'+T("理由","Reason")+'：</b>'+(LANG==="en"? shortReasonEN(entry.round-1):shortReason(entry.round-1))+'</p><p style="margin:0">'+T("総資産","Total")+'：'+yen(totalBefore)+' → <b>'+yen(totalAfter)+'</b>（'+yenSigned(gain)+'）</p>';
+  rev.innerHTML='<div style="font-size:12px;font-weight:800;letter-spacing:.06em">'+T("約定明細（復元）","Trade details (restored)")+'</div><b style="font-size:17px">'+(entry.dir==="buy"?T("🟩 買付","🟩 Bought"):entry.dir==="pass"?T("⏸ 見送り","⏸ Pass"):T("🟥 売却","🟥 Sold"))+(entry.dir==="pass"?"":' '+yen(entry.amount))+' → 『'+curIndustryName()+'』 '+moveLabel(imv)+'</b><p style="margin:6px 0"><b>'+T("値動きの理由","Why it moved")+T("：",": ")+'</b>'+(LANG==="en"? shortReasonEN(entry.round-1):shortReason(entry.round-1))+'</p><p style="margin:0">'+T("総資産","Total")+T("：",": ")+yen(totalBefore)+' → <b>'+yen(totalAfter)+'</b>（'+yenSigned(gain)+'）</p>';
   document.getElementById("decideBtn").style.display="none";
   var nb=document.getElementById("nextBtn"); nb.style.display="block"; nb.textContent=state.round===2?T("結果を見る →","See results →"):T("次のラウンドへ →","Next round →");
   scrollToNextBtn();
@@ -1830,8 +1830,8 @@ var INDUSTRY_REASONS={
   ["人気商品の話題で売上が伸びるとみられ、上がりました。","仕入れ値の上昇で利益が減ると心配され、下がりました。","生産の回復で商品がそろい、買い戻されました。"]
  ],
  quake:[
-  ["市場全体の不安で金融株が売られ、大きく下落しました。","原発事故の深刻化で市場全体のパニックが続き、続落しました。","G7の協調介入や日銀の資金供給で不安が和らぎ、反発しました。"],
-  ["部品工場の被災とサプライチェーン寸断への懸念で売られました。","原発事故の深刻化と計画停電で、生産停止が長引くとの見方が強まりました。","供給網の復旧進展とG7の協調介入で、買い戻しが入りました。"],
+  ["市場全体の不安で金融株が売られ、大きく下落しました。","原発事故の深刻化で市場全体のパニックが続き、続落しました。","復興の進展とサプライチェーンの回復で、買い戻しが入りました。"],
+  ["部品工場の被災とサプライチェーン寸断への懸念で売られました。","原発事故の深刻化と計画停電で、生産停止が長引くとの見方が強まりました。","部品供給網の復旧と生産再開が進み、買い戻しが入りました。"],
   ["毎日の需要が続くため、市場全体より下げは小さめでした。","需要の安定さが意識され、下げは小幅にとどまりました。","供給網の復旧とともに、緩やかに買い戻されました。"],
   ["復興需要への期待が下支えし、ほぼ横ばいでした。","市場全体のパニック売りに巻き込まれ、下落しました。","復興需要が本格化し、大きく反発しました。"],
   ["店舗の被災や物流の寸断、買い控えへの懸念で売られました。","計画停電や物流の混乱が続き、下げが続きました。","物流と供給網の復旧とともに、買い戻されました。"]
@@ -1862,8 +1862,8 @@ var INDUSTRY_REASONS_EN={
   ["Hit-product buzz lifted expected sales; it rose.","Higher wholesale costs raised profit worries; it fell.","Restocked shelves after production recovered; it was bought back."]
  ],
  quake:[
-  ["Market-wide anxiety hit financials hard; they fell sharply.","Panic continued as the nuclear accident worsened; they fell further.","G7 coordinated intervention and BOJ liquidity eased fears; they rebounded."],
-  ["Damaged parts plants and supply-chain fears triggered selling.","The worsening nuclear accident and planned blackouts raised fears of longer shutdowns.","Supply-chain recovery and G7 intervention brought buybacks."],
+  ["Market-wide anxiety hit financials hard; they fell sharply.","Panic continued as the nuclear accident worsened; they fell further.","Reconstruction progress and supply-chain recovery brought buybacks."],
+  ["Damaged parts plants and supply-chain fears triggered selling.","The worsening nuclear accident and planned blackouts raised fears of longer shutdowns.","Parts supply networks recovered and production resumed, bringing buybacks."],
   ["Daily demand continued, so the fall was smaller than the market's.","Stable demand was recognized; the fall stayed small.","It was bought back gradually as supply chains recovered."],
   ["Reconstruction hopes supported it; it was roughly flat.","It was caught in the market-wide panic selling and fell.","Reconstruction demand kicked in and it rebounded sharply."],
   ["Damaged stores, broken logistics and spending fears triggered selling.","Planned blackouts and logistics chaos continued; it kept falling.","It was bought back as logistics and supply chains recovered."]
@@ -1927,7 +1927,7 @@ function usd(yenAmt){return fmtUsdCents(usdCents(yenAmt))}
 function usdSigned(yenAmt){return fmtUsdCentsSigned(usdCents(yenAmt))}
 var MONTHS_EN=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 function fmtDateJP(d){var dt=(d instanceof Date)?d:new Date(d);if(LANG==="en")return MONTHS_EN[dt.getMonth()]+" "+dt.getDate()+", "+dt.getFullYear();return dt.getFullYear()+"年"+(dt.getMonth()+1)+"月"+dt.getDate()+"日"}
-function fmtDateMD(d){var dt=(d instanceof Date)?d:new Date(d);if(LANG==="en")return MONTHS_EN[dt.getMonth()]+" "+dt.getDate();return (dt.getMonth()+1)+"月"+dt.getDate()+"日"}
+function fmtDateMD(d){var dt=(d instanceof Date)?d:new Date(d);if(LANG==="en")return MONTHS_EN[dt.getMonth()]+" "+dt.getDate()+", "+dt.getFullYear();return dt.getFullYear()+"年"+(dt.getMonth()+1)+"月"+dt.getDate()+"日"}
 /* Calendar dates of the 4 disclosed price points (scenario start + after R1/R2/R3) per scenario, used for the chart drag readout */
 var PRICE_DATES={
  tutorial:["2026-01-05","2026-01-06","2026-01-07","2026-01-08"],
@@ -1956,21 +1956,22 @@ function unrealized(price){ if(!(portfolio.shares>0)||portfolio.avgCost==null) r
 function show(id){document.querySelectorAll(".view").forEach(function(v){v.classList.remove("active")});document.getElementById(id).classList.add("active");window.scrollTo(0,0); if(typeof updateAssetBar==="function") updateAssetBar();}
 function holdingsHTML(price){
   var dt=dispTotals(price), sv=dt.stock, tot=dt.total;
+  var cashLab=state.isTutorial? T("現金（練習用）","Cash (practice)") : ((Object.keys(state.results).length>0||state.carryYen!=null)? T("現金（引き継ぎ）","Cash (carried over)") : T("現金","Cash"));
   /* Total dollars = direct truncation conversion of the total yen amount — the same rule as every other screen */
   var totUsd=usd(tot);
   var shareTxt=portfolio.shares? fmtShares(portfolio.shares)+T("株"," shares") : T("0株","0 shares");
   var sub='';
   var ap=activeScenPnl(tot);
   if(ap){
-    sub='<div style="font-size:13px" class="'+(ap.diff>0?"pnl up":ap.diff<0?"pnl down":"")+'">'+T("損益","P&L")+'：<span style="white-space:nowrap">'+yenSigned(ap.diff)+'（'+usdSigned(ap.diff)+'）</span>／ '+pct(ap.rate)+'</div>';
+    sub='<div style="font-size:13px" class="'+(ap.diff>0?"pnl up":ap.diff<0?"pnl down":"")+'">'+T("損益","P&L")+T("：",": ")+'<span style="white-space:nowrap">'+yenSigned(ap.diff)+'（'+usdSigned(ap.diff)+'）</span>／ '+pct(ap.rate)+'</div>';
   } else if(!state.isTutorial){
     var cs=cumulativeStats();
     if(cs){
-      sub='<div style="font-size:13px" class="'+(cs.pnl>0?"pnl up":cs.pnl<0?"pnl down":"")+'">'+T("通算損益（完了分合計）","Cumulative P&L (completed scenarios)")+'：<span style="white-space:nowrap">'+yenSigned(cs.pnl)+'（'+usdSigned(cs.pnl)+'）</span>／ '+pct(cs.ret)+'</div>';
+      sub='<div style="font-size:13px" class="'+(cs.pnl>0?"pnl up":cs.pnl<0?"pnl down":"")+'">'+T("通算損益（完了分合計）","Cumulative P&L (completed scenarios)")+T("：",": ")+'<span style="white-space:nowrap">'+yenSigned(cs.pnl)+'（'+usdSigned(cs.pnl)+'）</span>／ '+pct(cs.ret)+'</div>';
     }
   }
   return '<div style="font-size:12px;color:#aeb8ae;font-weight:700;letter-spacing:.06em">'+T("保有状況","Portfolio")+'</div><div class="grid3h" style="margin-top:8px">'
-   +'<div><small>'+T("現金（引き継ぎ）","Cash (carried over)")+'</small><div class="v">'+yen(dt.cash)+'</div><div class="usdsub">'+usd(dt.cash)+'</div></div>'
+   +'<div><small>'+cashLab+'</small><div class="v">'+yen(dt.cash)+'</div><div class="usdsub">'+usd(dt.cash)+'</div></div>'
    +'<div><small>'+T("保有株式 ","Shares held ")+shareTxt+'</small><div class="v">'+yen(sv)+'</div><div class="usdsub">'+usd(sv)+'</div></div>'
    +'<div class="total"><small>'+T("総資産","Total assets")+'</small><div class="v">'+yen(tot)+'</div><div class="usdsub" style="color:#ffd166;font-size:13px">'+totUsd+'</div>'+sub+'</div></div>'
    + costRowHTML(price);
@@ -2068,8 +2069,7 @@ function renderScenarios(){
     var unlocked=!done;
     var b=document.createElement("button");b.className="card scenario"+(done?" doneState":"");
     var foot, cta;
-    if(done){ foot='<span class="badge done">✓ '+T("完了","Done")+' ／ '+yenSigned(done.scenPnl)+'</span>'; cta=T("✓ 終了","✓ Done"); }
-    else if(idx===curIdx){ foot='<span class="badge current">'+T("▶ 次はこれ","▶ Up next")+'</span>'; cta=T("▶ 始める","▶ Start"); }
+    if(done){ foot='<span class="badge done">✓ '+T("完了","Done")+' ／ '+yenSigned(done.scenPnl)+'</span>'; cta=""; }
     else { foot='<span class="badge">'+T("選択可能","Available")+'</span>'; cta=T("▶ 始める","▶ Start"); }
     var cardTitle=(LANG==="en")? (SCENARIO_EN[s.id]||s.title) : s.title.replace("GREXITリスク","<span style=\"white-space:nowrap\">GREXITリスク</span>");
     b.innerHTML='<div class="date">STEP '+(idx+1)+' — '+T(s.date, s.dateEn||s.date)+'</div><h3>'+s.icon+" "+cardTitle+'</h3><span class="diff">'+T(s.diff, s.diffEn||s.diff)+'</span><div style="font-size:13px;font-weight:700;margin-top:10px;color:var(--accent)">'+cta+'</div><div class="cardfoot">'+foot+'</div>';
@@ -2079,13 +2079,8 @@ function renderScenarios(){
     wrap.appendChild(b);
     if(s.wikiJa||s.wikiEn){
       var a=document.createElement("a");a.className="wikilink";a.href=wikiUrl(s);a.target="_blank";a.rel="noopener noreferrer";
-      if(s.id==="greece"){
-        a.textContent=T("ギリシャ危機を学ぶ（Wikipedia） ↗","Learn about the Greek crisis (Wikipedia) ↗");
-        a.setAttribute("aria-label",T("ギリシャ危機について学ぶ記事（Wikipedia、新しいタブで開く）","Article about the Greek crisis (Wikipedia, opens in a new tab)"));
-      } else {
-        a.textContent=T("Wikipediaで読む ↗","Read on Wikipedia ↗");
-        a.setAttribute("aria-label",T(s.title+"をWikipediaで読む（新しいタブで開く）","Read about "+(SCENARIO_EN[s.id]||s.title)+" on Wikipedia (opens in a new tab)"));
-      }
+      a.textContent=T("Wikipediaで読む ↗","Read on Wikipedia ↗");
+      a.setAttribute("aria-label",T(s.title+"をWikipediaで読む（新しいタブで開く）","Read about "+(SCENARIO_EN[s.id]||s.title)+" on Wikipedia (opens in a new tab)"));
       wrap.appendChild(a);
     }
     g.appendChild(wrap);
@@ -2285,11 +2280,11 @@ function updateGameUI(){
   updateAssetBar();
   renderPnlPanel();
   document.getElementById("gIndexNow").textContent=currentPrice().toLocaleString("ja-JP");
-  document.getElementById("gIndexLabel").textContent=curIndustry().s+" の株価（実績ベース）";
+  document.getElementById("gIndexLabel").textContent=(LANG==="en")? (industryName(state.industryIdx)+" price (actual data)") : (curIndustry().s+" の株価（実績ベース）");
   var c=caps();
   var buyBtn=document.getElementById("buyBtn"), sellBtn=document.getElementById("sellBtn"), passBtn=document.getElementById("passBtn");
-  document.getElementById("buyCapLabel").textContent=c.buy>=MINTRADE?(T("最大 ","Max ")+yen(c.buy)):T("買えません","Can't buy");
-  document.getElementById("sellCapLabel").textContent=c.sell>=MINTRADE?(T("最大 ","Max ")+yen(c.sell)):T("売れません","Can't sell");
+  document.getElementById("buyCapLabel").textContent=c.buy>=MINTRADE?(T("最大 ","Max ")+yen(c.buy)):T("買えません（現金が10万円未満）","Can't buy (cash under ¥100,000)");
+  document.getElementById("sellCapLabel").textContent=c.sell>=MINTRADE?(T("最大 ","Max ")+yen(c.sell)):T("売れません（保有株が10万円未満）","Can't sell (stock under ¥100,000)");
   document.getElementById("passCapLabel").textContent=T("売買しない","No trade");
   /* Pass is always available — even with no cash and no shares, a round can always be passed. */
   buyBtn.disabled=state.locked||state.confirming||c.buy<MINTRADE; sellBtn.disabled=state.locked||state.confirming||c.sell<MINTRADE; passBtn.disabled=state.locked||state.confirming;
@@ -2630,7 +2625,7 @@ function drawDashCharts(){
       var line="M"+X(0).toFixed(1)+","+Y(prices[0]).toFixed(1); for(var li=1;li<prices.length;li++) line+=" L"+X(li).toFixed(1)+","+Y(prices[li]).toFixed(1);
       mk(fanSvg,"path",{d:line,fill:"none",stroke:"#ffd166","stroke-width":2});
     }
-    prices.forEach(function(v,i){ mk(fanSvg,"circle",{cx:X(i).toFixed(1),cy:Y(v).toFixed(1),r:4.5,fill:"#ffd166",stroke:"#141414"}); var d=priceDate(state.current.id,i); mk(fanSvg,"text",{x:X(i).toFixed(1),y:174,fill:"#e8ede8","font-size":11.5,"font-weight":700,"text-anchor":"middle"},(i===0?"開始":"R"+i+"後")+(d?" "+fmtDateMD(d):"")); });
+    prices.forEach(function(v,i){ mk(fanSvg,"circle",{cx:X(i).toFixed(1),cy:Y(v).toFixed(1),r:4.5,fill:"#ffd166",stroke:"#141414"}); var d=priceDate(state.current.id,i); mk(fanSvg,"text",{x:X(i).toFixed(1),y:174,fill:"#e8ede8","font-size":11.5,"font-weight":700,"text-anchor":"middle"},(i===0? T("開始","Start") : (LANG==="en"? "After R"+i : "R"+i+"後"))+(d?" "+fmtDateMD(d):"")); });
         var fg=mk(fanSvg,"g",{id:"fanCross",style:"display:none","pointer-events":"none"});
     var fl=document.createElementNS(NS,"line"); fl.setAttribute("y1",top); fl.setAttribute("y2",bot); fl.setAttribute("stroke","#ffd166"); fl.setAttribute("stroke-dasharray","3 3"); fg.appendChild(fl);
     var ov2=mk(fanSvg,"rect",{x:0,y:0,width:plotW,height:bot,fill:"transparent",style:"cursor:crosshair;touch-action:none"});
@@ -2658,22 +2653,22 @@ function showFanCross(idx){
 function renderLog(){
   var box=document.getElementById("logBox");
   if(!state.allLog.length){box.innerHTML='<p class="note" style="margin:0">'+T("なし","None")+'</p>';return}
-  box.innerHTML=state.allLog.map(function(l,i){var ind=logIndustryName(l)||(state.current&&l.scenario===state.current.title?curIndustryName():null);return '<div style="padding:8px 0;border-bottom:1px solid var(--line)"><b>'+logScenarioName(l)+(ind?'（'+ind+'）':'')+' R'+l.round+'</b> '+(l.dir==="buy"?T("🟩 買い","🟩 Buy"):l.dir==="pass"?T("⏸ 見送り","⏸ Pass"):T("🟥 売り","🟥 Sell"))+(l.dir==="pass"?"":' '+yen(l.amount))+'（'+T("株価 ","Price ")+Math.round(l.price).toLocaleString()+'）→ '+T("選択した業界","Industry")+(ind?'『'+ind+'』':'')+' '+pct(l.move)+' ／ '+T("総資産","Total")+' <b class="num">'+yen(l.after)+'</b><br><span style="color:var(--muted);font-size:12px">'+T("根拠","Reason")+'：'+reasonShortLabel(l.reason)+'｜'+T("最大許容下落率","Max tolerable drop")+'：'+drawdownText(l)+'</span></div>'}).join("");
+  box.innerHTML=state.allLog.map(function(l,i){var ind=logIndustryName(l)||(state.current&&l.scenario===state.current.title?curIndustryName():null);return '<div style="padding:8px 0;border-bottom:1px solid var(--line)"><b>'+logScenarioName(l)+(ind?'（'+ind+'）':'')+' R'+l.round+'</b> '+(l.dir==="buy"?T("🟩 買い","🟩 Buy"):l.dir==="pass"?T("⏸ 見送り","⏸ Pass"):T("🟥 売り","🟥 Sell"))+(l.dir==="pass"?"":' '+yen(l.amount))+'（'+T("株価 ","Price ")+Math.round(l.price).toLocaleString()+'）→ '+T("選択した業界","Industry")+(ind?'『'+ind+'』':'')+' '+pct(l.move)+' ／ '+T("総資産","Total")+' <b class="num">'+yen(l.after)+'</b><br><span style="color:var(--muted);font-size:12px">'+T("根拠","Reason")+T("：",": ")+reasonShortLabel(l.reason)+T("｜"," | ")+T("最大許容下落率","Max tolerable drop")+T("：",": ")+drawdownText(l)+'</span></div>'}).join("");
 }
 function updateDetailSummary(){
   var el=document.getElementById("detailSummary"); if(!el) return;
   var rtxt=state.reason? reasonLabel(state.reason) : T("根拠","Reason");
-  var mtxt=state.maxDrawdown? T("下落率 ","Max drop ")+state.maxDrawdown+"%" : T("下落率 指定なし","No drop limit");
-  el.textContent="— "+rtxt+" ／ "+mtxt;
+  var mtxt=state.maxDrawdown? T("最大許容下落率 ","Max tolerable drop ")+state.maxDrawdown+"%" : T("最大許容下落率 指定なし","Max tolerable drop: no limit");
+  el.textContent="— "+rtxt+T(" ／ "," / ")+mtxt;
 }
-document.getElementById("buyBtn").onclick=function(){state.dir="buy";updateGameUI();saveGame("game")};
-document.getElementById("sellBtn").onclick=function(){state.dir="sell";updateGameUI();saveGame("game")};
+document.getElementById("buyBtn").onclick=function(){state.dir="buy";var c=caps();if(c.buy>=MINTRADE)state.amtMan=c.buy/10000;updateGameUI();saveGame("game")};
+document.getElementById("sellBtn").onclick=function(){state.dir="sell";var c=caps();if(c.sell>=MINTRADE)state.amtMan=c.sell/10000;updateGameUI();saveGame("game")};
 document.getElementById("passBtn").onclick=function(){state.dir="pass";updateGameUI();saveGame("game")};
 document.getElementById("maxDrawdown").addEventListener("change",function(e){state.maxDrawdown=e.target.value; updateDetailSummary(); saveGame("game");});
 document.getElementById("chartStartBtn").onclick=function(){ if(chartGeom&&chartGeom.candles.length) showCrosshair(80); };
 document.getElementById("chartLatestBtn").onclick=function(){ if(chartGeom&&chartGeom.candles.length) showCrosshair(chartGeom.candles.length-1); };
 document.getElementById("amt").addEventListener("input",function(e){state.amtMan=+e.target.value;updateGameUI();saveGame("game")});
-(function(){var q=document.getElementById("quickBtns");[10,20,30,40,50].forEach(function(v){var b=document.createElement("button");b.textContent=v+"万";b.dataset.v=v;b.onclick=function(){state.amtMan=v;updateGameUI();saveGame("game")};q.appendChild(b)})})();
+(function(){var q=document.getElementById("quickBtns");[10,20,30,40,50].forEach(function(v){var b=document.createElement("button");b.textContent=(LANG==="en")? ("¥"+(v*10)+"k") : (v+"万");b.dataset.v=v;b.onclick=function(){state.amtMan=v;updateGameUI();saveGame("game")};q.appendChild(b)})})();
 document.querySelectorAll("#reasons button").forEach(function(b){b.onclick=function(){state.reason=b.dataset.r;document.querySelectorAll("#reasons button").forEach(function(x){x.classList.remove("on")});b.classList.add("on");updateDetailSummary();updateGameUI();saveGame("game")}});
 document.getElementById("teamName").addEventListener("input",function(){saveGame()});
 /* Step 1: show confirmation with a frozen snapshot. Nothing is executed yet, and the trade can be cancelled. */
@@ -2774,8 +2769,8 @@ document.getElementById("confirmOrderBtn").onclick=function(){
   var rev=document.getElementById("reveal"); var gain=totalAfterR-totalBeforeR; var startR=Math.round(state.scenStartTotal);
   rev.className="reveal show "+(imv>0?"good":imv<0?"bad":"good");
   rev.innerHTML='<div style="font-size:12px;font-weight:800;letter-spacing:.06em">'+T("約定明細","Trade details")+'</div>'
-   +'<div class="kv" style="margin:8px 0"><span>'+T("売買","Trade")+'</span><b>'+(tr.dir==="buy"?T("🟩 買付","🟩 Bought"):tr.dir==="pass"?T("⏸ 見送り","⏸ Passed"):T("🟥 売却","🟥 Sold"))+(tr.dir==="pass"?"":' '+yen(amtYen))+'</b><span>'+T("株価","Price")+'</span><b class="num">'+Math.round(P).toLocaleString("ja-JP")+T("円","")+'</b><span>'+T("株数","Shares")+'</span><b class="num">'+(tr.dir==="pass"? T("—（売買なし）","— (no trade)") : T("約 ","About ")+fmtShares(tr.sharesDelta)+T(" 株"," shares"))+'</b><span>'+T("現金","Cash")+'</span><b class="num">'+yen(tr.cashBefore)+' → '+yen(executedCash)+'</b><span>'+T("保有株","Shares held")+'</span><b class="num">'+fmtShares(tr.sharesBefore)+T("株"," shares")+' → '+fmtShares(executedShares)+T("株"," shares")+'</b></div>'
-   +'<b style="font-size:17px">『'+curIndustryName()+'』 '+moveLabel(imv)+'（'+Math.round(P).toLocaleString()+' → '+Math.round(indNext).toLocaleString()+'）</b><p style="margin:6px 0"><b>'+T("理由","Reason")+'：</b>'+(LANG==="en"? shortReasonEN(state.round):shortReason(state.round))+'</p><p style="margin:0">'+T("総資産","Total")+'：'+yen(totalBeforeR)+' → <b>'+yen(totalAfterR)+'</b>（'+yenSigned(gain)+'）</p>';
+   +'<div class="kv" style="margin:8px 0"><span>'+T("売買","Trade")+'</span><b>'+(tr.dir==="buy"?T("🟩 買付","🟩 Bought"):tr.dir==="pass"?T("⏸ 見送り","⏸ Pass"):T("🟥 売却","🟥 Sold"))+(tr.dir==="pass"?"":' '+yen(amtYen))+'</b><span>'+T("株価","Price")+'</span><b class="num">'+Math.round(P).toLocaleString("ja-JP")+T("円","")+'</b><span>'+T("株数","Shares")+'</span><b class="num">'+(tr.dir==="pass"? T("—（売買なし）","— (no trade)") : T("約 ","About ")+fmtShares(tr.sharesDelta)+T(" 株"," shares"))+'</b><span>'+T("現金","Cash")+'</span><b class="num">'+yen(tr.cashBefore)+' → '+yen(executedCash)+'</b><span>'+T("保有株","Shares held")+'</span><b class="num">'+fmtShares(tr.sharesBefore)+T("株"," shares")+' → '+fmtShares(executedShares)+T("株"," shares")+'</b></div>'
+   +'<b style="font-size:17px">『'+curIndustryName()+'』 '+moveLabel(imv)+'（'+Math.round(P).toLocaleString()+' → '+Math.round(indNext).toLocaleString()+'）</b><p style="margin:6px 0"><b>'+T("値動きの理由","Why it moved")+T("：",": ")+'</b>'+(LANG==="en"? shortReasonEN(state.round):shortReason(state.round))+'</p><p style="margin:0">'+T("総資産","Total")+T("：",": ")+yen(totalBeforeR)+' → <b>'+yen(totalAfterR)+'</b>（'+yenSigned(gain)+'）</p>';
   document.getElementById("decideBtn").style.display="none";
   var nb=document.getElementById("nextBtn");nb.style.display="block";nb.textContent=state.round===2?T("結果を見る →","See results →"):T("次のラウンドへ →","Next round →");
   scrollToNextBtn();
@@ -2823,7 +2818,7 @@ function finishGame(){
   var bw=(state.industryIdx!=null&&state.scenStartCash!=null)? bestWorstFor(s,state.industryIdx,state.scenStartCash,state.scenStartShares) : {best:totNow,worst:totNow};
   var maxV=Math.max(totNow,bench,bw.best,bw.worst);
   document.getElementById("bars").innerHTML=compareBarHTML(T("あなた","You"),totNow,maxV,"")+compareBarHTML(T("持ち続けた場合","Buy & hold"),bench,maxV,"cash")+compareBarHTML(T("ベストな売買をした場合","Best possible trades"),bw.best,maxV,"best")+compareBarHTML(T("ワーストな売買をした場合","Worst possible trades"),bw.worst,maxV,"worst");
-  document.getElementById("rComment").innerHTML=totNow>=bench? T("持ち続けた場合を上回りました。","You beat simply holding.") : T("持ち続けた場合を下回りました。","You trailed simply holding.");
+  document.getElementById("rComment").innerHTML=totNow>Math.round(bench)? T("持ち続けた場合を上回りました。","You beat buy & hold.") : totNow===Math.round(bench)? T("持ち続けた場合と同じでした。","You matched buy & hold.") : T("持ち続けた場合を下回りました。","You trailed buy & hold.");
   document.getElementById("rDecisionLog").innerHTML=decisionLogHTML(state.scenLog);
   var indStart=state.prices[0], indEnd=endPrice, indCum=indStart? indEnd/indStart-1:0, mktCumAll=s.rounds.reduce(function(a,r){return a*(1+r.move)},1)-1;
   document.getElementById("rIndustry").innerHTML='<div class="card" style="margin:0"><div style="font-size:19px;font-weight:800">★ '+curIndustryName()+'</div><div class="kv" style="margin-top:8px"><span>'+T("株価","Price")+'：'+T("開始","Start")+' → '+T("終了","End")+'</span><b class="num">'+Math.round(indStart).toLocaleString("ja-JP")+' → '+Math.round(indEnd).toLocaleString("ja-JP")+'</b><span>'+T("累計変動","Total change")+'</span><b class="num">'+pct(indCum)+'</b></div></div>';
@@ -3025,7 +3020,8 @@ function applyLang(){
   var lb=document.getElementById("langBtn"); if(lb) lb.textContent=(LANG==="ja")? "🌐 EN" : "🌐 日本語";
   document.querySelectorAll("[data-ja]").forEach(function(el){ var v=(LANG==="en")? el.getAttribute("data-en") : el.getAttribute("data-ja"); if(v!=null) el.textContent=v; });
   var tn=document.getElementById("teamName"); if(tn) tn.placeholder=T("例：チーム・バフェット","e.g. Team Buffett");
-  var fl=document.getElementById("flowLine"); if(fl) fl.textContent=T("①東日本大地震 → ②ギリシャ危機 → ③リーマンショック","① Great East Japan Earthquake → ② Greek Debt Crisis → ③ Lehman Shock");
+  document.querySelectorAll("#quickBtns button").forEach(function(b){ var v=+b.dataset.v; b.textContent=(LANG==="en")? ("¥"+(v*10)+"k") : (v+"万"); });
+  var fl=document.getElementById("flowLine"); if(fl) fl.textContent=T("①東日本大震災 → ②ギリシャ危機 → ③リーマンショック","① Great East Japan Earthquake → ② Greek Debt Crisis → ③ Lehman Shock");
   renderScenarios(); renderTutorialStatus(); renderResumePanel(); updateSaveStatus();
   var active=document.querySelector(".view.active");
   if(active&&active.id==="view-industry"&&state.current){ renderIndustrySelect(); restoreIndustrySelection(); }
