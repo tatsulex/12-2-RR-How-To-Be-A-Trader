@@ -417,18 +417,34 @@
 /* Pure game logic for the demo scenarios (no DOM access) — also used by offline verification. */
 var GAME_CORE = (function () {
   var START_TOTAL = 1000000;
-  var BASE_PRICE = 1000;
   var UNIT = 100000;
   var MAX_TRADE = 500000;
   var FX_RATE = 160;
   var SAVE_KEY = "timeslip-invest-save-demo";
 
+  /* NVIDIA (NASDAQ: NVDA) daily closing prices (USD), Oct-Nov 2026.
+     Source: stockanalysis.com NVDA historical data, fetched 2026-11-28.
+     Yen price = floor(USD close x 160), matching the in-game rate. */
+  var NVDA_USD = [
+    ["2026-10-01",230.86],["2026-10-02",233.95],["2026-10-05",238.90],["2026-10-06",239.24],["2026-10-07",237.47],
+    ["2026-10-08",230.48],["2026-10-09",229.28],["2026-10-12",226.32],["2026-10-13",228.52],["2026-10-14",221.30],
+    ["2026-10-15",217.23],["2026-10-16",214.13],["2026-10-19",217.09],["2026-10-20",216.47],["2026-10-21",221.97],
+    ["2026-10-22",212.21],["2026-10-23",210.96],["2026-10-26",216.00],["2026-10-27",217.94],["2026-10-28",215.38],
+    ["2026-10-29",213.66],["2026-10-30",204.64],["2026-11-02",202.06],["2026-11-03",206.69],["2026-11-04",200.13],
+    ["2026-11-05",181.60],["2026-11-06",186.64],["2026-11-09",178.67],["2026-11-10",168.89],["2026-11-11",173.73],
+    ["2026-11-12",166.19],["2026-11-13",162.85],["2026-11-16",156.14],["2026-11-17",155.46],["2026-11-18",150.96],
+    ["2026-11-19",145.98],["2026-11-20",125.53],["2026-11-23",165.05],["2026-11-24",155.38],["2026-11-25",149.30],
+    ["2026-11-27",150.49]
+  ];
+  var NVDA_SERIES = NVDA_USD.map(function (d) { return { date: d[0], usd: d[1], jpy: Math.floor(d[1] * FX_RATE) }; });
+  var START_IDX = 27;              /* scenario starts at the 2026-11-09 close */
+  var ROUND_ENDS = [31, 36, 40];   /* R1: 11-13, R2: 11-20, R3: 11-27 */
+  var ROUND_PRICES = [NVDA_SERIES[START_IDX].jpy, NVDA_SERIES[ROUND_ENDS[0]].jpy, NVDA_SERIES[ROUND_ENDS[1]].jpy, NVDA_SERIES[ROUND_ENDS[2]].jpy];
+  var BASE_PRICE = ROUND_PRICES[0];
+
+  /* The demo trades a single stock (Company N, priced from NVDA closes); kept for save-shape compatibility. */
   var SECTORS = [
-    { id: "bank",         ja: "銀行・金融",     en: "Banks & Financial Services" },
-    { id: "auto",         ja: "自動車・製造業", en: "Autos & Manufacturing" },
-    { id: "staples",      ja: "生活必需品",     en: "Consumer Staples" },
-    { id: "construction", ja: "建設・インフラ", en: "Construction & Infrastructure" },
-    { id: "retail",       ja: "小売・流通",     en: "Retail & Distribution" }
+    { id: "nvda", ja: "某大手半導体設計企業N社", en: "Company N" }
   ];
 
   var SCENARIOS = [
@@ -437,40 +453,37 @@ var GAME_CORE = (function () {
       short: { ja: "某大手半導体設計企業N社 CEOスキャンダル", en: "Company N CEO Scandal" },
       title: { ja: "デモシナリオ：某大手半導体設計企業N社 CEOスキャンダル", en: "Demo Scenario: CEO Scandal at Company N" },
       note: {
-        ja: "某大手半導体設計企業N社を舞台にした、デモ用の架空シナリオです（値動きは簡略化した概数です）。実在の企業・人物とは関係ありません。",
-        en: "A fictional demo scenario set at Company N, a major semiconductor design firm (price moves are simplified approximations)."
-      },
-      rates: {
-        bank:         [-0.03,  0.01,  0.03],
-        auto:         [-0.14, -0.05,  0.10],
-        staples:      [-0.01,  0.00,  0.01],
-        construction: [-0.02,  0.01,  0.02],
-        retail:       [-0.04,  0.00,  0.04]
+        ja: "某大手半導体設計企業N社を舞台にした、デモ用の架空シナリオです。株価はNVIDIA（NVDA）の実際の終値（2026年10〜11月）を使っています。実在の企業・人物のスキャンダルとは関係ありません。",
+        en: "A fictional demo scenario set at Company N, a major semiconductor design firm. Prices are NVIDIA (NVDA) actual closing prices (Oct-Nov 2026). It is not about any real company's scandal."
       },
       news: [
         {
           headline: { ja: "某大手半導体設計企業N社のCEOにスキャンダルが発覚、株価が急落", en: "Scandal erupts around Company N's CEO; shares plunge" },
-          reason:   { ja: "某大手半導体設計企業N社の不祥事への嫌気で、半導体・製造業セクターが大きく売られ、市場全体にも不安が広がりました。", en: "Disgust at the scandal at Company N hammered the semiconductor and manufacturing sector, and unease spread across the market." }
+          reason:   { ja: "スキャンダルへの嫌気で売りが広がり、株価は下落しました。", en: "Selling spread on disgust at the scandal, and the share price fell." }
         },
         {
           headline: { ja: "某大手半導体設計企業N社のCEOが辞任を表明、後任人事に注目が集まる", en: "Company N's CEO resigns; focus shifts to the successor" },
-          reason:   { ja: "辞任でも先行きはなお不透明ですが、売りは一巡し、他の業種は落ち着きを取り戻しました。", en: "The outlook stayed murky, but selling ran its course and other sectors steadied." }
+          reason:   { ja: "辞任を受けても先行きへの不安は消えず、売りが続きました。", en: "Even after the resignation, anxiety about the outlook persisted and selling continued." }
         },
         {
           headline: { ja: "某大手半導体設計企業N社の新CEOが就任し、AI戦略の継続を表明、株価は反発", en: "Company N's new CEO pledges to stay the AI course; shares rebound" },
-          reason:   { ja: "新体制への安心感とAI戦略の継続が評価され、当該セクターに買い戻しが入りました。", en: "Relief at the new leadership and the unchanged AI strategy brought buyers back to the sector." }
+          reason:   { ja: "新体制とAI戦略の継続が評価され、株価は大きく反発しました。", en: "The new leadership and the unchanged AI strategy were well received, and the share price rebounded sharply." }
         }
       ]
     }
   ];
 
   function rateAt(scenIdx, sectorIdx, round) {
-    return SCENARIOS[scenIdx].rates[SECTORS[sectorIdx].id][round];
+    return ROUND_PRICES[round + 1] / ROUND_PRICES[round] - 1;
   }
   function priceAfter(scenIdx, sectorIdx, roundsDone) {
-    var p = BASE_PRICE;
-    for (var i = 0; i < roundsDone; i++) p *= (1 + rateAt(scenIdx, sectorIdx, i));
-    return p;
+    return ROUND_PRICES[roundsDone];
+  }
+  /* Last daily index the chart may show: history up to the scenario start,
+     then each round's segment is revealed as it is played. */
+  function visibleEndIndex(round, step) {
+    if (step === "executed") return ROUND_ENDS[round];
+    return round === 0 ? START_IDX : ROUND_ENDS[round - 1];
   }
   /* Split: stock side = floor(total/2) yen worth; cash keeps the rest. */
   function initialSplit(total) {
@@ -536,7 +549,9 @@ var GAME_CORE = (function () {
     rateAt: rateAt, priceAfter: priceAfter, initialSplit: initialSplit,
     maxBuyAmount: maxBuyAmount, maxSellAmount: maxSellAmount,
     applyTrade: applyTrade, simulate: simulate, buyAndHold: buyAndHold,
-    searchBestWorst: searchBestWorst, usd: usd
+    searchBestWorst: searchBestWorst, usd: usd,
+    NVDA_SERIES: NVDA_SERIES, START_IDX: START_IDX, ROUND_ENDS: ROUND_ENDS,
+    ROUND_PRICES: ROUND_PRICES, visibleEndIndex: visibleEndIndex
   };
 })();
 
@@ -570,7 +585,7 @@ var GAME_CORE = (function () {
       ja: "本番の操作感そのままに、話題のテーマで3ラウンドだけ遊べる体験版です。ニュースを読んで「買う／売る／見送る」を選ぶだけ。まずは気軽に、投資1年目の腕試しを。",
       en: "A short trial with the same feel as the full game: three rounds of news on hot market themes. Read the headline, then buy, sell, or pass. A quick taste of your first year of investing."
     },
-    how1: { ja: "業種を1つ選ぶと、資金の半分でその株を持った状態からスタートします。", en: "Pick one sector. You start holding that stock with half of your funds." },
+    how1: { ja: "デモでは某大手半導体設計企業N社の株を売買します（本番では5つの業種から選べます）。資金の半分でその株を持った状態からスタートします。", en: "In the demo you trade Company N shares (in the full game you pick one of five sectors). You start holding the stock with half of your funds." },
     how2: { ja: "各ラウンド、ニュースを見て「買う／売る／見送る」と金額を決めます。取引は値動きの前の価格で約定します。", en: "Each round, read the news and choose buy, sell, or pass, plus an amount. Trades fill at the pre-news price." },
     how3: { ja: "3ラウンド終わると株は自動で売却され、損益と総資産が出ます。持ち続けた場合との比較も見られます。", en: "After three rounds your stock is sold automatically and your P&L and total assets are shown, with a buy-and-hold comparison." },
     scenKicker: { ja: "シナリオ", en: "Scenario" },
@@ -593,7 +608,8 @@ var GAME_CORE = (function () {
     startWith:  { ja: "この業種で始める", en: "Start with this sector" },
     back:       { ja: "戻る", en: "Back" },
     roundOf:    { ja: "ラウンド %1 / 3", en: "Round %1 of 3" },
-    chartTitle: { ja: "%1の株価（デモ用データ）", en: "%1 price (demo data)" },
+    chartTitle: { ja: "株価はNVIDIA（NVDA）の実際の終値（2026年10〜11月、160円/$で換算）", en: "Prices are NVIDIA (NVDA) actual closing prices (Oct-Nov 2026, converted at ¥160/$)" },
+    stockName:  { ja: "某大手半導体設計企業N社の株", en: "Company N shares" },
     priceNow:   { ja: "現在価格", en: "Current price" },
     sharesHeld: { ja: "保有株数", en: "Shares held" },
     buy:        { ja: "買う", en: "Buy" },
@@ -662,7 +678,7 @@ var GAME_CORE = (function () {
     };
   }
   function freshState() {
-    return { v: 2, lang: "ja", view: "home", current: 0, slots: [freshSlot()] };
+    return { v: 3, lang: "ja", view: "home", current: 0, slots: [freshSlot()] };
   }
   var state = freshState();
   var draft = { action: "buy", amount: C.UNIT, rationale: "bullish", drawdown: "" };
@@ -679,7 +695,7 @@ var GAME_CORE = (function () {
       var raw = localStorage.getItem(C.SAVE_KEY);
       if (!raw) return;
       var s = JSON.parse(raw);
-      if (s && typeof s === "object" && s.v === 2 && Array.isArray(s.slots) && s.slots.length === C.SCENARIOS.length) {
+      if (s && typeof s === "object" && s.v === 3 && Array.isArray(s.slots) && s.slots.length === C.SCENARIOS.length) {
         var f = freshState();
         state = Object.assign(f, s);
         state.slots = s.slots.map(function (sl) { return Object.assign(freshSlot(), sl || {}); });
@@ -694,7 +710,7 @@ var GAME_CORE = (function () {
     for (var i = 1; i < arguments.length; i++) s = s.replace("%" + i, arguments[i]);
     return s;
   }
-  function sectorName(i) { return state.lang === "en" ? C.SECTORS[i].en : C.SECTORS[i].ja; }
+  function sectorName(i) { return L("stockName"); }
   function scenTitle(i) { return C.SCENARIOS[i].title[state.lang]; }
   function scenShort(i) { return C.SCENARIOS[i].short[state.lang]; }
   function rationaleName(id) {
@@ -775,23 +791,38 @@ var GAME_CORE = (function () {
   /* ---------- chart ---------- */
   function chartSVG() {
     var slot = cur();
-    var pts = [];
-    for (var i = 0; i <= slot.round; i++) pts.push(C.priceAfter(state.current, slot.sectorIdx, i));
-    if (slot.step === "executed") pts.push(C.priceAfter(state.current, slot.sectorIdx, slot.round + 1));
-    var W = 600, H = 200, PL = 8, PR = 8, PT = 14, PB = 22;
-    var min = Math.min.apply(null, pts), max = Math.max.apply(null, pts);
-    if (min === max) { min -= 10; max += 10; }
-    var pad = (max - min) * 0.15; min -= pad; max += pad;
-    function X(i) { return pts.length === 1 ? W / 2 : PL + (W - PL - PR) * (i / (pts.length - 1)); }
+    var series = C.NVDA_SERIES;
+    var endIdx = C.visibleEndIndex(slot.round, slot.step);
+    var pts = series.slice(0, endIdx + 1);
+    var W = 600, H = 210, PL = 10, PR = 10, PT = 20, PB = 28;
+    var vals = pts.map(function (p) { return p.jpy; });
+    var min = Math.min.apply(null, vals), max = Math.max.apply(null, vals);
+    if (min === max) { min -= 100; max += 100; }
+    var pad = (max - min) * 0.12; min -= pad; max += pad;
+    function X(i) { return PL + (W - PL - PR) * (i / (series.length - 1)); }
     function Y(v) { return PT + (H - PT - PB) * (1 - (v - min) / (max - min)); }
-    var d = pts.map(function (v, i) { return (i === 0 ? "M" : "L") + X(i).toFixed(1) + "," + Y(v).toFixed(1); }).join(" ");
-    var out = '<svg viewBox="0 0 ' + W + " " + H + '" width="100%" role="img" aria-label="' + esc(L("chartTitle", sectorName(slot.sectorIdx))) + '">';
+    function dlabel(date) { var p = date.split("-"); return Number(p[1]) + "/" + Number(p[2]); }
+    var keyIdx = [0, C.START_IDX].concat(C.ROUND_ENDS).filter(function (k) { return k <= endIdx; });
+    function isKey(i) { return keyIdx.indexOf(i) !== -1; }
+    function keyName(i) {
+      if (i === C.START_IDX) return "Start";
+      var r = C.ROUND_ENDS.indexOf(i);
+      return r >= 0 ? "R" + (r + 1) : "";
+    }
+    var d = pts.map(function (p, i) { return (i === 0 ? "M" : "L") + X(i).toFixed(1) + "," + Y(p.jpy).toFixed(1); }).join(" ");
+    var out = '<svg viewBox="0 0 ' + W + " " + H + '" width="100%" role="img" aria-label="' + esc(L("chartTitle")) + '">';
     out += '<line x1="' + PL + '" y1="' + Y(C.BASE_PRICE) + '" x2="' + (W - PR) + '" y2="' + Y(C.BASE_PRICE) + '" stroke="rgba(255,255,255,.14)" stroke-dasharray="4 4"/>';
     out += '<path d="' + d + '" fill="none" stroke="#d8b25a" stroke-width="2.5"/>';
-    pts.forEach(function (v, i) {
-      out += '<circle cx="' + X(i) + '" cy="' + Y(v) + '" r="4" fill="#0b0b0d" stroke="#f6e2a0" stroke-width="2"/>';
-      out += '<text x="' + X(i) + '" y="' + (Y(v) - 9) + '" fill="#f4eedd" font-size="12" text-anchor="middle">' + Math.round(v).toLocaleString("en-US") + "</text>";
-      out += '<text x="' + X(i) + '" y="' + (H - 6) + '" fill="#8a8271" font-size="11" text-anchor="middle">' + (i === 0 ? "Start" : "R" + i) + "</text>";
+    pts.forEach(function (p, i) {
+      if (isKey(i)) {
+        out += '<circle cx="' + X(i) + '" cy="' + Y(p.jpy) + '" r="4.5" fill="#0b0b0d" stroke="#f6e2a0" stroke-width="2"/>';
+        out += '<text x="' + X(i) + '" y="' + (Y(p.jpy) - 10) + '" fill="#f4eedd" font-size="12" font-weight="700" text-anchor="middle">' + p.jpy.toLocaleString("en-US") + "</text>";
+        var kn = keyName(i);
+        out += '<text x="' + X(i) + '" y="' + (H - 14) + '" fill="#c9bfa5" font-size="11" text-anchor="middle">' + dlabel(p.date) + (kn ? " " + kn : "") + "</text>";
+        out += '<text x="' + X(i) + '" y="' + (H - 3) + '" fill="#8a8271" font-size="10" text-anchor="middle">$' + p.usd.toFixed(2) + "</text>";
+      } else {
+        out += '<circle cx="' + X(i) + '" cy="' + Y(p.jpy) + '" r="1.8" fill="#d8b25a" opacity="0.75"/>';
+      }
     });
     return out + "</svg>";
   }
@@ -860,7 +891,7 @@ var GAME_CORE = (function () {
       state.current = 0;
       if (slot0.status === "playing") { state.view = "play"; if (cur().step === "decide") resetDraft("buy"); }
       else if (slot0.status === "done") { state.view = "done"; }
-      else { sectorPick = 0; state.view = "sector"; }
+      else { startScenario(0); }
       save(); render();
     });
     function bind(attr, fn) {
@@ -868,47 +899,26 @@ var GAME_CORE = (function () {
         el.addEventListener("click", function () { fn(Number(el.getAttribute(attr))); });
       });
     }
-    bind("data-start", function (i) { state.current = i; sectorPick = 0; state.view = "sector"; save(); render(); });
+    bind("data-start", function (i) { startScenario(i); });
     bind("data-resume", function (i) { state.current = i; state.view = "play"; if (cur().step === "decide") resetDraft("buy"); save(); render(); });
     bind("data-view-result", function (i) { state.current = i; state.view = "done"; save(); render(); });
-    bind("data-again", function (i) { state.current = i; state.slots[i] = freshSlot(); sectorPick = 0; state.view = "sector"; save(); render(); });
+    bind("data-again", function (i) { state.slots[i] = freshSlot(); startScenario(i); });
     bind("data-reset", function (i) { openReset(i); });
   }
 
-  function renderSector() {
-    var h = '<section class="card gold"><div class="scenario-head">' + esc(scenTitle(state.current)) + "</div>";
-    h += '<h2 style="font-size:1.35rem;margin-top:.3rem;">' + L("pickSector") + "</h2>";
-    h += '<p class="muted small">' + L("pickSectorNote") + "</p>";
-    h += '<div class="sector-grid" role="radiogroup">';
-    C.SECTORS.forEach(function (s, i) {
-      h += '<button type="button" class="sector-opt" role="radio" data-sector="' + i + '" aria-checked="' + (sectorPick === i) + '">' +
-        esc(s.ja) + '<span class="en">' + esc(s.en) + "</span></button>";
-    });
-    h += "</div>";
-    h += '<div style="margin-top:1.1rem;"><button type="button" class="btn primary" id="btn-begin">' + L("startWith") + "</button></div>";
-    h += '<div class="btn-row" style="margin-top:.6rem;"><button type="button" class="btn ghost" id="btn-back">' + L("homeBtn") + "</button></div>";
-    h += "</section>";
-    app.innerHTML = h;
-    Array.prototype.forEach.call(document.querySelectorAll("[data-sector]"), function (el) {
-      el.addEventListener("click", function () {
-        sectorPick = Number(el.getAttribute("data-sector"));
-        renderSector(); renderBar();
-      });
-    });
-    document.getElementById("btn-begin").addEventListener("click", function () {
-      var split = C.initialSplit(C.START_TOTAL);
-      var slot = cur();
-      slot.sectorIdx = sectorPick;
-      slot.cash = split.cash;
-      slot.shares = split.shares;
-      slot.price = C.BASE_PRICE;
-      slot.round = 0; slot.step = "decide"; slot.log = []; slot.lastExec = null; slot.result = null; slot.avgCost = C.BASE_PRICE;
-      slot.status = "playing";
-      state.view = "play";
-      resetDraft("buy");
-      save(); render();
-    });
-    document.getElementById("btn-back").addEventListener("click", function () { state.view = "home"; save(); render(); });
+  function startScenario(i) {
+    state.current = i;
+    var split = C.initialSplit(C.START_TOTAL);
+    var slot = cur();
+    slot.sectorIdx = 0;
+    slot.cash = split.cash;
+    slot.shares = split.shares;
+    slot.price = C.BASE_PRICE;
+    slot.round = 0; slot.step = "decide"; slot.log = []; slot.lastExec = null; slot.result = null; slot.avgCost = C.BASE_PRICE;
+    slot.status = "playing";
+    state.view = "play";
+    resetDraft("buy");
+    save(); render();
   }
 
   function resetDraft(action) {
@@ -928,7 +938,7 @@ var GAME_CORE = (function () {
     var h = "";
     h += '<section class="card gold"><div class="round-label">' + esc(scenShort(state.current)) + "｜" + L("roundOf", r + 1) + "</div>";
     h += '<h2 class="news-head">' + esc(news.headline[state.lang]) + "</h2>";
-    h += '<div class="chart-title">' + L("chartTitle", sectorName(slot.sectorIdx)) + "</div>";
+    h += '<div class="chart-title">' + L("chartTitle") + "</div>";
     h += '<div class="chart-wrap">' + chartSVG() + "</div>";
     h += '<p style="margin:.6rem 0 0;"><span class="muted small">' + L("priceNow") + '：</span> <span class="price-now num">' + fmtPrice(slot.price) + "</span>" +
          '　<span class="muted small">' + L("sharesHeld") + '：</span> <span class="num">' + (Math.round(slot.shares * 100) / 100).toLocaleString("en-US") + "</span></p>";
@@ -1022,7 +1032,7 @@ var GAME_CORE = (function () {
     var news = C.SCENARIOS[state.current].news[e.round];
     var h = '<section class="card gold"><div class="round-label">' + esc(scenShort(state.current)) + "｜" + L("roundOf", e.round + 1) + "</div>";
     h += '<h2 class="news-head">' + esc(news.headline[state.lang]) + "</h2>";
-    h += '<div class="chart-title">' + L("chartTitle", sectorName(slot.sectorIdx)) + "</div>";
+    h += '<div class="chart-title">' + L("chartTitle") + "</div>";
     h += '<div class="chart-wrap">' + chartSVG() + "</div></section>";
     h += '<div class="exec-box"><h3 style="margin-bottom:.5rem;">' + L("execTitle") + "</h3>";
     h += '<div class="kv"><span>' + L("execAction") + "</span><b>" + actionName(e.type) + (e.type !== "pass" ? " " + fmtYen(e.amount) : "") + "</b></div>";
@@ -1106,8 +1116,7 @@ var GAME_CORE = (function () {
     app.innerHTML = h;
     document.getElementById("btn-again").addEventListener("click", function () {
       state.slots[state.current] = freshSlot();
-      sectorPick = 0; state.view = "sector";
-      save(); render();
+      startScenario(state.current);
     });
     document.getElementById("btn-home").addEventListener("click", function () { state.view = "home"; save(); render(); });
     document.getElementById("btn-reset").addEventListener("click", function () { openReset(state.current); });
@@ -1140,8 +1149,7 @@ var GAME_CORE = (function () {
 
   function render() {
     renderBar();
-    if (state.view === "sector") renderSector();
-    else if (state.view === "play") renderPlay();
+    if (state.view === "play") renderPlay();
     else if (state.view === "done") renderDone();
     else renderHome();
   }
