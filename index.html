@@ -1042,7 +1042,7 @@ footer{border-top-color:rgba(138,109,27,.30)}
 <!-- HOME -->
 <section id="view-home" class="view active">
   <div class="topbar">
-    <div class="ticker"><span><span data-ja="現金" data-en="Cash">現金</span> <b>¥1,000,000</b> <span data-ja="＋ 同額の株" data-en="+ the same in shares">＋ 同額の株</span></span><span><b data-ja="160円＝1ドル" data-en="¥160 = $1">160円＝1ドル</b></span><span><span data-ja="上限" data-en="Max per trade">上限</span> <b>¥500,000</b></span></div>
+    <div class="ticker"><span><span data-ja="総資産" data-en="Total assets">総資産</span> <b>¥1,000,000</b> <span data-ja="（スタート時は全額現金）" data-en="(all in cash at the start)">（スタート時は全額現金）</span></span><span><b data-ja="160円＝1ドル" data-en="¥160 = $1">160円＝1ドル</b></span><span><span data-ja="上限" data-en="Max per trade">上限</span> <b>¥500,000</b></span></div>
     <h1>投資1年目の教科書<br>〜 how to become a trader 〜</h1>
     <p class="lead" id="flowLine">①東日本大地震 → ②ギリシャ危機 → ③リーマンショック</p>
     <a class="topcta" href="#scenarioSection">▼ 始める / Start</a>
@@ -1515,11 +1515,12 @@ function bestWorstFor(s,idx,startCash,startShares){
   return {best:best,worst:worst};
 }
 /* Chained overall benchmarks from the initial ¥1,000,000, each scenario's end
-   total becoming the next scenario's starting cash.
+   total becoming the next scenario's starting total, split half cash / half
+   shares at that scenario's start (the same splitStart rule as real play).
    Best / worst are INDEPENDENT of the player's picks: for every scenario, all
    3 industries × every legal line of play are searched (bestWorstFor), and the
    chain keeps the highest (best) / lowest (worst) end total found. Because a
-   scenario's best and worst end totals never decrease when its starting cash
+   scenario's best and worst end totals never decrease when its starting total
    grows, chaining the per-scenario extremes gives the true chain extremes.
    Hold alone still follows the industry the player actually picked for each
    scenario (from the trade log); it is null when that pick is unknown. */
@@ -1532,12 +1533,16 @@ function overallBenchmarks(){
     if(idx==null){ holdOk=false; }
     else {
       var prices=pricePathFor(s,idx);
-      hold=Math.round(hold)+Math.round(startSharesFor(hold,prices[0])*prices[3]);
+      var hs=splitStart(hold,prices[0]);
+      hold=Math.round(hs.cash)+Math.round(hs.shares*prices[3]);
     }
     var bAll=-Infinity, wAll=Infinity;
     for(var i=0;i<INDUSTRY_MOVES[s.id].length;i++){
-      var bwB=bestWorstFor(s,i,best); if(bwB.best>bAll) bAll=bwB.best;
-      var bwW=bestWorstFor(s,i,worst); if(bwW.worst<wAll) wAll=bwW.worst;
+      var bp=pricePathFor(s,i);
+      var bs=splitStart(best,bp[0]);
+      var bwB=bestWorstFor(s,i,bs.cash,bs.shares); if(bwB.best>bAll) bAll=bwB.best;
+      var ws=splitStart(worst,bp[0]);
+      var bwW=bestWorstFor(s,i,ws.cash,ws.shares); if(bwW.worst<wAll) wAll=bwW.worst;
     }
     best=bAll; worst=wAll;
   });
@@ -1551,14 +1556,16 @@ function curIndustryName(){ return state.industryIdx!=null? industryName(state.i
 function logScenarioName(l){ var s=null; for(var i=0;i<SCENARIOS.length;i++){ if((l.sid&&l.sid===SCENARIOS[i].id)||l.scenario===SCENARIOS[i].title) s=SCENARIOS[i]; } if(s) return T(s.title, SCENARIO_EN[s.id]||s.title); if(l.sid==="tutorial") return T(TUTORIAL_SCENARIO.title, SCENARIO_EN.tutorial||TUTORIAL_SCENARIO.title); return l.scenario||""; }
 function logIndustryName(l){ if(l.iidx!=null) return industryName(l.iidx); return l.industry||""; }
 function carryText(){ if(state.carryYen!=null) return T("引き継ぎ：","Carried over: ")+yen(state.carryYen); return state.carryNote||""; }
-/* Cumulative trading performance across completed scenarios. Each scenario's P&L is
-   measured against that scenario's own start total, so the free share grant at every
-   scenario start (which doubles the displayed total) never inflates the figures. */
+/* Cumulative trading performance across completed scenarios: the sum of each
+   scenario's P&L (end total − start total). Because each scenario starts from the
+   previous scenario's end total, once all 3 are done this equals
+   final total assets − ¥1,000,000, and the cumulative return is
+   final total / ¥1,000,000 − 1 = pnl / INITIAL. */
 function cumulativeStats(){
   var ids=Object.keys(state.results); if(!ids.length) return null;
-  var pnl=0, mult=1;
-  ids.forEach(function(id){ var r=state.results[id]; var st=r.endTotal-r.scenPnl; pnl+=r.scenPnl; if(st>0) mult*=r.endTotal/st; });
-  return {pnl:pnl, ret:mult-1, count:ids.length};
+  var pnl=0;
+  ids.forEach(function(id){ pnl+=state.results[id].scenPnl; });
+  return {pnl:pnl, ret:pnl/INITIAL, count:ids.length};
 }
 /* P&L of the scenario currently being played (or just finished, for the tutorial whose
    result is not stored in state.results). Null once a real scenario is in state.results. */
@@ -1569,8 +1576,15 @@ function activeScenPnl(total){
   return null;
 }
 var INITIAL=1000000, MAXTRADE=500000, MINTRADE=100000;
-/* Starting shares are NOT fixed: at each scenario start, shares = cash on hand / that industry's start price, so the stock value exactly equals the cash (fractional shares allowed). */
-function startSharesFor(cash,price){ return price? cash/price : 0; }
+/* Shares whose value at the given price equals a yen amount (fractional shares allowed). */
+function startSharesFor(yenAmt,price){ return price? yenAmt/price : 0; }
+/* Scenario-start split of a carried total T: the stock side gets floor(T/2) yen worth of
+   shares at the industry's start price, the cash side keeps T − floor(T/2) yen, so
+   cash + stock value is exactly T (the total is carried over as-is, never doubled). */
+function splitStart(total,price){
+  var stockYen=Math.floor(total/2);
+  return {cash:total-stockYen, stockYen:stockYen, shares:startSharesFor(stockYen,price)};
+}
 function fmtShares(n){ if(!n) return "0"; return n.toLocaleString("ja-JP",{minimumFractionDigits:0,maximumFractionDigits:4}); }
 /* Hint-only material for the industry-select screen: business / exposure / what to watch. No direction, arrows or rates. */
 var INDUSTRY_HINTS={
@@ -2045,7 +2059,7 @@ function renderScenarios(){
       ocmp='<div style="margin-top:16px"><h3 style="margin:0 0 6px;font-size:16px">'+T("比較","Comparison")+'</h3>'
        +compareBarHTML(T("あなた","You"),tot,omax,"")+(obm.hold!=null? compareBarHTML(T("持ち続けた場合","Buy & hold"),obm.hold,omax,"cash") : "")+compareBarHTML(T("ベストな売買をした場合","Best possible trades"),obm.best,omax,"best")+compareBarHTML(T("ワーストな売買をした場合","Worst possible trades"),obm.worst,omax,"worst")+'</div>';
     }
-    document.getElementById("overallContent").innerHTML='<div class="kv"><span>'+T("最終総資産","Final total assets")+'</span><b style="font-size:22px">'+yen(tot)+'</b><span>'+T("通算損益（3シナリオ合計）","Cumulative P&L (all 3 scenarios)")+'</span><b>'+yenSigned(csO.pnl)+'</b><span>'+T("通算リターン（各シナリオ開始時比の累積）","Cumulative return (vs. each scenario start)")+'</span><b>'+pct(csO.ret)+'</b></div><p class="note" style="margin:8px 0 0">'+T("※ 各シナリオ開始時に現金と同額の株が付与されるため、成績は総資産ではなくシナリオごとの損益を通算して表示しています。","Note: each scenario starts with shares granted equal to your cash, so performance is shown as the sum of per-scenario P&L, not the raw total.")+'</p>'
+    document.getElementById("overallContent").innerHTML='<div class="kv"><span>'+T("最終総資産","Final total assets")+'</span><b style="font-size:22px">'+yen(tot)+'</b><span>'+T("通算損益（3シナリオ合計）","Cumulative P&L (all 3 scenarios)")+'</span><b>'+yenSigned(csO.pnl)+'</b><span>'+T("通算リターン（初期資金100万円比）","Cumulative return (vs. initial ¥1,000,000)")+'</span><b>'+pct(csO.ret)+'</b></div><p class="note" style="margin:8px 0 0">'+T("※ 各シナリオは、前のシナリオから引き継いだ総資産を現金と株に半分ずつ分けて始まります。通算損益はシナリオごとの損益の合計で、最終総資産 − 100万円と一致します。","Note: each scenario starts by splitting the total assets carried over from the previous scenario half into cash and half into shares. Cumulative P&L is the sum of per-scenario P&L and equals final total assets − ¥1,000,000.")+'</p>'
      +ocmp
      +'<div class="btnrow"><button class="btn" type="button" id="overallRegisterBtn">'+T("ランキングに登録する","Register in ranking")+'</button><button class="btn secondary" type="button" id="overallRankingBtn">'+T("ランキングを見る","View ranking")+'</button></div><div class="fbStatus" id="overallRegisterStatus" role="status" aria-live="polite"></div>'
      +overallDecisionLogHTML();
@@ -2124,8 +2138,9 @@ function renderIndustrySelect(){
   s.impacts.forEach(function(im,i){
     var b=document.createElement("button"); b.className="card scenario indopt"; b.type="button";
     var spI=indStartPrice(s,i);
-    var shI=startSharesFor(portfolio.cash,spI);
-    b.innerHTML='<div><b style="font-size:16px">'+industryName(i)+'</b></div><div style="font-size:12px;color:var(--muted);margin-top:8px">'+(LANG==="en"? ("Price ¥"+spI.toLocaleString("en-US")+" / Total "+yen(portfolio.cash*2)) : ("株価 "+spI.toLocaleString("ja-JP")+"円 ／ 総資産 "+yen(portfolio.cash*2)))+'</div>';
+    var totI=dispTotals(null).total;
+    var splitI=splitStart(totI,spI);
+    b.innerHTML='<div><b style="font-size:16px">'+industryName(i)+'</b></div><div style="font-size:12px;color:var(--muted);margin-top:8px">'+(LANG==="en"? ("Price ¥"+spI.toLocaleString("en-US")+" / Total "+yen(totI)+" (cash "+yen(splitI.cash)+" + shares "+yen(splitI.stockYen)+")") : ("株価 "+spI.toLocaleString("ja-JP")+"円 ／ 総資産 "+yen(totI)+"（現金"+yen(splitI.cash)+"＋株"+yen(splitI.stockYen)+"で開始）"))+'</div>';
     b.onclick=function(){
       state.industryIdx=i;
       g.querySelectorAll(".indopt").forEach(function(x,j){x.classList.toggle("on",j===i)});
@@ -2143,8 +2158,15 @@ function renderIndustrySelect(){
 function beginPlay(){
   var s=state.current; if(!s||state.industryIdx==null) return;
   var sp=indStartPrice(s,state.industryIdx);
-  /* Cash is carried over as-is; separately, shares are set so their value equals that cash: shares = cash / start price (fractional shares allowed). */
-  portfolio.shares=startSharesFor(portfolio.cash,sp);
+  /* Settle any leftover holdings into cash first (normally already done in startGame),
+     so the amount split below is the full carried total. */
+  if(portfolio.shares>0){ portfolio.cash=Math.round(portfolio.cash)+Math.round(stockValue(null)); portfolio.shares=0; portfolio.avgCost=null; }
+  /* Split the carried total T in half: cash keeps T − floor(T/2) yen and shares worth
+     floor(T/2) yen are held at the start price, so the scenario starts at exactly T —
+     the previous scenario's end total carries over unchanged (no doubling). */
+  var split=splitStart(portfolio.cash,sp);
+  portfolio.cash=split.cash;
+  portfolio.shares=split.shares;
   portfolio.lastPrice=sp; portfolio.avgCost=sp;
   state.round=0; state.prices=[sp]; state.scenLog=[];
   state.scenStartCash=portfolio.cash;
@@ -2729,7 +2751,7 @@ function finishGame(){
   var endTotal=Math.round(settleCashBefore)+Math.round(settleStockValue);
   var scenPnl=endTotal-state.scenStartTotal; var scenRet=endTotal/state.scenStartTotal-1;
   var total=endTotal;
-  var benchHold=(state.scenStartCash!=null? state.scenStartCash + (state.scenStartShares||startSharesFor(state.scenStartCash,state.prices[0]))*endPrice : state.scenStartTotal);
+  var benchHold=(state.scenStartCash!=null? state.scenStartCash + (state.scenStartShares||startSharesFor(Math.max(0,(state.scenStartTotal||0)-state.scenStartCash),state.prices[0]))*endPrice : state.scenStartTotal);
   if(state.isTutorial){ state.tutorialResult={scenPnl:scenPnl, endTotal:endTotal, settleCashBefore:settleCashBefore, settleStockValue:settleStockValue, benchHold:benchHold}; markTutorialDone(); }
   else { state.results[s.id]={scenPnl:scenPnl, endTotal:endTotal, settleCashBefore:settleCashBefore, settleStockValue:settleStockValue, benchHold:benchHold}; }
   /* Cash out remaining shares at the final market value so the next scenario starts with exactly endTotal as cash: cash + stock value = next usable money */
