@@ -1644,7 +1644,7 @@ var TUTORIAL_KEY="timeslip-invest-tutorial-v1";
 var tutorialDone=false;
 try{ tutorialDone=localStorage.getItem(TUTORIAL_KEY)==="done"; }catch(e){}
 function markTutorialDone(){ tutorialDone=true; try{ localStorage.setItem(TUTORIAL_KEY,"done"); }catch(e){} renderTutorialStatus(); if(typeof renderScenarios==="function") renderScenarios(); }
-function renderTutorialStatus(){ var el=document.getElementById("tutorialStatus"); if(!el) return; el.innerHTML=tutorialDone? T("✅ 完了済み","✅ Completed") : (anyScenarioStarted()? T("未完了 — 練習用です。本番シナリオは開始済みのため、そのまま進められます。","Not completed — practice only. You already started the real scenarios, so you can keep going.") : T("未完了 — 本番シナリオを始めるには、まずチュートリアルを完了してください。","Not completed — complete the tutorial first to unlock the real scenarios.")); var b=document.getElementById("tutorialStartBtn"); if(b) b.textContent=tutorialDone? T("🎓 もう一度練習","🎓 Practice again") : T("🎓 始める","🎓 Start tutorial"); }
+function renderTutorialStatus(){ var el=document.getElementById("tutorialStatus"); if(!el) return; el.innerHTML=tutorialDone? T("✅ 完了済み","✅ Completed") : (anyScenarioCompleted()? T("未完了 — 練習用です。本番シナリオは開始済みのため、そのまま進められます。","Not completed — practice only. You already started the real scenarios, so you can keep going.") : T("未完了 — 本番シナリオを始めるには、まずチュートリアルを完了してください。","Not completed — complete the tutorial first to unlock the real scenarios.")); var b=document.getElementById("tutorialStartBtn"); if(b) b.textContent=tutorialDone? T("🎓 もう一度練習","🎓 Practice again") : T("🎓 始める","🎓 Start tutorial"); }
 /* ===== Mid-game save / resume (this device & browser only, via localStorage) =====
    Saved: team name, chosen scenario & industry, current round, cash, shares & total assets,
    and the full trade history including the reason chosen for each trade. */
@@ -1735,8 +1735,11 @@ function renderResumePanel(){
   var doneCount=Object.keys(d.results||{}).length;
   var phaseTxt;
   var sTitle=s? T(s.title, SCENARIO_EN[s.id]||s.title) : "";
-  if(d.phase==="game"&&s) phaseTxt="『"+sTitle+"』R"+((d.round||0)+1)+" / 3";
-  else if(d.phase==="industry"&&s) phaseTxt="『"+sTitle+"』"+T("業種選択","Industry select");
+  /* An out-of-order in-progress save (locked under the sequential rule) is not
+     presented as in progress here either; it falls back to the home summary. */
+  var sEnterable=s? saveScenarioEnterable(d) : false;
+  if(d.phase==="game"&&s&&sEnterable) phaseTxt="『"+sTitle+"』R"+((d.round||0)+1)+" / 3";
+  else if(d.phase==="industry"&&s&&sEnterable) phaseTxt="『"+sTitle+"』"+T("業種選択","Industry select");
   else if(d.phase==="result"&&s) phaseTxt="『"+sTitle+"』"+T("結果","Result");
   else phaseTxt=T("ホーム（完了 ","Home (done ")+doneCount+" / 3"+T("）",")");
   var html=""
@@ -1790,7 +1793,7 @@ function restoreLockedReveal(){
 }
 function resumeFromSave(){
   var d=lastSaveData; if(!d) return;
-  if(d.phase==="game"&&state.current&&state.scenStartTotal!=null){
+  if(d.phase==="game"&&state.current&&state.scenStartTotal!=null&&currentScenarioEnterable()){
     var wasLocked=state.locked, savedDir=state.dir, savedAmt=state.amtMan, savedReason=state.reason;
     show("view-game"); renderRound();
     if(wasLocked){ restoreLockedReveal(); }
@@ -1803,7 +1806,7 @@ function resumeFromSave(){
     }
     return;
   }
-  if(d.phase==="industry"&&state.current){
+  if(d.phase==="industry"&&state.current&&currentScenarioEnterable()){
     renderIndustrySelect(); show("view-industry"); restoreIndustrySelection(); return;
   }
   if(d.phase==="result"&&state.current){
@@ -2024,7 +2027,7 @@ function updateAssetBar(){
   if(ctx){
     if(state.isTutorial) ctx.textContent=T("🎓 練習中","🎓 Practice");
     else if(Object.keys(state.results).length>=3) ctx.textContent=T("🎉 全シナリオ完了","🎉 All scenarios complete");
-    else if(state.current&&!state.results[state.current.id]) ctx.textContent=T(state.current.title+" 運用中",(SCENARIO_EN[state.current.id]||state.current.title)+" — in progress");
+    else if(state.current&&!state.results[state.current.id]&&currentScenarioEnterable()) ctx.textContent=T(state.current.title+" 運用中",(SCENARIO_EN[state.current.id]||state.current.title)+" — in progress");
     else ctx.textContent="";
   }
 }
@@ -2051,20 +2054,20 @@ function pointsHTML(s){
 }
 function firstUnfinishedIdx(){ for(var i=0;i<SCENARIOS.length;i++){ if(!state.results[SCENARIOS[i].id]) return i; } return -1; }
 /* ===== Scenario locks =====
+   Locks are judged ONLY by completion — never by a started / in-progress save.
    1) Tutorial gate: STEP 1-3 stay locked until the STEP 0 tutorial is completed.
-   2) Sequential lock: STEP 1 -> 2 -> 3 can only be started in order; the next STEP
-      unlocks once the previous STEP is completed.
-   Finished scenarios are never re-selectable.
-   Grandfathering for v4 saves created while the locks were temporarily lifted:
-   if any of STEP 1-3 was already started or completed in the save, the tutorial
-   gate counts as passed, so such a save can never become unplayable. */
-function anyScenarioStarted(){
-  if(Object.keys(state.results).length>0) return true;
-  if(state.current&&state.current.id!=="tutorial") return true;
-  for(var i=0;i<state.allLog.length;i++){ if(state.allLog[i].sid&&state.allLog[i].sid!=="tutorial") return true; }
-  return false;
-}
-function tutorialGatePassed(){ return tutorialDone||anyScenarioStarted(); }
+      Grandfathering for v4 saves created while the locks were temporarily
+      lifted: if any of STEP 1-3 is already COMPLETED in the save, the gate
+      counts as passed. A merely started (in-progress) scenario does NOT pass
+      the gate.
+   2) Sequential lock: STEP i opens only when every earlier STEP is completed.
+      An in-progress save for STEP i can be resumed only while STEP i itself
+      satisfies this rule; an out-of-order in-progress save (e.g. STEP 3 left
+      over from the unlocked period, with STEP 1-2 unfinished) stays locked,
+      cannot be started, and is not shown as "in progress" anywhere.
+   Finished scenarios are never re-selectable. */
+function anyScenarioCompleted(){ return Object.keys(state.results).length>0; }
+function tutorialGatePassed(){ return tutorialDone||anyScenarioCompleted(); }
 function scenarioLockReason(idx){
   if(!tutorialGatePassed()) return "tutorial";
   for(var j=0;j<idx;j++){ if(!state.results[SCENARIOS[j].id]) return "order"; }
@@ -2073,8 +2076,27 @@ function scenarioLockReason(idx){
 function isScenarioUnlocked(idx){
   var s=SCENARIOS[idx]; if(!s) return false;
   if(state.results[s.id]) return false; /* finished scenarios are not re-selectable */
-  if(state.current&&state.current.id===s.id) return true; /* an in-progress scenario stays enterable */
   return scenarioLockReason(idx)===null;
+}
+function scenarioIndexOf(id){ for(var i=0;i<SCENARIOS.length;i++){ if(SCENARIOS[i].id===id) return i; } return -1; }
+/* Whether the scenario currently held as "in progress" may actually be entered
+   or displayed as in progress. Non-STEP ids (the tutorial) are not lock-managed. */
+function currentScenarioEnterable(){
+  if(!state.current) return false;
+  var idx=scenarioIndexOf(state.current.id);
+  if(idx<0) return true;
+  return isScenarioUnlocked(idx);
+}
+/* The same judgement for a raw save object (the resume panel renders from the
+   save data rather than the live state). */
+function saveScenarioEnterable(d){
+  if(!d||!d.currentId) return false;
+  var idx=scenarioIndexOf(d.currentId); if(idx<0) return true;
+  var res=d.results||{};
+  if(res[d.currentId]) return false;
+  if(!tutorialDone&&Object.keys(res).length===0) return false;
+  for(var j=0;j<idx;j++){ if(!res[SCENARIOS[j].id]) return false; }
+  return true;
 }
 function renderScenarios(){
   renderHoldings();
