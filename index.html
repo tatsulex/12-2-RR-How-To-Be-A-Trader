@@ -1315,11 +1315,13 @@ var SCENARIOS=[
   impacts:[
    {s:"銀行・金融",d:"down",lvl:"下落",n:"市場全体の不安で金融株が売られ、保険を含む金融（除く銀行）は初動で大きく下落した"},
    {s:"自動車・製造業",d:"down",lvl:"下落",n:"部品工場の被災と計画停電で、サプライチェーンの寸断と生産停止が懸念された"},
-   {s:"生活必需品",d:"down",lvl:"比較的小幅な下落",n:"市場全体の下落の影響は受けたが、食品や日用品の需要は比較的安定していた"}
+   {s:"生活必需品",d:"down",lvl:"比較的小幅な下落",n:"市場全体の下落の影響は受けたが、食品や日用品の需要は比較的安定していた"},
+   {s:"建設・インフラ",d:"down",lvl:"初動はほぼ横ばい",n:"市場全体のパニックには巻き込まれたが、復興需要への期待が下支えし、終盤は大きく反発した"},
+   {s:"小売・流通",d:"down",lvl:"下落",n:"店舗の被災や物流の寸断、買い控えへの懸念で売られた。生活必需品より下げが大きかった"}
   ],
   points:[
    "予測不能な自然災害が、国全体のサプライチェーンやエネルギー政策にどれほど深刻なダメージを与えるかを理解する。",
-   "同じ3業種でも動きは分かれること——生活必需品は下げが小さく、銀行・金融と自動車・製造業は被災と供給網の寸断で売られた——を学ぶ。",
+   "同じ5業種でも動きは分かれること——生活必需品は下げが小さく、銀行・金融と自動車・製造業は被災と供給網の寸断で売られ、建設・インフラは復興需要で終盤に大きく反発した——を学ぶ。",
    "パニック売りの後に、G7の協調介入や日銀の資金供給といった政策対応と復興期待で市場がどう反発したか、その順序と理由をたどる。"
   ],
   discuss:[
@@ -1327,7 +1329,7 @@ var SCENARIOS=[
    "市場全体が下落する中でも、生活必需品のように下げが小さい業種がありました。その視点は、売買を判断するときに持てていましたか？",
    "情報がほとんどない災害直後のラウンドで、何を根拠に判断しましたか？不確実性が大きい局面での判断を、いま振り返るとどうすべきだったと思いますか？"
   ],
-  explainer:"東日本大地震の後は日経平均が急落し、その後、政策対応と復興期待で反発しました。銀行・金融と自動車・製造業は下げが大きく、生活必需品は下げが小さめでした。",
+  explainer:"東日本大地震の後は日経平均が急落し、その後、政策対応と復興期待で反発しました。銀行・金融と自動車・製造業は下げが大きく、生活必需品は下げが小さめでした。建設・インフラは初動こそほぼ横ばいでしたが、復興需要で終盤に大きく反発しました。",
   rounds:[
    {when:"2011年3月11日（金）大引け直後",head:"M9.0の巨大地震が発生、津波被害も",body:"東北地方を中心に甚大な被害。",whenEn:"Fri, Mar 11, 2011 — just after the close",headEn:"Magnitude 9.0 megaquake hits; tsunami damage reported",bodyEn:"Severe damage across the Tohoku region.",move:-0.16,nextIndex:8765,explain:"週明け以降、原発事故の深刻化と、被害の全容が見えない不確実性も重なり、日経平均は約16％下落しました。売りが殺到し、パニックに近い展開となりました。",breakdown:"業種別ETFの実績（判断日3/10→3/14）では、保険を含む金融（除く銀行）が-13.1％、電力・ガスが-10.6％、輸送用機器が-10.3％と下落し、指数を押し下げました。建設・資材は+0.3％とほぼ横ばいで、復興需要への期待が下支えしましたが、全体の下落を止めるには至りませんでした。"},
    {when:"2011年3月18日頃",head:"G7が円売り協調介入、日銀も大量の資金供給",body:"急激な円高に対し、G7が約10年ぶりの協調介入を実施。",whenEn:"Around Mar 18, 2011",headEn:"G7 launches coordinated yen-selling intervention; BOJ injects massive liquidity",bodyEn:"The G7 intervenes jointly for the first time in about a decade against the sharp yen surge.",move:0.09,nextIndex:9554,explain:"G7の協調介入や日銀の資金供給といった政策対応と、復興需要への期待から約9％反発しました。政策が市場の不安を和らげた局面です。",breakdown:"業種別ETFの実績（3/14→3/15）では、電力・ガスが-15.7％と一段と下落し、建設・資材も-9.7％と市場全体のパニック売りに巻き込まれました。輸送用機器も-8.2％、金融（除く銀行）も-5.7％と続落しています。その後、G7の協調介入や日銀の資金供給といった政策対応と復興期待から、市場は反発に転じていきます。"},
@@ -1339,19 +1341,21 @@ var SCENARIOS=[
   impacts:[
    {s:"銀行・金融",d:"down",lvl:"大幅下落",n:"ギリシャ国債を大量に保有し、デフォルトによる巨額損失が懸念され売りが殺到した"},
    {s:"自動車・製造業",d:"down",lvl:"下落",n:"債務危機の伝染による欧州全体の景気低迷から設備投資や購買意欲が減退した"},
-   {s:"生活必需品",d:"down",lvl:"比較的小幅な下落",n:"市場全体の下落の影響は受けたが、食品や日用品の需要は比較的安定していた"}
+   {s:"生活必需品",d:"down",lvl:"比較的小幅な下落",n:"市場全体の下落の影響は受けたが、食品や日用品の需要は比較的安定していた"},
+   {s:"建設・インフラ",d:"down",lvl:"大幅下落",n:"緊縮財政で公共工事の予算が削られるとの懸念が広がり、大きく売られた"},
+   {s:"小売・流通",d:"down",lvl:"下落",n:"緊縮と失業の増加で個人消費が冷え込み、販売の落ち込みが懸念された"}
   ],
   points:[
    "一国の財政問題が、他国の銀行や世界市場へ波及する「連鎖する信用不安」の仕組みと、「次に破綻するのはどの国か」という市場心理の影響力を考えてみてほしい。",
    "国民投票や政府の発表といった「政治イベントリスク」は予測が難しく、結果一つで市場が激しく動く。その前の持ち高の管理を体験してほしい。",
-   "同じ3業種でも、銀行・金融は危機の中心として大きく下げ、自動車・製造業も下落し、生活必需品は需要が安定して下げが小さかった。危機ごとに業種の明暗がどう入れ替わるかを比べてほしい。"
+   "同じ5業種でも、銀行・金融は危機の中心として大きく下げ、建設・インフラも緊縮による公共投資の削減で大きく下落、自動車・製造業も下落し、生活必需品は需要が安定して下げが小さかった。危機ごとに業種の明暗がどう入れ替わるかを比べてほしい。"
   ],
   discuss:[
    "一国の財政問題が、なぜ他国の銀行や株式市場にまで波及したのでしょうか？「次に破綻するのはどの国か」という市場の心理は、価格にどう影響したと思いますか？",
    "政治イベントの前に、ポジションを縮小してリスクを減らすべきでしたか、それとも賭けに出るべきでしたか？チームの判断を振り返ってください。",
    "パニック時にも、生活必需品のように需要が安定して下げが小さい業種がありました。東日本大地震やリーマンのときと比べて、守りの効き方はどう違いましたか？"
   ],
-  explainer:"支援合意でも不安は再燃し、銀行・金融は大幅安、自動車・製造業も下落しました。生活必需品は下げが比較的小さめでした。",
+  explainer:"支援合意でも不安は再燃し、銀行・金融は大幅安、自動車・製造業も下落しました。生活必需品は下げが比較的小さめでした。建設・インフラは緊縮による公共投資の削減で大きく下げ、小売・流通も消費の冷え込みで下落しました。",
   rounds:[
    {when:"2010年4月下旬",head:"ギリシャ国債が急落、EU支援の行方は不透明",body:"格付け機関がギリシャ国債を大幅格下げ。",whenEn:"Late April 2010",headEn:"Greek bonds plunge; EU bailout outlook unclear",bodyEn:"Rating agencies slash Greek government bond ratings.",move:-0.137,nextIndex:2500,explain:"支援の不透明感から、ユーロ・ストックス50は2010年5月7日に終値2,500まで約13.7％下落しました（4月22日終値2,898から）。",breakdown:"ギリシャ国債を大量に保有していた欧州大手銀行が大幅下落し、指数を押し下げました。欧州の輸出・製造業や米国・新興国の株式市場にもリスク回避の売りが波及。一方で、安全資産の金・ゴールドとドイツ国債、そしてリスク回避の通貨である日本円（円高）が買われました。"},
    {when:"2010年5月中旬",head:"EU・IMFが1,100億ユーロの支援で合意",body:"EUとIMFが3年間で総額1,100億ユーロの融資枠で合意。",whenEn:"Mid-May 2010",headEn:"EU and IMF agree a €110bn bailout",bodyEn:"The EU and IMF agree a €110 billion loan facility over three years.",move:-0.19,nextIndex:2026,explain:"支援合意で一時反発したものの、緊縮への反発や債務再編観測、他国への波及懸念が再燃し、2011年9月23日には終値2,026まで約19.0％下落しました。",breakdown:"支援合意直後は欧州大手銀行を中心に買い戻しが入りましたが、長続きはしませんでした。その後、債務再編とイタリア・スペインなど他国への伝染への懸念が再燃し、欧州大手銀行、欧州の輸出・製造業、旅行・観光関連、ラグジュアリー・高級ブランド、米国・新興国の株式市場が下落し、ギリシャ国内企業・不動産も低迷が続きました。資金は再び安全資産へ逃避し、金とドイツ国債が買われ、日本円も円高方向に進みました（GREXIT＝ユーロ圏脱退リスクが意識された局面です）。"},
@@ -1363,7 +1367,9 @@ var SCENARIOS=[
   impacts:[
    {s:"銀行・金融",d:"down",lvl:"下落",n:"住宅ローン関連商品の損失拡大で信用不安が広がり、銀行同士の貸し借りも滞った"},
    {s:"自動車・製造業",d:"down",lvl:"下落",n:"世界的な景気悪化で新車の買い控えが広がり、自動車販売が大きく減少した"},
-   {s:"生活必需品",d:"down",lvl:"比較的小幅な下落",n:"市場全体の下落の影響は受けたが、食品や日用品の需要は比較的安定していた"}
+   {s:"生活必需品",d:"down",lvl:"比較的小幅な下落",n:"市場全体の下落の影響は受けたが、食品や日用品の需要は比較的安定していた"},
+   {s:"建設・インフラ",d:"down",lvl:"下落",n:"信用収縮で住宅や設備投資が止まるとの懸念が広がり、不動産とともに大きく売られた"},
+   {s:"小売・流通",d:"down",lvl:"下落",n:"世界的な景気悪化で個人消費が冷え込み、百貨店や専門店の販売減少が懸念された"}
   ],
   points:[
    "金融機関の経営悪化が、なぜ金融業界だけでなく世界中の企業に影響するのか。銀行が貸せなくなることで投資や消費が減り、経済全体が悪化する仕組みを考える。",
@@ -1375,7 +1381,7 @@ var SCENARIOS=[
    "金融機関同士が金融商品を通じて複雑につながっていたことは、危機の広がり方や速さにどう影響しましたか？",
    "危機の最中に「底」を見極めることはできたと思いますか？現金比率を保つ判断は、どのラウンドで効きましたか？"
   ],
-  explainer:"リーマン破綻で日経平均は急落。銀行・金融、自動車・製造業の下げが大きく、生活必需品は比較的小幅でした。",
+  explainer:"リーマン破綻で日経平均は急落。銀行・金融、自動車・製造業の下げが大きく、生活必需品は比較的小幅でした。建設・インフラと小売・流通も、信用収縮と消費の落ち込みで大きく下げました。",
   rounds:[
    {when:"2008年9月12日（金）引け後",head:"リーマン、身売り交渉難航と報道",body:"米証券大手リーマン・ブラザーズの株価が急落。",whenEn:"Fri, Sep 12, 2008 — after the close",headEn:"Reports: Lehman's sale talks stall",bodyEn:"Shares of U.S. brokerage giant Lehman Brothers plunge.",move:-0.18,nextIndex:10016,explain:"週明け9月15日、リーマンは破綻。世界同時株安となり指数は約18％下落しました。",breakdown:"業種別ETFの実績（2008/9/12→9/16）では、不動産-8.6％、銀行-7.1％、金融（除く銀行）-4.9％、輸送用機器-4.4％、食料品-3.9％、電気機器-3.2％と、初動の下げは比較的限定的でした。売りが本格化するのは次の区間です（2008年のETFは出来高が少なく、変動率は目安です）。"},
    {when:"2008年10月上旬",head:"金融危機が欧州へ拡大、米金融安定化法は成立も不安続く",body:"欧州でも銀行の国有化や預金保護が相次ぐ。",whenEn:"Early October 2008",headEn:"Crisis spreads to Europe; U.S. rescue law passes but anxiety persists",bodyEn:"European banks are nationalized and deposit guarantees rolled out.",move:-0.174,nextIndex:8276,explain:"景気後退懸念が本格化し、日経平均は2008年10月10日に終値で8,276円まで、さらに約17％下落。底が見えない展開が続きました。",breakdown:"業種別ETFの実績（9/16→10/10）では、輸送用機器-29.6％、不動産-27.5％、電気機器-25.0％と実体経済の業種が急落し、銀行と金融（除く銀行）も-14.3％、食料品も-14.2％と下落しました。銀行がお金を貸せなくなることで企業の投資と個人の消費が冷え込む連鎖が意識され、指数は10月10日の終値で8,276円まで下落しました。"},
@@ -1392,7 +1398,9 @@ var TUTORIAL_SCENARIO={id:"tutorial",icon:"🎓",title:"チュートリアル（
  impacts:[
   {s:"銀行・金融",d:"up",lvl:"小幅な上昇",n:"景気の話題で少し買われましたが、値動きは小さめでした"},
   {s:"自動車・製造業",d:"up",lvl:"大きく変動",n:"人気商品とコスト増のニュースに一番大きく反応しました。練習ではこの業種が一番分かりやすいです"},
-  {s:"生活必需品",d:"up",lvl:"ほぼ横ばい〜小幅",n:"毎日の需要が安定しているため、値動きは最も小さかったです"}
+  {s:"生活必需品",d:"up",lvl:"ほぼ横ばい〜小幅",n:"毎日の需要が安定しているため、値動きは最も小さかったです"},
+   {s:"建設・インフラ",d:"up",lvl:"中くらいの変動",n:"工事や工場完成のニュースに反応しました。材料費の話題ではコスト増も心配されました"},
+   {s:"小売・流通",d:"up",lvl:"中くらいの変動",n:"人気商品の話題で買われましたが、仕入れ値の上昇では利益の心配から売られました"}
  ],
  points:["本番と同じ操作（業界選択→ニュース→買う／売る／見送る→金額→根拠→注文確認→約定）を一通り体験する。","良いニュースでは買う、悪いニュースでは売って現金化する、という基本の感覚をつかむ。","結果は本番の資産・資金に影響しないので、失敗を気にせず試してよい。"],
  discuss:[],explainer:"練習用の架空シナリオです。良いニュースで上がり、悪いニュースで下がり、回復のニュースで戻る、という基本パターンを体験しました。",
@@ -1412,9 +1420,12 @@ var TUTORIAL_TIPS_EN=[
  "Decide freely."
 ];
 /* Industry-specific price moves and per-round explanations of how each event affected that industry.
-   All scenarios and the tutorial use the SAME three industries in the SAME order so players can compare
+   All scenarios and the tutorial use the SAME five industries in the SAME order so players can compare
    how the same industry behaved across crises:
-     0 銀行・金融 / 1 自動車・製造業 / 2 生活必需品
+     0 銀行・金融 / 1 自動車・製造業 / 2 生活必需品 / 3 建設・インフラ / 4 小売・流通
+   Indices 0-2 are unchanged from the original 3-industry version and the two new industries were
+   APPENDED at 3-4, so v4 saves store industryIdx numerically and old saves keep pointing at the
+   same industries (append-only = stable keys).
    Quake & Lehman moves are based on verified TOPIX-17 sector ETF closes (2011/3/10→3/14→3/15→3/25 and
    2008/9/12→9/16→10/10→10/28), rounded for gameplay. Greece bank moves and the 生活必需品 moves in
    quake/greece (no verified sector index in the source data) remain learning estimates, labelled as such
@@ -1424,25 +1435,33 @@ var INDUSTRY_MOVES={
  tutorial:[
   {moves:[0.04,-0.05,0.05],notes:["練習用：良いニュースで少し上がりました。銀行・金融は値動きが小さめです。","練習用：コスト増の心配で少し下がりました。","練習用：回復のニュースで少し戻しました。"]},
   {moves:[0.10,-0.12,0.11],notes:["練習用：人気商品のニュースに一番大きく反応して上がりました。練習ではこの業種が一番分かりやすいです。","練習用：原材料のコスト増が一番響き、大きく下がりました。","練習用：生産の回復で大きく戻しました。"]},
-  {moves:[0.02,-0.02,0.03],notes:["練習用：毎日の需要が安定しているため、上がり幅は小さめでした。","練習用：需要が安定しているため、下げ幅も小さめでした。本番でも生活必需品は下げが小さい傾向があります。","練習用：ゆるやかに戻しました。値動きの小ささが生活必需品の特徴です。"]}
+  {moves:[0.02,-0.02,0.03],notes:["練習用：毎日の需要が安定しているため、上がり幅は小さめでした。","練習用：需要が安定しているため、下げ幅も小さめでした。本番でも生活必需品は下げが小さい傾向があります。","練習用：ゆるやかに戻しました。値動きの小ささが生活必需品の特徴です。"]},
+  {moves:[0.06,-0.08,0.09],notes:["練習用：工事の話題で中くらいに上がりました。","練習用：材料費の上昇でコスト増が心配され、中くらいに下がりました。","練習用：新しい工場の完成が伝わり、大きく戻しました。"]},
+  {moves:[0.07,-0.07,0.06],notes:["練習用：人気商品の話題でお店の売上が伸びるとみられ、上がりました。","練習用：仕入れ値の上昇で利益が減ると心配され、下がりました。","練習用：生産の回復で商品がそろい、買い戻されました。"]}
  ],
  quake:[
   {moves:[-0.13,-0.06,0.07],notes:["TOPIX-17『金融（除く銀行）』の実績は判断日3/10→3/14で-13.1％でした。市場全体の不安で保険を含む金融株が売られ、指数を押し下げました（ゲーム用に-13％へ丸め）。","3/14→3/15の実績は-5.7％と続落しました。原発事故の深刻化で市場全体のパニックが続いた区間です（-6％へ丸め）。","3/15→3/25の実績は+7.0％と反発しました。G7の協調介入や日銀の資金供給で不安が和らぎ、買い戻しが入りました（+7％へ丸め）。"]},
   {moves:[-0.10,-0.08,0.08],notes:["TOPIX-17『輸送用機器』の実績は判断日3/10→3/14で-10.3％でした。部品工場の被災とサプライチェーン寸断への懸念が重しになりました（ゲーム用に-10％へ丸め）。","3/14→3/15の実績も-8.2％と続落しました。原発事故の深刻化と計画停電で、生産停止が長引くとの見方が強まりました。","3/15→3/25の実績は+8.0％と反発しました。G7の協調介入や供給網復旧の進展で買い戻しが入りましたが、期間全体では-11.0％とマイナス圏にとどまりました。"]},
-  {moves:[-0.05,-0.04,0.03],notes:["食品や日用品は東日本大地震の後も毎日の需要が続くため、市場全体より下げは小さかったという方向性の学習用の概数です（対応する検証済み業種別指数がないため概数）。買いだめや物流の混乱はあったものの、需要そのものは安定していました。","物流の混乱が続く中でも需要の安定さが意識され、下げは小幅にとどまったという学習用の概数です。","供給網の復旧とともに緩やかに買い戻されたという学習用の概数です。期間を通して、他の2業種より値動きが小さかった点が生活必需品の特徴です。"]}
+  {moves:[-0.05,-0.04,0.03],notes:["食品や日用品は東日本大地震の後も毎日の需要が続くため、市場全体より下げは小さかったという方向性の学習用の概数です（対応する検証済み業種別指数がないため概数）。買いだめや物流の混乱はあったものの、需要そのものは安定していました。","物流の混乱が続く中でも需要の安定さが意識され、下げは小幅にとどまったという学習用の概数です。","供給網の復旧とともに緩やかに買い戻されたという学習用の概数です。期間を通して、他の2業種より値動きが小さかった点が生活必需品の特徴です。"]},
+  {moves:[0,-0.10,0.15],notes:["TOPIX-17『建設・資材』の実績は判断日3/10→3/14で+0.3％とほぼ横ばいでした。復興需要への期待が下支えしました（ゲーム用に±0％へ丸め）。","3/14→3/15の実績は-9.7％と、市場全体のパニック売りに巻き込まれて下落しました（-10％へ丸め）。","3/15→3/25の実績は+14.5％と大きく反発し、期間全体では+3.7％とプラスに転換しました。復興需要が本格化した流れです（+15％へ丸め）。"]},
+  {moves:[-0.08,-0.05,0.05],notes:["店舗の被災や物流の寸断、買い控えへの懸念で売られたという方向性の学習用の概数です（対応する検証済み業種別指数がないため概数）。食品スーパーなど生活に近い小売は底堅い一方、被災地の店舗や百貨店が重しになりました。","計画停電や物流の混乱が続く中でも下げは続きましたが、生活に近い小売の需要の底堅さも意識され、下げは中くらいにとどまったという学習用の概数です。","物流と供給網の復旧とともに買い戻されたという学習用の概数です。期間を通して、生活必需品よりは大きく下げた点が小売・流通の特徴です。"]}
  ],
  greece:[
   {moves:[-0.22,-0.30,0.25],notes:["EURO STOXX Banksの日次値は未確認のため学習用の概数です。年間リターンでは2010年に-26.86％と大幅下落しており、ギリシャ国債を大量に保有していたため損失処理への懸念で売りが殺到したという方向性は実績と一致しています。","日次値は未確認のため概数です。2011年の年間リターンは-37.63％と、危機の深刻化で銀行株の下落が続きました。","日次値は未確認のため概数です。2012年の年間リターンは+11.98％と反発に転じており、ECBの長期資金供給（LTRO）と債務交換の合意を受けた買い戻しを反映しています。"]},
   {moves:[-0.12,-0.20,0.24],notes:["債務危機の伝染で欧州全体の景気が冷え込むとの見方から、設備投資や購買意欲の減退が意識され下落しました。欧州域内向けの販売が中心のため、危機の伝染が直接響きました。","他国への波及懸念の再燃で景気低迷が意識され、市場全体とほぼ同じ幅で下落しました。自動車や機械への需要の落ち込みが意識された区間です。","危機の後退で景気への過度な悲観が和らぎ、市場全体とともに反発しました。"]},
   {moves:[-0.06,-0.12,0.14],notes:["欧州の食品・日用品メーカーは、危機の中でも毎日の需要が続くため、銀行・金融や自動車・製造業より下げが小さかったという方向性の学習用の概数です（検証済みの日次業種別指数がないため概数）。","緊縮と景気低迷で消費は冷え込んだものの、生活必需品の需要は底堅く、下げは他の業種より抑えられたという学習用の概数です。","危機の後退で市場全体とともに反発したという学習用の概数です。期間を通して値動きが最も小さかった点が、他の危機と共通する生活必需品の特徴です。"]},
+  {moves:[-0.15,-0.24,0.20],notes:["財政危機で公共工事の削減が意識され、建設株が売られたという方向性の学習用の概数です（検証済みの日次業種別指数がないため概数）。スペインやアイルランドの住宅バブルの後処理への懸念も重しになりました。","緊縮財政で公共投資が削られ、他国への波及懸念の再燃とともに一段と下落したという学習用の概数です。","ECBの長期資金供給（LTRO）と債務交換の合意で買い戻しが入ったという学習用の概数です。ただし公共工事の回復は遅く、反発は銀行・金融より小幅にとどまりました。"]},
+  {moves:[-0.09,-0.16,0.18],notes:["景気低迷で消費が冷え込むとの見方から下落したという方向性の学習用の概数です（検証済みの日次業種別指数がないため概数）。生活必需品より嗜好品や外食などの比重が高く、消費の落ち込みが響きました。","緊縮と失業の増加で消費の落ち込みが意識され、下落が続いたという学習用の概数です。","危機の後退で消費への過度な悲観が和らぎ、反発したという学習用の概数です。"]}
  ],
  lehman:[
   {moves:[-0.07,-0.14,-0.25],notes:["TOPIX-17連動ETF『銀行』の実績は2008/9/12→9/16で-7.1％でした。リーマン破綻直後の下げはまずこの幅です（-7％へ丸め）。2008年のETFは出来高が極端に少なく、変動率は実績の目安として扱っています。","9/16→10/10の実績は-14.3％でした。信用不安が広がり、銀行がお金を貸せなくなることへの懸念が強まりました（-14％へ丸め）。","10/10→10/28の実績は-24.5％と、3区間で最も大きく下落しました。期間全体では-39.9％で、下げの中心が金融だったことが実績にも表れています（-25％へ丸め）。"]},
   {moves:[-0.04,-0.30,-0.03],notes:["TOPIX-17『輸送用機器』の実績は9/12→9/16で-4.4％でした。危機の初動では金融に比べ小幅な下げです（-4％へ丸め）。","9/16→10/10は-29.6％と急落しました。世界的な景気悪化で自動車販売が減るとの見方が一気に強まった区間です（-30％へ丸め）。","10/10→10/28は-3.2％と小幅な続落にとどまり、期間全体では-34.9％でした（-3％へ丸め）。"]},
-  {moves:[-0.04,-0.14,-0.16],notes:["TOPIX-17『食料品』の実績は9/12→9/16で-3.9％でした。市場全体の下落には巻き込まれたものの、業種の中で最も小幅な下げです（-4％へ丸め）。","9/16→10/10は-14.2％と下落しましたが、銀行・不動産・機械などと比べると下げ幅は抑えられました（-14％へ丸め）。","10/10→10/28は-16.2％と続落し、期間全体では-30.8％でした。それでも全業種で最も小幅な下落で、食品・日用品の需要の安定さが表れています（-16％へ丸め）。"]}
+  {moves:[-0.04,-0.14,-0.16],notes:["TOPIX-17『食料品』の実績は9/12→9/16で-3.9％でした。市場全体の下落には巻き込まれたものの、業種の中で最も小幅な下げです（-4％へ丸め）。","9/16→10/10は-14.2％と下落しましたが、銀行・不動産・機械などと比べると下げ幅は抑えられました（-14％へ丸め）。","10/10→10/28は-16.2％と続落し、期間全体では-30.8％でした。それでも全業種で最も小幅な下落で、食品・日用品の需要の安定さが表れています（-16％へ丸め）。"]},
+  {moves:[-0.06,-0.22,-0.12],notes:["信用不安で不動産市況の悪化が意識され、建設株も売られたという方向性の学習用の概数です（TOPIX-17『不動産』の実績-8.6％と方向性は一致しています）。","銀行が貸せなくなることで住宅や設備投資が止まるとの懸念が強まり、大きく下落したという学習用の概数です。不動産の実績-27.5％、機械の実績も大幅下落と、実体経済の業種が急落した区間です。","政策対応への期待はあったものの、受注の回復が見えず続落したという学習用の概数です。"]},
+  {moves:[-0.06,-0.20,-0.14],notes:["市場全体の下落に巻き込まれ、買い控えへの懸念で売られたという方向性の学習用の概数です。食品の実績-3.9％より下げがやや大きかったという位置づけです。","世界的な景気悪化で個人消費が冷え込み、百貨店や専門店の販売減が意識されて大きく下落したという学習用の概数です。食品の実績-14.2％より下げが大きくなりました。","消費の底が見えず続落したという学習用の概数です。期間を通して、生活必需品（食品）より下げが大きかった点が小売・流通の特徴です。"]}
  ]
 };
-var INDUSTRY_EN=["Banks & Finance","Autos & Manufacturing","Consumer Staples"];
+var INDUSTRY_EN=["Banks & Financial Services","Automotive & Manufacturing","Consumer Staples","Construction & Infrastructure","Retail & Distribution"];
 var SCENARIO_EN={tutorial:"Tutorial — Practice Run",quake:"Great East Japan Earthquake",greece:"Greek Debt Crisis / GREXIT risk",lehman:"Lehman Shock"};
 var LANG_KEY="timeslip-invest-lang-v1";
 var LANG="ja";
@@ -1518,7 +1537,7 @@ function bestWorstFor(s,idx,startCash,startShares){
    total becoming the next scenario's starting total, split half cash / half
    shares at that scenario's start (the same splitStart rule as real play).
    Best / worst are INDEPENDENT of the player's picks: for every scenario, all
-   3 industries × every legal line of play are searched (bestWorstFor), and the
+   5 industries × every legal line of play are searched (bestWorstFor), and the
    chain keeps the highest (best) / lowest (worst) end total found. Because a
    scenario's best and worst end totals never decrease when its starting total
    grows, chaining the per-scenario extremes gives the true chain extremes.
@@ -1591,22 +1610,30 @@ var INDUSTRY_HINTS={
  tutorial:[
   "お金の流れを担う業種です。練習では値動きが小さめなので、まずは様子を見るのに向いています。",
   "商品を作って売る業種です。人気商品や原材料の値段のニュースに一番大きく反応します。練習ではこの業種が一番分かりやすいです。",
-  "食品や日用品など、毎日必要とされる商品を作っています。景気が変わっても需要が安定し、値動きは小さめです。"
+  "食品や日用品など、毎日必要とされる商品を作っています。景気が変わっても需要が安定し、値動きは小さめです。",
+  "道路や建物、工場などを造る業種です。工事の受注や材料費のニュースが手がかりになります。",
+  "スーパーやコンビニ、百貨店など、商品を消費者へ届ける業種です。お客さんの買い物の様子や人気商品のニュースが手がかりになります。"
  ],
  quake:[
   "銀行や保険など、お金の流れを担う業種です。市場全体の不安や、日銀の資金供給・政策対応に関する報道が手がかりになります。",
   "東北地方に部品工場が集まり、全国の完成車工場へ部品を供給しています。計画停電や物流の状況、工場の操業再開の報道が手がかりになります。",
-  "食品や日用品など、毎日必要とされる商品を作っています。物流や買いだめの報道とあわせて、景気や災害が変わっても需要がどう推移するか考えてみてください。"
+  "食品や日用品など、毎日必要とされる商品を作っています。物流や買いだめの報道とあわせて、景気や災害が変わっても需要がどう推移するか考えてみてください。",
+  "建設会社や建材メーカーなど、建物や道路を造る業種です。復興工事の受注や、政府の復旧予算に関する報道が手がかりになります。",
+  "スーパーやコンビニ、百貨店など、商品を消費者へ届ける業種です。店舗の営業再開や物流の復旧、買い物の様子に関する報道が手がかりになります。"
  ],
  greece:[
   "ギリシャ国債を多く保有し、欧州各国の企業や政府にも融資しています。ギリシャ国債の価格や、銀行の損失処理・資金調達に関する報道に注目してください。",
   "自動車や機械を欧州域内外へ販売しています。欧州全体の景気や設備投資、購買意欲を示す指標や報道が手がかりです。",
-  "食品や日用品など、毎日必要とされる商品を作っています。緊縮や景気低迷の中でも需要がどう推移するか、他の業種と比べて考えてみてください。"
+  "食品や日用品など、毎日必要とされる商品を作っています。緊縮や景気低迷の中でも需要がどう推移するか、他の業種と比べて考えてみてください。",
+  "建設会社や建材メーカーなど、建物や道路を造る業種です。各国政府の財政や公共工事の予算、住宅市況に関する報道が手がかりになります。",
+  "スーパーや百貨店など、商品を消費者へ届ける業種です。失業や賃金、消費の様子を示す指標や報道が手がかりになります。"
  ],
  lehman:[
   "住宅ローンや企業融資を扱い、金融商品も保有しています。住宅価格やローンの返済状況、金融機関同士の信用に関する報道が手がかりです。",
   "世界各地で自動車を販売し、部品や機械も作っています。景気が変わると新車の買い控えや買い替えに影響が出るため、販売台数や雇用の報道に注目してください。",
-  "食品や日用品など、毎日必要とされる商品を作っています。景気が変わっても需要がどう推移するか、他の業種と比べて考えてみてください。"
+  "食品や日用品など、毎日必要とされる商品を作っています。景気が変わっても需要がどう推移するか、他の業種と比べて考えてみてください。",
+  "建設会社や建材メーカーなど、建物や道路を造る業種です。住宅着工や不動産市況、公共工事の受注に関する報道が手がかりになります。",
+  "スーパーや百貨店など、商品を消費者へ届ける業種です。個人消費や小売売上高、雇用の報道が手がかりになります。"
  ]
 };
 function hintFor(sid,idx){ var h=INDUSTRY_HINTS[sid]; var t=(h&&h[idx])?h[idx]:""; var i=t.indexOf("。"); return i>=0? t.slice(0,i+1) : t; }
@@ -1798,22 +1825,30 @@ var INDUSTRY_REASONS={
  tutorial:[
   ["良いニュースで少し上がりました。値動きは小さめでした。","コスト増の心配で少し下がりました。","回復のニュースで少し戻しました。"],
   ["人気商品のニュースに一番大きく反応し、上がりました。","原材料のコスト増が一番響き、大きく下がりました。","生産の回復で大きく戻しました。"],
-  ["需要が安定しているため、上がり幅は小さめでした。","需要が安定しているため、下げ幅も小さめでした。","ゆるやかに戻しました。"]
+  ["需要が安定しているため、上がり幅は小さめでした。","需要が安定しているため、下げ幅も小さめでした。","ゆるやかに戻しました。"],
+  ["工事の話題で中くらいに上がりました。","材料費の上昇でコスト増が心配され、中くらいに下がりました。","新しい工場の完成が伝わり、大きく戻しました。"],
+  ["人気商品の話題で売上が伸びるとみられ、上がりました。","仕入れ値の上昇で利益が減ると心配され、下がりました。","生産の回復で商品がそろい、買い戻されました。"]
  ],
  quake:[
   ["市場全体の不安で金融株が売られ、大きく下落しました。","原発事故の深刻化で市場全体のパニックが続き、続落しました。","G7の協調介入や日銀の資金供給で不安が和らぎ、反発しました。"],
   ["部品工場の被災とサプライチェーン寸断への懸念で売られました。","原発事故の深刻化と計画停電で、生産停止が長引くとの見方が強まりました。","供給網の復旧進展とG7の協調介入で、買い戻しが入りました。"],
-  ["毎日の需要が続くため、市場全体より下げは小さめでした。","需要の安定さが意識され、下げは小幅にとどまりました。","供給網の復旧とともに、緩やかに買い戻されました。"]
+  ["毎日の需要が続くため、市場全体より下げは小さめでした。","需要の安定さが意識され、下げは小幅にとどまりました。","供給網の復旧とともに、緩やかに買い戻されました。"],
+  ["復興需要への期待が下支えし、ほぼ横ばいでした。","市場全体のパニック売りに巻き込まれ、下落しました。","復興需要が本格化し、大きく反発しました。"],
+  ["店舗の被災や物流の寸断、買い控えへの懸念で売られました。","計画停電や物流の混乱が続き、下げが続きました。","物流と供給網の復旧とともに、買い戻されました。"]
  ],
  greece:[
   ["ギリシャ国債の損失処理への懸念で、売りが殺到しました。","危機の深刻化で、銀行株の下落が続きました。","ECBの長期資金供給と債務交換の合意を受け、買い戻しが入りました。"],
   ["債務危機の伝染で欧州景気が冷え込むとの見方から、下落しました。","他国への波及懸念の再燃で、需要の落ち込みが意識され下落しました。","危機の後退で過度な悲観が和らぎ、反発しました。"],
   ["毎日の需要が続くため、他の業種より下げは小さめでした。","緊縮で消費は冷え込みましたが、需要の底堅さで下げは抑えられました。","危機の後退で、市場全体とともに反発しました。"],
+  ["公共工事の削減が意識され、売られました。","緊縮で公共投資が削られ、一段と下落しました。","買い戻しは入りましたが、反発は小幅にとどまりました。"],
+  ["消費が冷え込むとの見方から、下落しました。","緊縮と失業の増加で消費が落ち込み、下落が続きました。","消費への過度な悲観が和らぎ、反発しました。"]
  ],
  lehman:[
   ["リーマン破綻直後の信用不安で売られました。","信用不安が広がり、銀行が貸せなくなることへの懸念が強まりました。","『次に破綻するのはどこか』という疑心暗鬼が続き、大きく下落しました。"],
   ["危機の初動では、金融に比べ小幅な下げにとどまりました。","世界的な景気悪化で自動車販売が減るとの見方が強まり、急落しました。","小幅な続落にとどまりました。"],
-  ["市場全体の下落に巻き込まれましたが、業種の中で最も小幅な下げでした。","下落しましたが、他の業種より下げ幅は抑えられました。","続落しましたが、全業種で最も小幅な下落で、需要の安定さが表れました。"]
+  ["市場全体の下落に巻き込まれましたが、業種の中で最も小幅な下げでした。","下落しましたが、他の業種より下げ幅は抑えられました。","続落しましたが、全業種で最も小幅な下落で、需要の安定さが表れました。"],
+  ["不動産市況の悪化が意識され、売られました。","投資が止まるとの懸念が強まり、大きく下落しました。","受注の回復が見えず、続落しました。"],
+  ["買い控えへの懸念で売られました。","個人消費が冷え込み、大きく下落しました。","消費の底が見えず、続落しました。"]
  ]
 };
 /* English counterparts of INDUSTRY_REASONS (same scenario / industry / round order),
@@ -1822,30 +1857,38 @@ var INDUSTRY_REASONS_EN={
  tutorial:[
   ["Good news lifted it slightly; moves were small.","Cost worries pushed it down slightly.","Recovery news brought a small bounce back."],
   ["It reacted most to the hit-product news and rose.","Rising material costs hit it hardest; it fell sharply.","Production recovery brought a strong rebound."],
-  ["Steady daily demand kept the rise small.","Steady demand kept the fall small, too.","It recovered gradually; small moves are typical for staples."]
+  ["Steady daily demand kept the rise small.","Steady demand kept the fall small, too.","It recovered gradually; small moves are typical for staples."],
+  ["Construction news lifted it moderately.","Rising material costs raised profit worries; it fell moderately.","News of the completed factory brought a strong rebound."],
+  ["Hit-product buzz lifted expected sales; it rose.","Higher wholesale costs raised profit worries; it fell.","Restocked shelves after production recovered; it was bought back."]
  ],
  quake:[
   ["Market-wide anxiety hit financials hard; they fell sharply.","Panic continued as the nuclear accident worsened; they fell further.","G7 coordinated intervention and BOJ liquidity eased fears; they rebounded."],
   ["Damaged parts plants and supply-chain fears triggered selling.","The worsening nuclear accident and planned blackouts raised fears of longer shutdowns.","Supply-chain recovery and G7 intervention brought buybacks."],
-  ["Daily demand continued, so the fall was smaller than the market's.","Stable demand was recognized; the fall stayed small.","It was bought back gradually as supply chains recovered."]
+  ["Daily demand continued, so the fall was smaller than the market's.","Stable demand was recognized; the fall stayed small.","It was bought back gradually as supply chains recovered."],
+  ["Reconstruction hopes supported it; it was roughly flat.","It was caught in the market-wide panic selling and fell.","Reconstruction demand kicked in and it rebounded sharply."],
+  ["Damaged stores, broken logistics and spending fears triggered selling.","Planned blackouts and logistics chaos continued; it kept falling.","It was bought back as logistics and supply chains recovered."]
  ],
  greece:[
   ["Fears over Greek bond losses triggered heavy selling.","The crisis deepened and bank shares kept falling.","The ECB's long-term funding (LTRO) and the debt-swap deal brought buybacks."],
   ["Fears that contagion would cool the European economy pushed it down.","Renewed contagion fears and weakening demand pushed it down.","As the crisis eased, excessive pessimism faded and it rebounded."],
-  ["Daily demand continued, so the fall was smaller than other sectors.","Austerity cooled consumption, but steady demand limited the fall.","It rebounded with the market as the crisis eased."]
+  ["Daily demand continued, so the fall was smaller than other sectors.","Austerity cooled consumption, but steady demand limited the fall.","It rebounded with the market as the crisis eased."],
+  ["Fears of public-works cuts triggered selling.","Austerity slashed public investment; it fell further.","Buybacks came in, but the rebound stayed modest."],
+  ["Fears of cooling consumption pushed it down.","Austerity and rising unemployment hit consumption; it kept falling.","Excessive pessimism about consumption faded and it rebounded."]
  ],
  lehman:[
   ["Credit fears right after Lehman's collapse triggered selling.","Credit fears spread; worries grew that banks would stop lending.","Suspicion about 'who fails next' persisted; it fell sharply."],
   ["In the first shock, the fall was smaller than financials'.","Fears of collapsing global car sales caused a plunge.","It only fell slightly further."],
-  ["Caught in the market fall, but the smallest drop among sectors.","It fell, but less than other sectors.","It kept falling, yet posted the smallest drop overall — demand stayed stable."]
+  ["Caught in the market fall, but the smallest drop among sectors.","It fell, but less than other sectors.","It kept falling, yet posted the smallest drop overall — demand stayed stable."],
+  ["Worsening property-market fears triggered selling.","Fears that investment would freeze caused a sharp fall.","With no sign of orders recovering, it kept falling."],
+  ["Spending-caution fears triggered selling.","Personal consumption froze and it fell sharply.","With no bottom in sight for consumption, it kept falling."]
  ]
 };
 /* English counterparts of each scenario's explainer, shown in the result screen's Analysis card. */
 var EXPLAINER_EN={
  tutorial:"A fictional practice scenario. You experienced the basic pattern: good news lifts prices, bad news pushes them down, and recovery news brings them back.",
- quake:"After the Great East Japan Earthquake, the Nikkei plunged, then rebounded on policy responses and recovery hopes. Banks & Finance and Autos & Manufacturing fell heavily; Consumer Staples fell less.",
- greece:"Even after the bailout deal, fears flared up again. Banks & Finance plunged and Autos & Manufacturing also fell, while Consumer Staples fell relatively less.",
- lehman:"Lehman's collapse sent the Nikkei tumbling. Banks & Finance and Autos & Manufacturing fell heavily; Consumer Staples fell relatively less."
+ quake:"After the Great East Japan Earthquake, the Nikkei plunged, then rebounded on policy responses and recovery hopes. Banks & Financial Services and Automotive & Manufacturing fell heavily; Consumer Staples fell less. Construction & Infrastructure was roughly flat at first, then rebounded sharply on reconstruction demand.",
+ greece:"Even after the bailout deal, fears flared up again. Banks & Financial Services plunged and Automotive & Manufacturing also fell, while Consumer Staples fell relatively less. Construction & Infrastructure fell heavily as austerity cut public investment, and Retail & Distribution fell as consumption cooled.",
+ lehman:"Lehman's collapse sent the Nikkei tumbling. Banks & Financial Services and Automotive & Manufacturing fell heavily; Consumer Staples fell relatively less. Construction & Infrastructure and Retail & Distribution also fell heavily on the credit crunch and collapsing consumption."
 };
 function shortReason(round){ var t=INDUSTRY_REASONS[state.current.id]; return (t&&t[state.industryIdx]&&t[state.industryIdx][round])? t[state.industryIdx][round] : ""; }
 function shortReasonEN(round){ var t=INDUSTRY_REASONS_EN[state.current.id]; return (t&&t[state.industryIdx]&&t[state.industryIdx][round])? t[state.industryIdx][round] : ""; }
