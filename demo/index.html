@@ -363,6 +363,89 @@
         box-shadow:var(--lux-card-shadow); color:var(--ink);
       }
       @media (prefers-color-scheme: dark){ .modal{ background:linear-gradient(180deg, rgba(255,255,255,.07) 0%, rgba(255,255,255,0) 34%), linear-gradient(165deg, var(--card) 0%, var(--card) 58%, #232a22 135%); border-color:rgba(246,226,122,.20); } }
+      /* ---------- main-game style play screen ---------- */
+      .news-card{
+        border-radius:12px; padding:16px 18px 18px; margin-bottom:1rem; color:#fff;
+        border-left:4px solid var(--lux-gold);
+        background:linear-gradient(180deg, #9aa39c 0%, #6f7770 34%, #565e57 68%, #454c46 100%);
+        box-shadow:0 1px 0 rgba(255,255,255,.35) inset, 0 14px 30px rgba(10,15,13,.28);
+      }
+      .news-kicker{ color:#ffd968; font-weight:800; font-size:.85rem; letter-spacing:.04em; }
+      .news-card .news-head{ color:#fff; margin:.35rem 0 .2rem; text-shadow:0 1px 3px rgba(0,0,0,.35); }
+      .news-body{ color:#e3e8e2; font-size:.92rem; margin:.25rem 0 0; }
+      .term{
+        border-radius:14px; padding:14px 14px 8px; margin-bottom:1rem; color:#dfe5ee;
+        background:linear-gradient(180deg, #232833 0%, #171b23 55%, #10131a 100%);
+        border:1px solid rgba(246,226,122,.25);
+        box-shadow:0 1px 0 rgba(255,255,255,.10) inset, 0 16px 36px rgba(8,10,14,.35);
+      }
+      .term-head{ display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; align-items:flex-start; }
+      .term-name{ font-size:.88rem; color:#aeb9c9; display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; }
+      .chip-daily{ border:1px solid #4a5468; border-radius:6px; padding:1px 8px; font-size:.75rem; color:#cfd8e6; background:rgba(255,255,255,.05); }
+      .term-price{ font-size:34px; font-weight:900; line-height:1.15; color:#fff; font-variant-numeric:tabular-nums; }
+      .term-state{ font-size:.85rem; color:#8fa0b8; font-weight:700; margin-left:.5rem; }
+      .ohlc{ display:grid; grid-template-columns:auto auto auto auto; gap:2px 14px; font-size:.9rem; font-variant-numeric:tabular-nums; }
+      .ohlc .k{ color:#8fa0b8; } .ohlc .v{ color:#fff; font-weight:800; text-align:right; }
+      .ma-legend{ display:flex; gap:.4rem 1.1rem; flex-wrap:wrap; font-size:.78rem; margin:.55rem 0 .2rem; border-top:1px solid rgba(255,255,255,.08); padding-top:.5rem; }
+      .ma-legend .ma1c{ color:#4fc3b8; } .ma-legend .ma2c{ color:#b7c94e; } .ma-legend .ma3c{ color:#d98a4a; } .ma-legend .volc{ color:#c9a227; }
+      .term-note{ font-size:.72rem; color:#77839a; margin:.3rem 0 .4rem; }
+      .trade-panel{
+        border-radius:16px; padding:18px; margin-bottom:1rem; color:#eef1ec;
+        background:linear-gradient(180deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,.01) 40%, rgba(0,0,0,.25) 100%), linear-gradient(160deg, #232b24, #12160f 75%);
+        border:1px solid rgba(246,226,122,.30); border-top:3px solid var(--lux-gold);
+        box-shadow:0 1px 0 rgba(255,255,255,.12) inset, 0 16px 36px rgba(10,15,13,.30);
+      }
+      .tp-step{ font-weight:800; font-size:.95rem; margin:.2rem 0 .6rem; }
+      .seg2{
+        display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; padding:6px; border-radius:999px;
+        background:linear-gradient(180deg, #0c0f0c, #171b16); border:1px solid rgba(246,226,122,.20);
+        box-shadow:inset 0 2px 8px rgba(0,0,0,.55);
+      }
+      .seg2 button{
+        border-radius:999px; border:1px solid rgba(255,255,255,.14); color:#eef1ec; min-height:64px;
+        background:linear-gradient(180deg, #4a554d 0%, #2b332c 48%, #1a1f1a 100%);
+        box-shadow:0 1px 0 rgba(255,255,255,.28) inset, 0 -2px 0 rgba(0,0,0,.35) inset, 0 4px 10px rgba(0,0,0,.35);
+        padding:.55rem .2rem; transition:transform .08s ease, filter .15s ease;
+      }
+      .seg2 button .t{ display:block; font-size:1.25rem; font-weight:900; line-height:1.25; }
+      .seg2 button .s{ display:block; font-size:.74rem; color:#c3ccc2; font-weight:500; margin-top:.15rem; }
+      .seg2 button:active{ transform:translateY(2px); }
+      .seg2 button[data-action="buy"][aria-pressed="true"]{ background:linear-gradient(180deg, #46d68f 0%, #22b06e 40%, #1a7f37 68%, #0d5c2e 100%); color:#fff; }
+      .seg2 button[data-action="sell"][aria-pressed="true"]{ background:linear-gradient(180deg, #ff7a72 0%, #e84542 40%, #c62828 68%, #7d1212 100%); color:#fff; }
+      .seg2 button[data-action="pass"][aria-pressed="true"]{ background:linear-gradient(180deg, var(--lux-gold-lt) 0%, var(--lux-gold-hi) 40%, var(--gold2) 68%, #c78f04 100%); color:#2a1e00; }
+      .seg2 button[data-action="pass"][aria-pressed="true"] .s{ color:#5c4a08; }
+      .seg2 button[aria-pressed="true"] .s{ color:rgba(255,255,255,.85); }
+      @media (max-width:480px){ .seg2 button .t{ font-size:1.05rem; } .seg2 button .s{ font-size:.64rem; } }
+      .amt-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:1rem; margin-top:1.1rem; }
+      .amt-big{ font-size:34px; font-weight:900; line-height:1; white-space:nowrap; font-variant-numeric:tabular-nums; }
+      .amt-big small{ font-size:1rem; font-weight:800; }
+      .amt-note{ color:#aeb8ae; font-size:.78rem; margin-top:.25rem; }
+      input[type="range"].amt-slider{ -webkit-appearance:none; appearance:none; width:100%; height:12px; border-radius:999px; margin:1rem 0 .9rem; min-height:44px; background:transparent; cursor:pointer; }
+      input[type="range"].amt-slider::-webkit-slider-runnable-track{ height:12px; border-radius:999px; background:linear-gradient(90deg, #c9a227, #2e7d4f var(--fill,50%), #e8e6da var(--fill,50%)); box-shadow:inset 0 1px 3px rgba(0,0,0,.35); }
+      input[type="range"].amt-slider::-webkit-slider-thumb{ -webkit-appearance:none; width:26px; height:26px; border-radius:50%; margin-top:-7px; background:radial-gradient(circle at 35% 30%, #fffbe8, #f6e27a 55%, #c9a227); border:1px solid #8a6d1b; box-shadow:0 2px 8px rgba(0,0,0,.5), 0 0 14px rgba(246,226,122,.45); }
+      input[type="range"].amt-slider::-moz-range-track{ height:12px; border-radius:999px; background:#e8e6da; }
+      input[type="range"].amt-slider::-moz-range-progress{ height:12px; border-radius:999px; background:linear-gradient(90deg, #c9a227, #2e7d4f); }
+      input[type="range"].amt-slider::-moz-range-thumb{ width:24px; height:24px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #fffbe8, #f6e27a 55%, #c9a227); border:1px solid #8a6d1b; box-shadow:0 2px 8px rgba(0,0,0,.5); }
+      input[type="range"].amt-slider:disabled{ opacity:.35; cursor:not-allowed; }
+      .amt-presets{ display:grid; grid-template-columns:repeat(5,1fr); gap:.5rem; }
+      .amt-presets button{
+        border-radius:999px; border:1px solid rgba(255,255,255,.14); color:#eef1ec; font-weight:800; font-size:.95rem; padding:.6rem .1rem;
+        background:linear-gradient(180deg, #4a554d 0%, #2b332c 48%, #1a1f1a 100%);
+        box-shadow:0 1px 0 rgba(255,255,255,.25) inset, 0 3px 8px rgba(0,0,0,.3);
+      }
+      .amt-presets button[aria-pressed="true"]{ background:linear-gradient(180deg, #3ecf8e, #17714c 75%, #0b4a30); color:#fff; border-color:rgba(4,40,26,.5); }
+      .amt-presets button:disabled{ opacity:.32; cursor:not-allowed; }
+      @media (max-width:480px){ .amt-presets button{ font-size:.8rem; } }
+      .tp-sum{ margin-top:1rem; }
+      .tp-sum .kv{ border-bottom:1px dashed rgba(246,226,122,.22); color:#c9d2c8; }
+      .tp-sum .kv b{ color:#fff; }
+      .trade-panel .radio-chip{ background:linear-gradient(180deg, #4a554d 0%, #2b332c 48%, #1d231d 100%); color:#eef1ec; border-color:rgba(246,226,122,.20); box-shadow:0 1px 0 rgba(255,255,255,.22) inset, 0 3px 8px rgba(0,0,0,.3); }
+      .trade-panel .radio-chip:has(input:checked){ background:linear-gradient(180deg, #ffffff, #d9ded6 70%, #aeb6ac); color:#141714; border-color:rgba(246,226,122,.4); }
+      details.adv2{ border:1px solid rgba(246,226,122,.25); border-radius:12px; padding:.35rem .95rem .85rem; margin:.9rem 0 1rem; background:linear-gradient(180deg, #39423a, #22281f 80%); box-shadow:0 1px 0 rgba(255,255,255,.14) inset; }
+      details.adv2 summary{ cursor:pointer; color:#eef1ec; font-size:.9rem; font-weight:700; padding:.5rem 0; min-height:44px; }
+      details.adv2 input[type="number"]{ width:7rem; border:1px solid rgba(246,226,122,.3); border-radius:8px; background:#141714; color:#fff; padding:.45rem .6rem; font-size:1rem; }
+      details.adv2 .small{ color:#c9d2c8; }
+      .scen-price-line{ font-size:.86rem; color:var(--muted); margin:.35rem 0 0; font-variant-numeric:tabular-nums; }
       [hidden]{ display:none !important; }
       @media (prefers-reduced-motion: reduce){
         .btn, .topcta, .seg button{ transition:none !important; }
@@ -441,6 +524,64 @@ var GAME_CORE = (function () {
   var ROUND_ENDS = [31, 36, 40];   /* R1: 11-13, R2: 11-20, R3: 11-27 */
   var ROUND_PRICES = [NVDA_SERIES[START_IDX].jpy, NVDA_SERIES[ROUND_ENDS[0]].jpy, NVDA_SERIES[ROUND_ENDS[1]].jpy, NVDA_SERIES[ROUND_ENDS[2]].jpy];
   var BASE_PRICE = ROUND_PRICES[0];
+
+  /* Daily OHLCV (USD) for the candlestick chart, 2026-09-01..11-27.
+     Source: Yahoo Finance style NVDA historical data, fetched 2026-11-28.
+     Closes match NVDA_USD above, so game pricing is unchanged. */
+  var NVDA_OHLC_RAW = [
+    ["2026-09-01",216.75,220.41,215.10,217.44,109756200],["2026-09-02",218.79,227.95,218.48,224.41,157104700],
+    ["2026-09-03",226.02,230.40,224.75,228.45,134681600],["2026-09-04",231.09,234.76,229.63,230.36,135352400],
+    ["2026-09-08",233.11,233.71,224.85,225.73,122965600],["2026-09-09",225.28,226.18,223.46,223.67,82955500],
+    ["2026-09-10",220.53,220.99,217.20,218.36,105768000],["2026-09-11",221.24,222.00,218.15,218.29,89060100],
+    ["2026-09-14",211.24,212.77,208.93,210.96,132267200],["2026-09-15",213.38,213.94,211.16,212.17,88059700],
+    ["2026-09-16",214.14,216.76,212.50,213.90,96563600],["2026-09-17",218.38,219.91,217.15,219.34,94191300],
+    ["2026-09-18",219.35,222.73,218.03,222.27,190287400],["2026-09-21",222.94,228.50,221.56,227.38,109806100],
+    ["2026-09-22",226.85,229.98,226.50,228.87,95746700],["2026-09-23",228.03,228.95,224.02,225.51,89547300],
+    ["2026-09-24",222.08,224.94,221.09,224.58,77469900],["2026-09-25",225.13,226.94,223.13,225.07,89947700],
+    ["2026-09-28",229.75,233.21,228.04,228.86,142344300],["2026-09-29",230.97,232.82,227.03,227.21,101494900],
+    ["2026-09-30",229.27,232.37,228.17,228.38,121732200],["2026-10-01",229.98,232.29,228.16,230.86,98591400],
+    ["2026-10-02",236.06,237.88,233.60,233.95,135167800],["2026-10-05",236.09,240.10,235.15,238.90,127171500],
+    ["2026-10-06",242.10,243.37,238.93,239.24,101701900],["2026-10-07",237.69,239.08,236.38,237.47,81772400],
+    ["2026-10-08",234.92,237.07,229.85,230.48,118697400],["2026-10-09",233.84,233.92,229.11,229.28,84645600],
+    ["2026-10-12",228.73,228.86,224.90,226.32,70690300],["2026-10-13",224.34,228.64,223.06,228.52,84036900],
+    ["2026-10-14",225.53,226.00,219.64,221.30,118730100],["2026-10-15",215.30,218.47,212.85,217.23,127087900],
+    ["2026-10-16",216.56,218.68,213.32,214.13,121252500],["2026-10-19",218.10,219.62,214.70,217.09,98684700],
+    ["2026-10-20",215.98,218.46,212.77,216.47,79609100],["2026-10-21",220.96,222.19,217.66,221.97,87085700],
+    ["2026-10-22",217.13,218.88,211.26,212.21,125407600],["2026-10-23",210.99,213.85,210.18,210.96,80189800],
+    ["2026-10-26",213.11,217.75,212.61,216.00,90829300],["2026-10-27",218.31,219.19,215.53,217.94,84799700],
+    ["2026-10-28",219.92,219.99,214.47,215.38,93030200],["2026-10-29",214.36,215.33,212.08,213.66,77568100],
+    ["2026-10-30",208.94,209.06,200.92,204.64,168386400],["2026-11-02",207.53,209.98,201.66,202.06,119272200],
+    ["2026-11-03",207.96,209.14,205.93,206.69,91943400],["2026-11-04",203.50,206.79,199.68,200.13,149033300],
+    ["2026-11-05",196.07,196.25,181.46,181.60,306127800],["2026-11-06",191.10,194.90,185.22,186.64,180212300],
+    ["2026-11-09",173.07,179.92,170.24,178.67,462719300],["2026-11-10",173.97,174.69,165.89,168.89,429273200],
+    ["2026-11-11",172.80,177.54,170.77,173.73,339214800],["2026-11-12",151.01,167.14,148.80,166.19,747707600],
+    ["2026-11-13",169.91,170.00,158.39,162.85,365796600],["2026-11-16",159.02,163.20,155.01,156.14,333822100],
+    ["2026-11-17",156.90,158.19,150.33,155.46,406985100],["2026-11-18",159.19,159.70,150.40,150.96,349791400],
+    ["2026-11-19",152.92,158.13,145.71,145.98,322940100],["2026-11-20",143.52,143.73,124.50,125.53,633418400],
+    ["2026-11-23",167.04,171.50,156.93,165.05,782593300],["2026-11-24",159.10,159.92,150.50,155.38,386223600],
+    ["2026-11-25",144.06,150.37,141.17,149.30,366571900],["2026-11-27",151.94,151.98,145.39,150.49,180940449]
+  ];
+  function toJpy(usd) { return Math.floor(usd * FX_RATE); }
+  var NVDA_CANDLES = NVDA_OHLC_RAW.map(function (d) {
+    return { date: d[0], o: d[1], h: d[2], l: d[3], c: d[4], vol: d[5],
+             jo: toJpy(d[1]), jh: toJpy(d[2]), jl: toJpy(d[3]), jc: toJpy(d[4]) };
+  });
+  var CANDLE_START_IDX = 48;            /* 2026-11-09 */
+  var CANDLE_ROUND_ENDS = [52, 57, 61];  /* R1: 11-13, R2: 11-20, R3: 11-27 */
+  /* Closes before the chart window, used only so MA25/MA75 exist from the start. */
+  var NVDA_PRE_CLOSES = [196.51,197.01,190.01,195.04,200.75,206.64,211.94,219.22,218.99,223.96,217.55,217.50,224.09,225.30,225.16,225.01,219.74,217.56,216.85,214.72,208.48,213.05,209.66,227.98,217.55,220.78];
+  var MA_CLOSES = NVDA_PRE_CLOSES.concat(NVDA_CANDLES.map(function (d) { return d.c; }));
+  function maAt(candleIdx, period) {
+    var end = NVDA_PRE_CLOSES.length + candleIdx; /* index into MA_CLOSES of this candle's close */
+    if (end + 1 < period) return null;
+    var sum = 0;
+    for (var i = end - period + 1; i <= end; i++) sum += MA_CLOSES[i];
+    return (sum / period) * FX_RATE; /* yen, unrounded for smooth lines */
+  }
+  function candleVisibleEnd(round, step) {
+    if (step === "executed") return CANDLE_ROUND_ENDS[round];
+    return round === 0 ? CANDLE_START_IDX : CANDLE_ROUND_ENDS[round - 1];
+  }
 
   /* The demo trades a single stock (Company N, priced from NVDA closes); kept for save-shape compatibility. */
   var SECTORS = [
@@ -551,7 +692,9 @@ var GAME_CORE = (function () {
     applyTrade: applyTrade, simulate: simulate, buyAndHold: buyAndHold,
     searchBestWorst: searchBestWorst, usd: usd,
     NVDA_SERIES: NVDA_SERIES, START_IDX: START_IDX, ROUND_ENDS: ROUND_ENDS,
-    ROUND_PRICES: ROUND_PRICES, visibleEndIndex: visibleEndIndex
+    ROUND_PRICES: ROUND_PRICES, visibleEndIndex: visibleEndIndex,
+    NVDA_CANDLES: NVDA_CANDLES, CANDLE_START_IDX: CANDLE_START_IDX,
+    CANDLE_ROUND_ENDS: CANDLE_ROUND_ENDS, maAt: maAt, candleVisibleEnd: candleVisibleEnd
   };
 })();
 
@@ -609,6 +752,31 @@ var GAME_CORE = (function () {
     back:       { ja: "戻る", en: "Back" },
     roundOf:    { ja: "ラウンド %1 / 3", en: "Round %1 of 3" },
     chartTitle: { ja: "株価はNVIDIA（NVDA）の実際の終値（2026年10〜11月、160円/$で換算）", en: "Prices are NVIDIA (NVDA) actual closing prices (Oct-Nov 2026, converted at ¥160/$)" },
+    candleTitle: { ja: "某大手半導体設計企業N社の株価（実績ベース）", en: "Company N share price (actuals-based)" },
+    dailyChip:  { ja: "日足", en: "Daily" },
+    ohlcOpen:   { ja: "始", en: "Open" },
+    ohlcHigh:   { ja: "高", en: "High" },
+    ohlcLow:    { ja: "安", en: "Low" },
+    ohlcClose:  { ja: "終", en: "Close" },
+    ma1:        { ja: "移動平均MA1(5)", en: "MA1 (5)" },
+    ma2:        { ja: "移動平均MA2(25)", en: "MA2 (25)" },
+    ma3:        { ja: "移動平均MA3(75)", en: "MA3 (75)" },
+    volume:     { ja: "出来高", en: "Volume" },
+    volUnit:    { ja: "×万株", en: "×10k shares" },
+    undisclosed:{ ja: "未開示", en: "Not yet revealed" },
+    atStart:    { ja: "シナリオ開始時点", en: "Scenario start" },
+    atRoundEnd: { ja: "ラウンド %1 終了時点", en: "End of Round %1" },
+    newsKicker: { ja: "📰 デモ Round %1", en: "📰 Demo Round %1" },
+    stepTrade:  { ja: "① 売買・見送り", en: "① Buy / Sell / Pass" },
+    stepAmount: { ja: "② 金額", en: "② Amount" },
+    amountNote: { ja: "上限50万円（最大額は10万円単位で切り捨てた取引可能額です）", en: "Up to ¥500,000 (max is your tradable amount floored to ¥100,000 steps)" },
+    manYen:     { ja: "万円", en: "" },
+    amtBtn:     { ja: "%1万", en: "¥%1k" },
+    sumAmount:  { ja: "売買金額", en: "Trade amount" },
+    sumDir:     { ja: "方向", en: "Direction" },
+    noTrade:    { ja: "売買しない", en: "No trade" },
+    stepDetail: { ja: "③ 詳細 ― 根拠 ／ 最大許容下落率", en: "③ Details — reasoning / max drawdown" },
+    startPriceLine: { ja: "株価 %1 ／ 総資産 ¥1,000,000（現金¥500,000＋株¥500,000で開始）", en: "Price %1 / Total ¥1,000,000 (starts with ¥500,000 cash + ¥500,000 stock)" },
     stockName:  { ja: "某大手半導体設計企業N社の株", en: "Company N shares" },
     priceNow:   { ja: "現在価格", en: "Current price" },
     sharesHeld: { ja: "保有株数", en: "Shares held" },
@@ -788,43 +956,104 @@ var GAME_CORE = (function () {
     document.documentElement.lang = state.lang;
   }
 
-  /* ---------- chart ---------- */
+  /* ---------- chart (candlestick terminal, same as the full game) ---------- */
   function chartSVG() {
     var slot = cur();
-    var series = C.NVDA_SERIES;
-    var endIdx = C.visibleEndIndex(slot.round, slot.step);
-    var pts = series.slice(0, endIdx + 1);
-    var W = 600, H = 210, PL = 10, PR = 10, PT = 20, PB = 28;
-    var vals = pts.map(function (p) { return p.jpy; });
-    var min = Math.min.apply(null, vals), max = Math.max.apply(null, vals);
-    if (min === max) { min -= 100; max += 100; }
-    var pad = (max - min) * 0.12; min -= pad; max += pad;
-    function X(i) { return PL + (W - PL - PR) * (i / (series.length - 1)); }
-    function Y(v) { return PT + (H - PT - PB) * (1 - (v - min) / (max - min)); }
-    function dlabel(date) { var p = date.split("-"); return Number(p[1]) + "/" + Number(p[2]); }
-    var keyIdx = [0, C.START_IDX].concat(C.ROUND_ENDS).filter(function (k) { return k <= endIdx; });
-    function isKey(i) { return keyIdx.indexOf(i) !== -1; }
-    function keyName(i) {
-      if (i === C.START_IDX) return "Start";
-      var r = C.ROUND_ENDS.indexOf(i);
-      return r >= 0 ? "R" + (r + 1) : "";
+    var candles = C.NVDA_CANDLES;
+    var total = candles.length;
+    var endIdx = C.candleVisibleEnd(slot.round, slot.step);
+    var curC = candles[endIdx];
+    var W = 900, H = 436, PL = 6, AXIS = 78, PW = W - PL - AXIS;
+    var PT = 14, PH = 264, VT = PT + PH + 30, VH = 56;
+    var min = Infinity, max = -Infinity, vmax = 0, i, cd;
+    for (i = 0; i <= endIdx; i++) {
+      cd = candles[i];
+      if (cd.jl < min) min = cd.jl;
+      if (cd.jh > max) max = cd.jh;
+      if (cd.vol > vmax) vmax = cd.vol;
     }
-    var d = pts.map(function (p, i) { return (i === 0 ? "M" : "L") + X(i).toFixed(1) + "," + Y(p.jpy).toFixed(1); }).join(" ");
-    var out = '<svg viewBox="0 0 ' + W + " " + H + '" width="100%" role="img" aria-label="' + esc(L("chartTitle")) + '">';
-    out += '<line x1="' + PL + '" y1="' + Y(C.BASE_PRICE) + '" x2="' + (W - PR) + '" y2="' + Y(C.BASE_PRICE) + '" stroke="rgba(255,255,255,.14)" stroke-dasharray="4 4"/>';
-    out += '<path d="' + d + '" fill="none" stroke="#d8b25a" stroke-width="2.5"/>';
-    pts.forEach(function (p, i) {
-      if (isKey(i)) {
-        out += '<circle cx="' + X(i) + '" cy="' + Y(p.jpy) + '" r="4.5" fill="#0b0b0d" stroke="#f6e2a0" stroke-width="2"/>';
-        out += '<text x="' + X(i) + '" y="' + (Y(p.jpy) - 10) + '" fill="#f4eedd" font-size="12" font-weight="700" text-anchor="middle">' + p.jpy.toLocaleString("en-US") + "</text>";
-        var kn = keyName(i);
-        out += '<text x="' + X(i) + '" y="' + (H - 14) + '" fill="#c9bfa5" font-size="11" text-anchor="middle">' + dlabel(p.date) + (kn ? " " + kn : "") + "</text>";
-        out += '<text x="' + X(i) + '" y="' + (H - 3) + '" fill="#8a8271" font-size="10" text-anchor="middle">$' + p.usd.toFixed(2) + "</text>";
-      } else {
-        out += '<circle cx="' + X(i) + '" cy="' + Y(p.jpy) + '" r="1.8" fill="#d8b25a" opacity="0.75"/>';
+    var padV = (max - min) * 0.09; min -= padV; max += padV;
+    var slotW = PW / total, bodyW = Math.max(3, slotW * 0.62);
+    function X(i2) { return PL + PW * ((i2 + 0.5) / total); }
+    function Y(v) { return PT + PH * (1 - (v - min) / (max - min)); }
+    function YV(v) { return VT + VH * (1 - v / vmax); }
+    function num(v) { return Math.round(v).toLocaleString("en-US"); }
+    var out = '<svg viewBox="0 0 ' + W + " " + H + '" width="100%" role="img" aria-label="' + esc(L("candleTitle")) + '">';
+    /* future (undisclosed) area */
+    var bx = PL + PW * ((endIdx + 1) / total);
+    if (endIdx < total - 1) {
+      out += '<rect x="' + bx.toFixed(1) + '" y="' + PT + '" width="' + (PL + PW - bx).toFixed(1) + '" height="' + (PH + VH + 30 - PT) + '" fill="rgba(255,255,255,.025)"/>';
+      out += '<text x="' + ((bx + PL + PW) / 2).toFixed(1) + '" y="' + (PT + 34) + '" fill="#8fa0b8" font-size="17" font-weight="700" text-anchor="middle">' + esc(L("undisclosed")) + "</text>";
+    }
+    /* price grid + right axis */
+    for (var g = 0; g <= 4; g++) {
+      var gv = min + (max - min) * g / 4, gy = Y(gv);
+      out += '<line x1="' + PL + '" y1="' + gy.toFixed(1) + '" x2="' + (PL + PW) + '" y2="' + gy.toFixed(1) + '" stroke="rgba(255,255,255,.07)"/>';
+      out += '<text x="' + (PL + PW + 8) + '" y="' + (gy + 4).toFixed(1) + '" fill="#aeb9c9" font-size="13">' + num(gv) + "</text>";
+    }
+    /* volume grid line */
+    out += '<line x1="' + PL + '" y1="' + VT + '" x2="' + (PL + PW) + '" y2="' + VT + '" stroke="rgba(255,255,255,.07)"/>';
+    out += '<text x="' + (PL + PW + 8) + '" y="' + (VT + 14) + '" fill="#aeb9c9" font-size="13">' + Math.round(vmax / 10000).toLocaleString("en-US") + "</text>";
+    out += '<text x="' + (W - 2) + '" y="' + (VT - 8) + '" fill="#aeb9c9" font-size="12" text-anchor="end">' + esc(L("volUnit")) + "</text>";
+    /* candles + volume bars */
+    for (i = 0; i <= endIdx; i++) {
+      cd = candles[i];
+      var up = cd.jc >= cd.jo;
+      var col = up ? "#2ebd85" : "#e0524e";
+      var cx = X(i);
+      out += '<line x1="' + cx.toFixed(1) + '" y1="' + Y(cd.jh).toFixed(1) + '" x2="' + cx.toFixed(1) + '" y2="' + Y(cd.jl).toFixed(1) + '" stroke="' + col + '" stroke-width="1.4"/>';
+      var yTop = Y(Math.max(cd.jo, cd.jc)), yBot = Y(Math.min(cd.jo, cd.jc));
+      out += '<rect x="' + (cx - bodyW / 2).toFixed(1) + '" y="' + yTop.toFixed(1) + '" width="' + bodyW.toFixed(1) + '" height="' + Math.max(1.4, yBot - yTop).toFixed(1) + '" fill="' + col + '"/>';
+      var vy = YV(cd.vol);
+      out += '<rect x="' + (cx - bodyW / 2).toFixed(1) + '" y="' + vy.toFixed(1) + '" width="' + bodyW.toFixed(1) + '" height="' + (VT + VH - vy).toFixed(1) + '" fill="' + col + '" opacity="0.55"/>';
+    }
+    /* moving averages */
+    var maDefs = [[5, "#4fc3b8"], [25, "#b7c94e"], [75, "#d98a4a"]];
+    maDefs.forEach(function (md) {
+      var d = "";
+      for (var j = 0; j <= endIdx; j++) {
+        var mv = C.maAt(j, md[0]);
+        if (mv === null) continue;
+        d += (d === "" ? "M" : "L") + X(j).toFixed(1) + "," + Y(mv).toFixed(1) + " ";
       }
+      if (d) out += '<path d="' + d + '" fill="none" stroke="' + md[1] + '" stroke-width="1.6" opacity="0.95"/>';
     });
+    /* current price dashed line + gold tag */
+    var cy = Y(curC.jc);
+    out += '<line x1="' + PL + '" y1="' + cy.toFixed(1) + '" x2="' + (PL + PW) + '" y2="' + cy.toFixed(1) + '" stroke="#f2c94c" stroke-width="1.2" stroke-dasharray="6 5" opacity="0.85"/>';
+    out += '<rect x="' + (PL + PW + 2) + '" y="' + (cy - 12).toFixed(1) + '" width="' + (AXIS - 6) + '" height="24" rx="5" fill="#f2c94c"/>';
+    out += '<text x="' + (PL + PW + 2 + (AXIS - 6) / 2) + '" y="' + (cy + 5).toFixed(1) + '" fill="#231a00" font-size="14" font-weight="800" text-anchor="middle">' + num(curC.jc) + "</text>";
+    /* boundary between revealed and undisclosed */
+    if (endIdx < total - 1) {
+      out += '<line x1="' + bx.toFixed(1) + '" y1="' + PT + '" x2="' + bx.toFixed(1) + '" y2="' + (VT + VH) + '" stroke="rgba(200,212,230,.4)" stroke-width="1.2" stroke-dasharray="5 5"/>';
+    }
+    /* volume label + dates */
+    out += '<text x="' + PL + '" y="' + (VT - 8) + '" fill="#c9a227" font-size="13" font-weight="700">' + esc(L("volume")) + "</text>";
+    out += '<text x="' + PL + '" y="' + (VT + VH + 20) + '" fill="#77839a" font-size="12">' + candles[0].date + "</text>";
+    out += '<text x="' + X(endIdx).toFixed(1) + '" y="' + (VT + VH + 20) + '" fill="#aeb9c9" font-size="12" text-anchor="middle">' + curC.date + "</text>";
     return out + "</svg>";
+  }
+
+  function chartTerminal() {
+    var slot = cur();
+    var endIdx = C.candleVisibleEnd(slot.round, slot.step);
+    var curC = C.NVDA_CANDLES[endIdx];
+    var stateLabel = endIdx === C.CANDLE_START_IDX ? L("atStart") : L("atRoundEnd", C.CANDLE_ROUND_ENDS.indexOf(endIdx) + 1);
+    function nv(v) { return v.toLocaleString("en-US"); }
+    var h = '<div class="term">';
+    h += '<div class="term-head"><div><div class="term-name">' + esc(L("candleTitle")) + ' <span class="chip-daily">' + L("dailyChip") + "</span></div>";
+    h += '<div><span class="term-price num">' + nv(curC.jc) + '</span><span class="term-state">' + esc(stateLabel) + "</span></div></div>";
+    h += '<div class="ohlc">'
+      + '<span class="k">' + L("ohlcHigh") + '</span><span class="v num">' + nv(curC.jh) + '</span>'
+      + '<span class="k">' + L("ohlcOpen") + '</span><span class="v num">' + nv(curC.jo) + "</span>"
+      + '<span class="k">' + L("ohlcLow") + '</span><span class="v num">' + nv(curC.jl) + '</span>'
+      + '<span class="k">' + L("ohlcClose") + '</span><span class="v num">' + nv(curC.jc) + "</span>"
+      + "</div></div>";
+    h += '<div class="ma-legend"><span class="ma1c">' + L("ma1") + '</span><span class="ma2c">' + L("ma2") + '</span><span class="ma3c">' + L("ma3") + '</span><span class="volc">' + L("volume") + "</span></div>";
+    h += chartSVG();
+    h += '<p class="term-note">' + L("chartTitle") + "</p>";
+    h += "</div>";
+    return h;
   }
 
   /* ---------- screens ---------- */
@@ -871,6 +1100,7 @@ var GAME_CORE = (function () {
       h += '<section class="card gold"><div class="scenario-head">' + L("scenKicker") + " " + (i + 1) + "</div>";
       h += '<h2 class="scenario-title">' + esc(scenTitle(i)) + "</h2>";
       h += '<p class="muted small" style="margin:.2rem 0 .7rem;">' + esc(scen.note[state.lang]) + "</p>";
+      h += '<p class="scen-price-line">' + L("startPriceLine", fmtPrice(C.BASE_PRICE)) + "</p>";
       h += "<div><span class=\"tag\">" + L("rounds3") + "</span><span class=\"tag\">" + L("freePlay") + "</span><span class=\"tag\">" + L("quickPlay") + "</span></div>";
       if (slot.status === "playing") {
         h += '<p class="small gold-text" style="margin:.9rem 0 .5rem;">' + L("progressLine", slot.round + 1) + (slot.sectorIdx !== null ? "｜" + esc(sectorName(slot.sectorIdx)) : "") + "</p>";
@@ -925,52 +1155,65 @@ var GAME_CORE = (function () {
     draft = { action: action, amount: C.UNIT, rationale: DEFAULT_RATIONALE[action], drawdown: "" };
   }
 
+  function fmtManBtn(a) {
+    return state.lang === "en" ? "¥" + (a / 1000) + "k" : (a / 10000) + "万";
+  }
+  function amtBigHTML() {
+    if (state.lang === "en") return fmtYen(draft.amount);
+    return (draft.amount / 10000) + "<small>" + L("manYen") + "</small>";
+  }
+  function newsCardHTML(r, withReason) {
+    var news = C.SCENARIOS[state.current].news[r];
+    var h = '<div class="news-card"><div class="news-kicker">' + L("newsKicker", r + 1) + "｜" + esc(scenShort(state.current)) + "</div>";
+    h += '<h2 class="news-head">' + esc(news.headline[state.lang]) + "</h2>";
+    if (withReason) h += '<p class="news-body">' + esc(news.reason[state.lang]) + "</p>";
+    return h + "</div>";
+  }
+
   function renderPlay() {
     var slot = cur();
     if (slot.step === "executed") { renderExecuted(); return; }
     var r = slot.round;
-    var news = C.SCENARIOS[state.current].news[r];
     var maxBuy = C.maxBuyAmount(slot.cash);
     var maxSell = C.maxSellAmount(slot.shares, slot.price);
     if (draft.action === "buy" && draft.amount > Math.max(maxBuy, 0)) draft.amount = maxBuy >= C.UNIT ? maxBuy : C.UNIT;
     if (draft.action === "sell" && draft.amount > Math.max(maxSell, 0)) draft.amount = maxSell >= C.UNIT ? maxSell : C.UNIT;
     var cantBuy = maxBuy < C.UNIT, cantSell = maxSell < C.UNIT;
+    var maxFor = draft.action === "buy" ? maxBuy : maxSell;
     var h = "";
-    h += '<section class="card gold"><div class="round-label">' + esc(scenShort(state.current)) + "｜" + L("roundOf", r + 1) + "</div>";
-    h += '<h2 class="news-head">' + esc(news.headline[state.lang]) + "</h2>";
-    h += '<div class="chart-title">' + L("chartTitle") + "</div>";
-    h += '<div class="chart-wrap">' + chartSVG() + "</div>";
-    h += '<p style="margin:.6rem 0 0;"><span class="muted small">' + L("priceNow") + '：</span> <span class="price-now num">' + fmtPrice(slot.price) + "</span>" +
-         '　<span class="muted small">' + L("sharesHeld") + '：</span> <span class="num">' + (Math.round(slot.shares * 100) / 100).toLocaleString("en-US") + "</span></p>";
-    h += "</section>";
-
     h += holdingsHTML(slot.cash, slot.shares, slot.price, slot.avgCost);
-    h += '<section class="card"><div class="seg" role="group">';
+    h += newsCardHTML(r, false);
+    h += chartTerminal();
+
+    h += '<section class="trade-panel"><div class="tp-step">' + L("stepTrade") + '</div><div class="seg2" role="group">';
+    var subs = { buy: L("maxWord") + " " + fmtYen(maxBuy), sell: L("maxWord") + " " + fmtYen(maxSell), pass: L("noTrade") };
     ["buy", "sell", "pass"].forEach(function (a) {
-      h += '<button type="button" data-action="' + a + '" aria-pressed="' + (draft.action === a) + '">' + L(a) + "</button>";
+      h += '<button type="button" data-action="' + a + '" aria-pressed="' + (draft.action === a) + '"><span class="t">' + L(a) + '</span><span class="s">' + subs[a] + "</span></button>";
     });
     h += "</div>";
-    if (draft.action !== "pass") {
-      var maxFor = draft.action === "buy" ? maxBuy : maxSell;
-      h += '<div class="small muted" style="margin-top:.5rem;">' + L("amount") + "</div>";
-      h += '<div class="amount-grid">';
-      for (var a = C.UNIT; a <= C.MAX_TRADE; a += C.UNIT) {
-        h += '<button type="button" data-amount="' + a + '" aria-pressed="' + (draft.amount === a) + '" ' + (a > maxFor ? "disabled" : "") + ">" + fmtAmountBtn(a) + "</button>";
-      }
-      h += '<button type="button" data-amount="max" aria-pressed="false" ' + (maxFor < C.UNIT ? "disabled" : "") + ">" + (draft.action === "buy" ? L("buy") : L("sell")) + " " + L("maxWord") + (maxFor >= C.UNIT ? "（" + fmtAmountBtn(maxFor) + "）" : "") + "</button>";
-      h += "</div>";
-      h += '<p class="muted small" style="margin:.1rem 0;">' + L("maxNote") + "</p>";
-      if (draft.action === "buy" && cantBuy) h += '<p class="warn">' + L("cantBuy") + "</p>";
-      if (draft.action === "sell" && cantSell) h += '<p class="warn">' + L("cantSell") + "</p>";
+
+    h += '<div class="amt-head"><div><div class="tp-step" style="margin:0;">' + L("stepAmount") + '</div><div class="amt-note">' + L("amountNote") + '</div></div>'
+      + '<div class="amt-big num" id="amt-big">' + (draft.action === "pass" ? "—" : amtBigHTML()) + "</div></div>";
+    var fillPct = ((draft.amount - C.UNIT) / (C.MAX_TRADE - C.UNIT)) * 100;
+    h += '<input type="range" class="amt-slider" id="amt-slider" min="' + C.UNIT + '" max="' + C.MAX_TRADE + '" step="' + C.UNIT + '" value="' + draft.amount + '" style="--fill:' + fillPct + '%" aria-label="' + L("amount") + '" ' + (draft.action === "pass" || maxFor < C.UNIT ? "disabled" : "") + " />";
+    h += '<div class="amt-presets">';
+    for (var a = C.UNIT; a <= C.MAX_TRADE; a += C.UNIT) {
+      h += '<button type="button" data-amount="' + a + '" aria-pressed="' + (draft.amount === a) + '" ' + (draft.action === "pass" || a > maxFor ? "disabled" : "") + ">" + fmtManBtn(a) + "</button>";
     }
-    h += '<div class="small muted" style="margin-top:.7rem;">' + L("rationale") + "</div>";
+    h += "</div>";
+    if (draft.action === "buy" && cantBuy) h += '<p class="warn" style="margin:.6rem 0 0;">' + L("cantBuy") + "</p>";
+    if (draft.action === "sell" && cantSell) h += '<p class="warn" style="margin:.6rem 0 0;">' + L("cantSell") + "</p>";
+    h += '<div class="tp-sum"><div class="kv"><span>' + L("sumAmount") + '</span><b class="num" id="sum-amount">' + (draft.action === "pass" ? "—" : fmtYen(draft.amount)) + '</b></div>'
+      + '<div class="kv"><span>' + L("sumDir") + "</span><b>" + L(draft.action) + "</b></div></div>";
+
+    h += '<details class="adv2"><summary>' + L("stepDetail") + (draft.drawdown !== "" ? " -" + esc(draft.drawdown) + "%" : "") + "</summary>";
+    h += '<div class="small" style="margin-top:.2rem;">' + L("rationale") + "</div>";
     h += '<div class="radio-list">';
     RATIONALES.forEach(function (o) {
       h += '<label class="radio-chip"><input type="radio" name="rationale" value="' + o.id + '"' + (draft.rationale === o.id ? " checked" : "") + " />" + esc(state.lang === "en" ? o.en : o.ja) + "</label>";
     });
     h += "</div>";
-    h += '<details class="adv"><summary>' + L("advTitle") + "</summary>";
-    h += '<label class="small muted">' + L("advLabel") + ' <input type="number" id="drawdown" min="0" max="100" step="1" inputmode="numeric" placeholder="' + L("advPh") + '" value="' + esc(draft.drawdown) + '" /></label>';
+    h += '<label class="small">' + L("advLabel") + ' <input type="number" id="drawdown" min="0" max="100" step="1" inputmode="numeric" placeholder="' + L("advPh") + '" value="' + esc(draft.drawdown) + '" /></label>';
     h += "</details>";
     var confirmDisabled = (draft.action === "buy" && cantBuy) || (draft.action === "sell" && cantSell);
     h += '<button type="button" class="btn primary" id="btn-confirm" ' + (confirmDisabled ? "disabled" : "") + ">" + L("confirmTrade") + "</button>";
@@ -987,9 +1230,18 @@ var GAME_CORE = (function () {
     });
     Array.prototype.forEach.call(document.querySelectorAll("[data-amount]"), function (el) {
       el.addEventListener("click", function () {
-        var v = el.getAttribute("data-amount");
-        draft.amount = v === "max" ? (draft.action === "buy" ? maxBuy : maxSell) : Number(v);
+        draft.amount = Number(el.getAttribute("data-amount"));
         renderPlay(); renderBar();
+      });
+    });
+    var slider = document.getElementById("amt-slider");
+    if (slider) slider.addEventListener("input", function () {
+      draft.amount = Number(slider.value);
+      slider.style.setProperty("--fill", (((draft.amount - C.UNIT) / (C.MAX_TRADE - C.UNIT)) * 100) + "%");
+      var big = document.getElementById("amt-big"); if (big) big.innerHTML = amtBigHTML();
+      var sum = document.getElementById("sum-amount"); if (sum) sum.textContent = fmtYen(draft.amount);
+      Array.prototype.forEach.call(document.querySelectorAll("[data-amount]"), function (b) {
+        b.setAttribute("aria-pressed", Number(b.getAttribute("data-amount")) === draft.amount ? "true" : "false");
       });
     });
     Array.prototype.forEach.call(document.querySelectorAll('input[name="rationale"]'), function (el) {
@@ -1029,18 +1281,17 @@ var GAME_CORE = (function () {
   function renderExecuted() {
     var slot = cur();
     var e = slot.lastExec;
-    var news = C.SCENARIOS[state.current].news[e.round];
-    var h = '<section class="card gold"><div class="round-label">' + esc(scenShort(state.current)) + "｜" + L("roundOf", e.round + 1) + "</div>";
-    h += '<h2 class="news-head">' + esc(news.headline[state.lang]) + "</h2>";
-    h += '<div class="chart-title">' + L("chartTitle") + "</div>";
-    h += '<div class="chart-wrap">' + chartSVG() + "</div></section>";
+    var h = "";
+    h += holdingsHTML(slot.cash, slot.shares, slot.price, slot.avgCost);
+    h += newsCardHTML(e.round, true);
+    h += chartTerminal();
     h += '<div class="exec-box"><h3 style="margin-bottom:.5rem;">' + L("execTitle") + "</h3>";
     h += '<div class="kv"><span>' + L("execAction") + "</span><b>" + actionName(e.type) + (e.type !== "pass" ? " " + fmtYen(e.amount) : "") + "</b></div>";
     h += '<div class="kv"><span>' + L("execPrice") + "</span><b class=\"num\">" + fmtPrice(e.priceBefore) + "</b></div>";
     h += '<div class="kv"><span>' + L("execShares") + "</span><b class=\"num\">" + (Math.round(e.sharesAfter * 100) / 100).toLocaleString("en-US") + "</b></div>";
     h += '<div class="kv"><span>' + L("execCash") + "</span><b class=\"num\">" + fmtYen(e.cashAfter) + "</b></div>";
     h += '<div class="kv"><span>' + L("priceMove") + "</span><b class=\"num " + (e.rate > 0 ? "pnl-pos" : e.rate < 0 ? "pnl-neg" : "") + '">' + fmtPrice(e.priceBefore) + " → " + fmtPrice(e.priceAfter) + "（" + fmtPct(e.rate) + "）</b></div>";
-    h += '<div class="kv"><span>' + L("moveReason") + "</span><b style=\"max-width:62%;\">" + esc(news.reason[state.lang]) + "</b></div>";
+    h += '<div class="kv"><span>' + L("moveReason") + "</span><b style=\"max-width:62%;\">" + esc(C.SCENARIOS[state.current].news[e.round].reason[state.lang]) + "</b></div>";
     h += "</div>";
     var isLast = e.round === 2;
     h += '<button type="button" class="btn primary" id="btn-next">' + (isLast ? L("toResult") : L("nextRound")) + "</button>";
